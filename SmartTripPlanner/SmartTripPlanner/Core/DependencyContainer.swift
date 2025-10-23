@@ -18,7 +18,7 @@ class DependencyContainer: ObservableObject {
         self.weatherService = WeatherService()
         self.mapsService = MapsService(analyticsService: analyticsService)
         self.calendarService = CalendarService()
-        self.emailService = EmailService()
+        self.emailService = EmailService(analyticsService: analyticsService)
         self.exportService = ExportService()
         self.syncService = SyncService()
     }

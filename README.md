@@ -120,11 +120,26 @@ GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com
 2. Create a new project or select existing
 3. Enable **Gmail API**
 4. Create OAuth 2.0 credentials:
-   - Application type: iOS
-   - Bundle ID: `com.smarttripplanner.SmartTripPlanner`
+    - Application type: iOS
+    - Bundle ID: `com.smarttripplanner.SmartTripPlanner`
 5. Download OAuth client configuration
 6. Update `Info.plist` with your client ID:
-   - Replace `YOUR-CLIENT-ID` in `CFBundleURLSchemes`
+    - Replace `YOUR-CLIENT-ID` in `CFBundleURLSchemes`
+
+#### Gmail OAuth Import Configuration
+
+The Gmail import pipeline requires a dedicated OAuth client with limited, read-only scopes.
+
+1. In the Google Cloud Console, configure the OAuth consent screen with the following scopes:
+    - `https://www.googleapis.com/auth/gmail.readonly`
+    - `https://www.googleapis.com/auth/gmail.labels`
+2. Add `https://www.googleapis.com/auth/userinfo.email` to allow the app to display the signed-in account.
+3. Publish the app to the **Testing** or **Production** state and add any test users you plan to validate with.
+4. From the Gmail API settings, create a label that will be applied to processed emails (default: `SmartTripPlanner/Imported`).
+5. Share the OAuth client ID with your development team and store it in `.env` as `GOOGLE_CLIENT_ID`.
+6. Use the `Travel` category or create a custom Gmail filter that labels travel confirmations. The importer queries for `category:travel` messages by default.
+7. When running on a device, the app stores access and refresh tokens securely in the iOS keychain (service identifier: `com.smarttripplanner.gmail`).
+8. If you rotate credentials, be sure to remove the previous tokens from affected devices via the Settings ➝ General ➝ iPhone Storage ➝ SmartTripPlanner ➝ Delete App flow.
 
 ### 5. Update Info.plist Privacy Strings
 
