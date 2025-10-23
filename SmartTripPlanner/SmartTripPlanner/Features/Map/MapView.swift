@@ -17,6 +17,8 @@ struct MapView: View {
                     .overlay(alignment: .top) {
                         if let infoMessage = viewModel.infoMessage {
                             infoBanner(text: infoMessage)
+                        } else if let offlineMessage = viewModel.offlineStatusMessage {
+                            infoBanner(text: offlineMessage)
                         } else if !appEnvironment.isOnline {
                             infoBanner(text: "Offline mode – search is limited to cached results and saved places.")
                         }
@@ -31,6 +33,7 @@ struct MapView: View {
                             placeDetailCard(for: selectedPlace)
                         }
                         routesSection
+                        offlineManagementSection
                         savedRoutesSection
                     }
                     .padding(.vertical, 16)
@@ -225,6 +228,66 @@ struct MapView: View {
         }
     }
     
+    @ViewBuilder
+    private var offlineManagementSection: some View {
+        if #available(iOS 17.0, *), viewModel.supportsOfflineDownloads {
+            VStack(alignment: .leading, spacing: 16) {
+                HStack {
+                    sectionHeader("Offline Maps")
+                    Spacer()
+                    Button(action: viewModel.refreshOfflineRegions) {
+                        Label("Refresh", systemImage: "arrow.clockwise")
+                    }
+                    .buttonStyle(.bordered)
+                }
+                if let summary = offlineStorageSummary {
+                    Text(summary)
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                }
+                if !viewModel.offlineDownloads.isEmpty {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Active Downloads")
+                            .font(.subheadline.weight(.semibold))
+                        ForEach(viewModel.offlineDownloads) { download in
+                            offlineDownloadRow(download)
+                        }
+                    }
+                }
+                if !viewModel.offlineSuggestions.isEmpty {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Recommended Regions")
+                            .font(.subheadline.weight(.semibold))
+                        ForEach(viewModel.offlineSuggestions) { suggestion in
+                            offlineSuggestionRow(suggestion)
+                        }
+                    }
+                }
+                if !viewModel.offlineRegions.isEmpty {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Downloaded Regions")
+                            .font(.subheadline.weight(.semibold))
+                        ForEach(viewModel.offlineRegions) { region in
+                            offlineRegionRow(region)
+                        }
+                    }
+                } else if viewModel.offlineSuggestions.isEmpty && viewModel.offlineDownloads.isEmpty {
+                    ContentUnavailableView(
+                        "No offline maps yet",
+                        systemImage: "map.fill",
+                        description: Text("Download regions around your trips to access maps without connectivity.")
+                    )
+                    .frame(maxWidth: .infinity)
+                }
+            }
+            .padding(16)
+            .background(RoundedRectangle(cornerRadius: 16).fill(Color(.systemBackground)))
+            .shadow(radius: 4, y: 2)
+        } else {
+            EmptyView()
+        }
+    }
+    
     private var categoryChips: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
@@ -247,6 +310,170 @@ struct MapView: View {
                 }
             }
         }
+    }
+    
+    private var offlineStorageSummary: String? {
+        guard #available(iOS 17.0, *), viewModel.supportsOfflineDownloads else { return nil }
+        guard viewModel.offlineStorageUsage.bytesUsed > 0 else { return nil }
+        let usedText = formattedBytes(viewModel.offlineStorageUsage.bytesUsed) ?? ""
+        if let capacity = formattedBytes(viewModel.offlineStorageUsage.bytesAvailable) {
+            return "Using \(usedText) of \(capacity)"
+        }
+        return "Using \(usedText)"
+    }
+    
+    private func formattedBytes(_ value: Int64?) -> String? {
+        guard let value else { return nil }
+        return ByteCountFormatter.string(fromByteCount: value, countStyle: .file)
+    }
+    
+    @available(iOS 17.0, *)
+    private func offlineDownloadRow(_ download: OfflineDownloadSnapshot) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(download.name)
+                        .font(.subheadline.weight(.semibold))
+                    if !download.detail.isEmpty {
+                        Text(download.detail)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    Text(download.stateDescription)
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+                Spacer()
+                if download.canCancel {
+                    Button(role: .cancel) {
+                        viewModel.cancelOfflineDownload(download)
+                    } label: {
+                        Image(systemName: "xmark.circle")
+                    }
+                    .buttonStyle(.bordered)
+                }
+            }
+            ProgressView(value: download.progress)
+        }
+        .padding(12)
+        .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+    }
+    
+    @available(iOS 17.0, *)
+    private func offlineSuggestionRow(_ suggestion: OfflineRegionSuggestion) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text(suggestion.name)
+                    .font(.subheadline.weight(.semibold))
+                Spacer()
+                if let size = formattedBytes(suggestion.estimatedBytes) {
+                    Text(size)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+            if !suggestion.detail.isEmpty {
+                Text(suggestion.detail)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            if !suggestion.sourceDescription.isEmpty {
+                Text(suggestion.sourceDescription)
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            }
+            Button {
+                viewModel.downloadOfflineSuggestion(suggestion)
+            } label: {
+                Label("Download region", systemImage: "arrow.down.circle")
+                    .font(.footnote.weight(.semibold))
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .padding(12)
+        .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+    }
+    
+    @available(iOS 17.0, *)
+    private func offlineRegionRow(_ region: OfflineMapRegionState) -> some View {
+        let statusInfo = offlineRegionStatusInfo(for: region.status)
+        return VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text(region.name)
+                    .font(.subheadline.weight(.semibold))
+                Spacer()
+                if let size = formattedBytes(region.bytesOnDisk) {
+                    Text(size)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+            Text(region.subtitle)
+                .font(.caption)
+                .foregroundColor(.secondary)
+            if !region.sourceDescription.isEmpty {
+                Text(region.sourceDescription)
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            }
+            Text(statusInfo.text)
+                .font(.caption2)
+                .foregroundColor(statusInfo.color)
+            HStack {
+                if statusInfo.canUpdate {
+                    Button("Update") {
+                        viewModel.updateOfflineRegion(region)
+                    }
+                    .buttonStyle(.bordered)
+                }
+                Spacer()
+                Button(role: .destructive) {
+                    viewModel.deleteOfflineRegion(region)
+                } label: {
+                    Label("Delete", systemImage: "trash")
+                        .labelStyle(.titleAndIcon)
+                }
+                .buttonStyle(.bordered)
+            }
+        }
+        .padding(12)
+        .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+    }
+    
+    @available(iOS 17.0, *)
+    private func offlineRegionStatusInfo(for status: OfflineRegionStatus) -> (text: String, color: Color, canUpdate: Bool) {
+        switch status {
+        case let .available(updatedAt):
+            if let relative = formattedRelativeDate(updatedAt) {
+                return ("Up to date – updated \(relative)", .green, false)
+            }
+            return ("Up to date", .green, false)
+        case let .needsUpdate(updatedAt):
+            if let relative = formattedRelativeDate(updatedAt) {
+                return ("Update available – last updated \(relative)", .orange, true)
+            }
+            return ("Update available", .orange, true)
+        case let .downloading(progress):
+            let percent = Int(progress * 100)
+            return ("Downloading \(percent)%", .blue, false)
+        case .queued:
+            return ("Queued", .blue, false)
+        case let .failed(message):
+            let detail = message ?? "Unknown error"
+            return ("Failed – \(detail)", .red, true)
+        case .cancelled:
+            return ("Cancelled", .secondary, true)
+        case .notDownloaded:
+            return ("Not downloaded", .secondary, true)
+        }
+    }
+    
+    @available(iOS 17.0, *)
+    private func formattedRelativeDate(_ date: Date?) -> String? {
+        guard let date else { return nil }
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .abbreviated
+        return formatter.localizedString(for: date, relativeTo: Date())
     }
     
     private func placeRow(for place: Place) -> some View {

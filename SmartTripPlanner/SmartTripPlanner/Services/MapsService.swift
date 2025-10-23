@@ -64,6 +64,19 @@ final class MapsService: NSObject, ObservableObject {
     @Published private(set) var lastRoutingError: MapServiceError?
     @Published private(set) var offlineFallbackRoute: SavedRoute?
     @Published private(set) var currentTransportMode: TransportMode = .driving
+    @Published private(set) var offlineStatusMessage: String?
+    
+    @available(iOS 17.0, *)
+    @Published private(set) var offlineRegions: [OfflineMapRegionState] = []
+    
+    @available(iOS 17.0, *)
+    @Published private(set) var offlineSuggestions: [OfflineRegionSuggestion] = []
+    
+    @available(iOS 17.0, *)
+    @Published private(set) var offlineDownloads: [OfflineDownloadSnapshot] = []
+    
+    @available(iOS 17.0, *)
+    @Published private(set) var offlineStorageUsage: OfflineStorageUsage = .zero
     
     private let locationManager = CLLocationManager()
     private let searchCompleter = MKLocalSearchCompleter()
@@ -74,7 +87,34 @@ final class MapsService: NSObject, ObservableObject {
     private var searchCache: [SearchCacheKey: [Place]] = [:]
     private var lastSearchKey: SearchCacheKey?
     private var lastRouteRequest: RouteRequest?
+    private var offlineFocusPlace: Place?
     private var persistenceLoaded = false
+    
+    @available(iOS 17.0, *)
+    private let offlineMapManager = MKOfflineMapManager.shared
+    
+    @available(iOS 17.0, *)
+    private var activeOfflineDownloads: [UUID: MKOfflineMapDownload] = [:]
+    
+    @available(iOS 17.0, *)
+    private var activeOfflineDownloadTasks: [UUID: Task<Void, Never>] = [:]
+    
+    @available(iOS 17.0, *)
+    private var suggestionIndex: [UUID: OfflineRegionSuggestion] = [:]
+    
+    @available(iOS 17.0, *)
+    private var offlineMapsByIdentifier: [UUID: MKOfflineMap] = [:]
+    
+    @available(iOS 17.0, *)
+    private var offlineSourceMetadata: [UUID: String] = [:]
+    
+    @available(iOS 17.0, *)
+    private lazy var offlineByteFormatter: ByteCountFormatter = {
+        let formatter = ByteCountFormatter()
+        formatter.allowedUnits = [.useMB, .useGB]
+        formatter.countStyle = .file
+        return formatter
+    }()
     
     private let encoder: JSONEncoder = {
         let encoder = JSONEncoder()
@@ -111,6 +151,13 @@ final class MapsService: NSObject, ObservableObject {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         searchCompleter.delegate = self
+    }
+    
+    var supportsOfflineDownloads: Bool {
+        if #available(iOS 17.0, *) {
+            return true
+        }
+        return false
     }
     
     func loadPersistedDataIfNeeded() {
@@ -189,6 +236,13 @@ final class MapsService: NSObject, ObservableObject {
         analyticsService.log(map: .suggestionSelected, metadata: ["query": suggestion.formattedQuery])
     }
     
+    func setOfflineFocus(_ place: Place?) {
+        offlineFocusPlace = place
+        if #available(iOS 17.0, *) {
+            recalculateOfflineSuggestions()
+        }
+    }
+    
     func calculateRoute(from source: Place, to destination: Place, mode: TransportMode, includeAlternatives: Bool = true, isOnline: Bool) async {
         routingTask?.cancel()
         currentTransportMode = mode
@@ -259,6 +313,9 @@ final class MapsService: NSObject, ObservableObject {
         replaceOrAppendRoute(savedRoute)
         persistRoutes()
         analyticsService.log(map: .routeSaved, metadata: ["mode": mode.rawValue, "distance": "\(Int(primaryRoute.distance))"])
+        if #available(iOS 17.0, *) {
+            recalculateOfflineSuggestions()
+        }
     }
     
     func openInAppleMaps(place: Place) {
@@ -305,12 +362,18 @@ final class MapsService: NSObject, ObservableObject {
         savedPlaces.sort { $0.createdAt > $1.createdAt }
         persistPlaces()
         analyticsService.log(map: .placeSaved, metadata: ["name": updatedPlace.name])
+        if #available(iOS 17.0, *) {
+            recalculateOfflineSuggestions()
+        }
     }
     
     func deleteSavedPlace(_ place: Place) {
         if let index = savedPlaces.firstIndex(where: { $0.id == place.id }) {
             savedPlaces.remove(at: index)
             persistPlaces()
+            if #available(iOS 17.0, *) {
+                recalculateOfflineSuggestions()
+            }
         }
     }
     
@@ -320,6 +383,269 @@ final class MapsService: NSObject, ObservableObject {
             route.from.coordinateKey == source.coordinateKey &&
             route.to.coordinateKey == destination.coordinateKey
         })
+    }
+    
+    // MARK: - Offline maps (iOS 17+)
+    
+    func refreshOfflineCollections() {
+        guard supportsOfflineDownloads else { return }
+        if #available(iOS 17.0, *) {
+            updateOfflineCollections()
+        }
+    }
+    
+    func downloadOfflineRegion(_ suggestion: OfflineRegionSuggestion) {
+        guard supportsOfflineDownloads else { return }
+        if #available(iOS 17.0, *) {
+            startOfflineDownload(for: suggestion)
+        }
+    }
+    
+    func cancelOfflineDownload(id: UUID) {
+        guard supportsOfflineDownloads else { return }
+        if #available(iOS 17.0, *) {
+            guard let download = activeOfflineDownloads[id] else { return }
+            download.cancel()
+            activeOfflineDownloads[id] = nil
+            activeOfflineDownloadTasks[id]?.cancel()
+            activeOfflineDownloadTasks[id] = nil
+            offlineDownloads.removeAll(where: { $0.id == id })
+            offlineStatusMessage = "Cancelled offline map download."
+            analyticsService.log(map: .offlineDownloadCancelled, metadata: ["identifier": id.uuidString])
+        }
+    }
+    
+    func deleteOfflineRegion(_ region: OfflineMapRegionState) {
+        guard supportsOfflineDownloads else { return }
+        if #available(iOS 17.0, *) {
+            guard let map = offlineMapsByIdentifier[region.mapIdentifier] else { return }
+            offlineMapManager.delete(map)
+            offlineStatusMessage = "Removed offline region \(region.name)."
+            analyticsService.log(map: .offlineRegionDeleted, metadata: ["identifier": region.mapIdentifier.uuidString])
+            updateOfflineCollections()
+        }
+    }
+    
+    func updateOfflineRegion(_ region: OfflineMapRegionState) {
+        guard supportsOfflineDownloads else { return }
+        if #available(iOS 17.0, *) {
+            guard let map = offlineMapsByIdentifier[region.mapIdentifier] else { return }
+            let download = offlineMapManager.update(map)
+            let downloadId = UUID()
+            activeOfflineDownloads[downloadId] = download
+            suggestionIndex[downloadId] = OfflineRegionSuggestion(id: downloadId, name: region.name, detail: region.subtitle, boundingRegion: region.boundingRegion, estimatedBytes: region.bytesOnDisk, sourceDescription: region.sourceDescription)
+            startMonitoring(download: download, identifier: downloadId)
+            offlineStatusMessage = "Updating offline region \(region.name)…"
+            analyticsService.log(map: .offlineDownloadRequested, metadata: ["identifier": region.mapIdentifier.uuidString, "type": "update"])
+        }
+    }
+    
+    @available(iOS 17.0, *)
+    private func startOfflineDownload(for suggestion: OfflineRegionSuggestion) {
+        if activeOfflineDownloads[suggestion.id] != nil {
+            return
+        }
+        suggestionIndex[suggestion.id] = suggestion
+        let configuration = MKStandardMapConfiguration(elevationStyle: .flat)
+        let region = MKOfflineMap.Region(region: suggestion.boundingRegion, mapConfiguration: configuration)
+        let download = offlineMapManager.downloadMap(for: region)
+        activeOfflineDownloads[suggestion.id] = download
+        analyticsService.log(map: .offlineDownloadRequested, metadata: ["name": suggestion.name])
+        offlineStatusMessage = "Downloading \(suggestion.name)…"
+        startMonitoring(download: download, identifier: suggestion.id)
+        updateDownloadSnapshot(id: suggestion.id, progress: 0, stateDescription: "Queued", source: suggestion.sourceDescription)
+    }
+    
+    @available(iOS 17.0, *)
+    private func startMonitoring(download: MKOfflineMapDownload, identifier: UUID) {
+        let task = Task { [weak self] in
+            guard let self else { return }
+            for await status in download.status {
+                await self.handle(downloadStatus: status, identifier: identifier)
+            }
+        }
+        activeOfflineDownloadTasks[identifier] = task
+    }
+    
+    @available(iOS 17.0, *)
+    private func handle(downloadStatus status: MKOfflineMapDownload.Status, identifier: UUID) async {
+        switch status {
+        case .enqueued:
+            updateDownloadSnapshot(id: identifier, progress: 0, stateDescription: "Queued", source: suggestionIndex[identifier]?.sourceDescription ?? "")
+            if let name = suggestionIndex[identifier]?.name {
+                offlineStatusMessage = "Queued download for \(name)."
+            }
+        case let .inProgress(progress):
+            updateDownloadSnapshot(id: identifier, progress: progress.fractionCompleted, stateDescription: "Downloading", source: suggestionIndex[identifier]?.sourceDescription ?? "")
+            let percent = Int(progress.fractionCompleted * 100)
+            if let name = suggestionIndex[identifier]?.name {
+                offlineStatusMessage = "Downloading \(name)… \(percent)%"
+            }
+        case let .informational(map):
+            offlineSourceMetadata[map.identifier] = suggestionIndex[identifier]?.sourceDescription
+        case let .complete(map):
+            offlineSourceMetadata[map.identifier] = suggestionIndex[identifier]?.sourceDescription
+            completeOfflineDownload(identifier: identifier, map: map)
+        case .cancelled:
+            completeOfflineDownload(identifier: identifier, map: nil, cancelled: true)
+        case let .failed(error):
+            completeOfflineDownload(identifier: identifier, map: nil, error: error)
+        @unknown default:
+            break
+        }
+    }
+    
+    @available(iOS 17.0, *)
+    private func completeOfflineDownload(identifier: UUID, map: MKOfflineMap?, cancelled: Bool = false, error: Error? = nil) {
+        activeOfflineDownloads[identifier] = nil
+        activeOfflineDownloadTasks[identifier]?.cancel()
+        activeOfflineDownloadTasks[identifier] = nil
+        suggestionIndex[identifier] = nil
+        if cancelled {
+            offlineDownloads.removeAll(where: { $0.id == identifier })
+            offlineStatusMessage = "Offline download cancelled."
+            return
+        }
+        if let error {
+            updateDownloadSnapshot(id: identifier, progress: 0, stateDescription: "Failed", source: "", replace: true)
+            offlineStatusMessage = "Offline download failed: \(error.localizedDescription)"
+            analyticsService.log(map: .offlineDownloadFailed, metadata: ["reason": error.localizedDescription])
+            return
+        }
+        guard let map else { return }
+        updateOfflineCollections()
+        offlineStatusMessage = "Offline map \(map.name) ready."
+        analyticsService.log(map: .offlineDownloadCompleted, metadata: ["identifier": map.identifier.uuidString])
+    }
+    
+    @available(iOS 17.0, *)
+    private func updateDownloadSnapshot(id: UUID, progress: Double, stateDescription: String, source: String, replace: Bool = false) {
+        let clampedProgress = min(max(progress, 0), 1)
+        if replace {
+            offlineDownloads.removeAll(where: { $0.id == id })
+        }
+        if let index = offlineDownloads.firstIndex(where: { $0.id == id }) {
+            offlineDownloads[index].progress = clampedProgress
+            offlineDownloads[index].stateDescription = stateDescription
+            offlineDownloads[index].sourceDescription = source
+        } else {
+            let suggestion = suggestionIndex[id]
+            let snapshot = OfflineDownloadSnapshot(id: id, name: suggestion?.name ?? "Offline Region", detail: suggestion?.detail ?? "", progress: clampedProgress, stateDescription: stateDescription, sourceDescription: source.isEmpty ? (suggestion?.sourceDescription ?? "") : source)
+            offlineDownloads.append(snapshot)
+        }
+        offlineDownloads.sort { $0.name < $1.name }
+    }
+    
+    @available(iOS 17.0, *)
+    private func updateOfflineCollections() {
+        let maps = offlineMapManager.offlineMaps
+        offlineMapsByIdentifier = Dictionary(uniqueKeysWithValues: maps.map { ($0.identifier, $0) })
+        offlineRegions = maps.map { convert(map: $0) }
+        offlineStorageUsage = OfflineStorageUsage(
+            bytesUsed: maps.reduce(0) { partialResult, map in
+                partialResult + (map.byteCount)
+            },
+            bytesAvailable: offlineMapManager.storageLimit
+        )
+        offlineRegions.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        recalculateOfflineSuggestions()
+    }
+    
+    @available(iOS 17.0, *)
+    private func recalculateOfflineSuggestions() {
+        var generated: [OfflineRegionSuggestion] = []
+        var seenKeys = Set<String>()
+        let downloadedKeys = Set(offlineRegions.map { regionHash($0.boundingRegion) })
+        if let focus = offlineFocusPlace, let suggestion = makeSuggestion(for: focus, source: "Selected destination") {
+            let key = regionHash(suggestion.boundingRegion)
+            if !downloadedKeys.contains(key) {
+                seenKeys.insert(key)
+                generated.append(suggestion)
+            }
+        }
+        for place in savedPlaces {
+            guard let suggestion = makeSuggestion(for: place, source: place.isBookmarked ? "Bookmarked place" : "Saved place") else { continue }
+            let key = regionHash(suggestion.boundingRegion)
+            if downloadedKeys.contains(key) || seenKeys.contains(key) { continue }
+            seenKeys.insert(key)
+            generated.append(suggestion)
+        }
+        for route in savedRoutes {
+            guard let suggestion = makeSuggestion(for: route) else { continue }
+            let key = regionHash(suggestion.boundingRegion)
+            if downloadedKeys.contains(key) || seenKeys.contains(key) { continue }
+            seenKeys.insert(key)
+            generated.append(suggestion)
+        }
+        generated.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        offlineSuggestions = generated
+    }
+    
+    @available(iOS 17.0, *)
+    private func makeSuggestion(for place: Place, source: String, span: CLLocationDegrees = 0.3) -> OfflineRegionSuggestion? {
+        let region = MKCoordinateRegion(center: place.coordinate.locationCoordinate, span: MKCoordinateSpan(latitudeDelta: span, longitudeDelta: span))
+        return OfflineRegionSuggestion(name: place.name, detail: place.addressDescription, boundingRegion: region, estimatedBytes: nil, sourceDescription: source)
+    }
+    
+    @available(iOS 17.0, *)
+    private func makeSuggestion(for route: SavedRoute) -> OfflineRegionSuggestion? {
+        guard let region = region(for: [route.from.coordinate.locationCoordinate, route.to.coordinate.locationCoordinate]) else { return nil }
+        let detail = "\(route.from.name) → \(route.to.name)"
+        return OfflineRegionSuggestion(name: "Route to \(route.to.name)", detail: detail, boundingRegion: region, estimatedBytes: nil, sourceDescription: "Saved route")
+    }
+    
+    @available(iOS 17.0, *)
+    private func convert(map: MKOfflineMap) -> OfflineMapRegionState {
+        let subtitle = makeSubtitle(for: map.boundingRegion)
+        let source = offlineSourceMetadata[map.identifier] ?? "Downloaded region"
+        let status: OfflineRegionStatus
+        switch map.status {
+        case .available:
+            status = .available(updatedAt: map.lastUpdated)
+        case .needsUpdate:
+            status = .needsUpdate(updatedAt: map.lastUpdated)
+        case .downloading:
+            status = .downloading(progress: map.downloadProgress.fractionCompleted)
+        case .failed:
+            status = .failed(message: nil)
+        case .unknown:
+            status = .notDownloaded
+        @unknown default:
+            status = .notDownloaded
+        }
+        return OfflineMapRegionState(mapIdentifier: map.identifier, name: map.name, subtitle: subtitle, boundingRegion: map.boundingRegion, bytesOnDisk: map.byteCount, status: status, lastUpdated: map.lastUpdated, sourceDescription: source)
+    }
+    
+    @available(iOS 17.0, *)
+    private func makeSubtitle(for region: MKCoordinateRegion) -> String {
+        let center = region.center
+        return String(format: "Lat %.2f°, Lon %.2f° (%.2f × %.2f°)", center.latitude, center.longitude, region.span.latitudeDelta, region.span.longitudeDelta)
+    }
+    
+    @available(iOS 17.0, *)
+    private func regionHash(_ region: MKCoordinateRegion) -> String {
+        String(format: "%.3f-%.3f-%.3f-%.3f", region.center.latitude, region.center.longitude, region.span.latitudeDelta, region.span.longitudeDelta)
+    }
+    
+    @available(iOS 17.0, *)
+    private func region(for coordinates: [CLLocationCoordinate2D]) -> MKCoordinateRegion? {
+        guard let first = coordinates.first else { return nil }
+        var minLat = first.latitude
+        var maxLat = first.latitude
+        var minLon = first.longitude
+        var maxLon = first.longitude
+        for coordinate in coordinates.dropFirst() {
+            minLat = min(minLat, coordinate.latitude)
+            maxLat = max(maxLat, coordinate.latitude)
+            minLon = min(minLon, coordinate.longitude)
+            maxLon = max(maxLon, coordinate.longitude)
+        }
+        let padding = 0.25
+        let latitudeDelta = max((maxLat - minLat) * (1 + padding), 0.1)
+        let longitudeDelta = max((maxLon - minLon) * (1 + padding), 0.1)
+        let center = CLLocationCoordinate2D(latitude: (minLat + maxLat) / 2, longitude: (minLon + maxLon) / 2)
+        let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
+        return MKCoordinateRegion(center: center, span: span)
     }
     
     // MARK: - Private helpers
