@@ -4,7 +4,7 @@ platform :ios do
   desc "Build the app"
   lane :build do
     build_app(
-      workspace: "SmartTripPlanner/SmartTripPlanner.xcodeproj",
+      workspace: "SmartTripPlanner.xcworkspace",
       scheme: "SmartTripPlanner",
       configuration: "Debug",
       export_method: "development",
@@ -17,7 +17,7 @@ platform :ios do
   desc "Run unit tests"
   lane :test do
     run_tests(
-      workspace: "SmartTripPlanner/SmartTripPlanner.xcodeproj",
+      workspace: "SmartTripPlanner.xcworkspace",
       scheme: "SmartTripPlanner",
       devices: ["iPhone 15 Pro"],
       code_coverage: true,
@@ -32,7 +32,7 @@ platform :ios do
     )
     
     build_app(
-      workspace: "SmartTripPlanner/SmartTripPlanner.xcodeproj",
+      workspace: "SmartTripPlanner.xcworkspace",
       scheme: "SmartTripPlanner",
       configuration: "Release",
       export_method: "app-store"
@@ -52,16 +52,11 @@ platform :ios do
 
   desc "Run SwiftLint"
   lane :lint do
-    swiftlint(
-      mode: :lint,
-      config_file: ".swiftlint.yml",
-      strict: true,
-      raise_if_swiftlint_error: false
-    )
+    sh("cd .. && scripts/lint.sh")
   end
 
   desc "Format code with SwiftFormat"
   lane :format do
-    sh("cd .. && swiftformat . --swiftversion 5.9")
+    sh("cd .. && scripts/format.sh")
   end
 end

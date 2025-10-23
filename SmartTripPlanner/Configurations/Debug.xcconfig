@@ -1,0 +1,5 @@
+#include "Base.xcconfig"
+
+SWIFT_OPTIMIZATION_LEVEL = -Onone
+OTHER_SWIFT_FLAGS = $(inherited) -DDEBUG
+ENVIRONMENT_NAME = Debug

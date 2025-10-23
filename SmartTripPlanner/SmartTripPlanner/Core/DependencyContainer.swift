@@ -3,6 +3,7 @@ import SwiftUI
 
 @MainActor
 class DependencyContainer: ObservableObject {
+    let configuration: AppConfiguration
     let appEnvironment: AppEnvironment
     let analyticsService: AnalyticsService
     let weatherService: WeatherService
@@ -12,7 +13,8 @@ class DependencyContainer: ObservableObject {
     let exportService: ExportService
     let syncService: SyncService
     
-    init() {
+    init(configuration: AppConfiguration = .shared) {
+        self.configuration = configuration
         self.appEnvironment = AppEnvironment()
         self.analyticsService = AnalyticsService()
         self.weatherService = WeatherService()

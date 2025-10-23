@@ -1,399 +1,284 @@
-# SmartTripPlanner iOS App
-
-A comprehensive trip planning application built with SwiftUI for iOS 17+. SmartTripPlanner helps users organize trips, plan itineraries, manage packing lists, store travel documents, and integrate with calendar, weather, and location services.
-
-## Features
-
-- **Trip Management**: Create, organize, and manage multiple trips
-- **Itinerary Planner**: Plan daily activities with calendar integration
-- **Interactive Maps**: View destinations and navigate with Apple Maps
-- **Packing Lists**: Create and manage packing checklists
-- **Document Storage**: Store travel documents, tickets, and reservations
-- **Weather Integration**: Get weather forecasts using WeatherKit
-- **iCloud Sync**: Sync data across devices with CloudKit
-- **Gmail Integration**: Import trip confirmations from email
-- **Calendar Integration**: Sync trip events with Calendar app
-- **Photo Library**: Save trip photos and documents
-
-## Requirements
-
-- iOS 17.0+
-- Xcode 15.0+
-- Swift 5.9+
-- Apple Developer Account (for WeatherKit, CloudKit, and provisioning)
-- macOS 14+ (for development)
-
-## Architecture
-
-The app follows a modular architecture with clear separation of concerns:
-
-### Folder Structure
-
-```
-SmartTripPlanner/
-├── Core/                          # Core app functionality
-│   ├── DependencyContainer.swift  # Service injection
-│   ├── AppEnvironment.swift       # Global app state
-│   └── NavigationCoordinator.swift # Navigation management
-├── Features/                      # Feature modules
-│   ├── Trips/                    # Trip management
-│   ├── Planner/                  # Itinerary planning
-│   ├── Map/                      # Map integration
-│   ├── Packing/                  # Packing lists
-│   ├── Docs/                     # Document storage
-│   └── Settings/                 # App settings
-├── Services/                      # Business logic services
-│   ├── WeatherService.swift      # WeatherKit integration
-│   ├── MapsService.swift         # MapKit integration
-│   ├── CalendarService.swift     # EventKit integration
-│   ├── EmailService.swift        # Gmail integration
-│   ├── ExportService.swift       # PDF/JSON export
-│   └── SyncService.swift         # CloudKit sync
-├── UIComponents/                  # Reusable UI components
-├── DesignSystem/                  # Theme and styling
-│   └── Theme.swift
-└── Assets.xcassets/              # Images and colors
-```
-
-## Setup Instructions
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/yourusername/SmartTripPlanner.git
-cd SmartTripPlanner
-```
-
-### 2. Apple Developer Configuration
-
-#### a. WeatherKit Setup
-
-1. Log in to [Apple Developer Portal](https://developer.apple.com)
-2. Go to Certificates, Identifiers & Profiles
-3. Select your App ID (com.smarttripplanner.SmartTripPlanner)
-4. Enable **WeatherKit** capability
-5. Save and regenerate provisioning profiles
-
-#### b. iCloud/CloudKit Setup
-
-1. In Apple Developer Portal, configure App ID with:
-   - **iCloud** capability
-   - **CloudKit** containers
-2. Create iCloud container: `iCloud.com.smarttripplanner.SmartTripPlanner`
-3. Enable **Private Database** and **Shared Database** in CloudKit Dashboard
-4. Configure CloudKit Schema (optional, can be done automatically)
-
-#### c. Background Tasks Setup
-
-1. Enable **Background Modes** in App ID
-2. Check:
-   - Background fetch
-   - Remote notifications
-   - Background processing
-
-#### d. Provisioning Profiles
-
-1. Create development provisioning profile with all capabilities enabled
-2. Download and install profile in Xcode
-3. Update `DEVELOPMENT_TEAM` in project settings
-
-### 3. Configure Environment Variables
-
-1. Copy `.env.example` to `.env`:
-
-```bash
-cp .env.example .env
-```
-
-2. Update `.env` with your credentials:
-
-```bash
-APPLE_ID=your.email@example.com
-TEAM_ID=YOUR_TEAM_ID
-ITC_TEAM_ID=YOUR_ITC_TEAM_ID
-GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com
-```
-
-### 4. Google Sign-In Setup
-
-1. Go to [Google Cloud Console](https://console.cloud.google.com)
-2. Create a new project or select existing
-3. Enable **Gmail API**
-4. Create OAuth 2.0 credentials:
-   - Application type: iOS
-   - Bundle ID: `com.smarttripplanner.SmartTripPlanner`
-5. Download OAuth client configuration
-6. Update `Info.plist` with your client ID:
-   - Replace `YOUR-CLIENT-ID` in `CFBundleURLSchemes`
-
-### 5. Update Info.plist Privacy Strings
-
-The following privacy descriptions are already included in `Info.plist`:
-
-- **NSCalendarsUsageDescription**: Calendar access for trip planning
-- **NSLocationWhenInUseUsageDescription**: Location access for maps and navigation
-- **NSPhotoLibraryAddUsageDescription**: Photo library access for saving documents
-
-You can customize these strings as needed.
-
-### 6. Install Dependencies
-
-#### Install Homebrew (if not already installed)
-
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-#### Install SwiftLint
-
-```bash
-brew install swiftlint
-```
-
-#### Install SwiftFormat
-
-```bash
-brew install swiftformat
-```
-
-#### Install fastlane
-
-```bash
-brew install fastlane
-```
-
-### 7. Open Project in Xcode
-
-```bash
-cd SmartTripPlanner
-open SmartTripPlanner.xcodeproj
-```
-
-### 8. Configure Signing
-
-1. In Xcode, select the `SmartTripPlanner` target
-2. Go to **Signing & Capabilities**
-3. Select your **Team**
-4. Verify all capabilities are enabled:
-   - iCloud (with CloudKit and iCloud Documents)
-   - Background Modes
-   - WeatherKit
-   - Push Notifications (optional)
-
-### 9. Build and Run
-
-1. Select an iOS 17+ simulator or device
-2. Press `Cmd+B` to build
-3. Press `Cmd+R` to run
-
-## Swift Package Dependencies
-
-The project uses the following Swift Package dependencies (managed automatically by Xcode):
-
-- **GoogleSignIn** (7.0.0+): Google OAuth authentication
-  - Repository: https://github.com/google/GoogleSignIn-iOS.git
-
-SwiftLint and SwiftFormat are integrated as build phases and run automatically during builds.
-
-## Development Workflow
-
-### Running Tests
-
-```bash
-# Using Xcode
-Cmd+U
-
-# Using fastlane
-fastlane test
-
-# Using xcodebuild
-cd SmartTripPlanner
-xcodebuild test -project SmartTripPlanner.xcodeproj -scheme SmartTripPlanner -destination 'platform=iOS Simulator,name=iPhone 15 Pro'
-```
-
-### Linting and Formatting
-
-```bash
-# Run SwiftLint
-cd SmartTripPlanner
-swiftlint
-
-# Run SwiftFormat (check only)
-swiftformat --lint .
-
-# Run SwiftFormat (apply fixes)
-swiftformat .
-
-# Using fastlane
-fastlane lint
-fastlane format
-```
-
-### Building
-
-```bash
-# Using fastlane
-fastlane build
-
-# Using xcodebuild
-cd SmartTripPlanner
-xcodebuild build -project SmartTripPlanner.xcodeproj -scheme SmartTripPlanner -destination 'generic/platform=iOS'
-```
-
-### Beta Distribution
-
-```bash
-# Build and upload to TestFlight
-fastlane beta
-```
-
-## CI/CD
-
-### GitHub Actions
-
-The repository includes a GitHub Actions workflow (`.github/workflows/ci.yml`) that:
-
-- Runs on pull requests to `main` and `develop`
-- Builds the app for iOS Simulator
-- Runs unit tests
-- Executes SwiftLint and SwiftFormat checks
-
-To enable GitHub Actions:
-
-1. Push code to GitHub repository
-2. Workflows run automatically on pull requests
-3. View results in the **Actions** tab
-
-### Continuous Integration
-
-The CI pipeline includes:
-
-- **Build validation**: Ensures code compiles successfully
-- **Unit tests**: Runs all test suites
-- **Code quality**: SwiftLint and SwiftFormat checks
-- **Platform**: Runs on macOS 14 with Xcode 15.2
-
-## Entitlements
-
-The app requires the following entitlements (configured in `SmartTripPlanner.entitlements`):
-
-- **iCloud**:
-  - CloudKit (private and shared database)
-  - iCloud Documents (iCloud Drive access)
-- **Background Tasks**:
-  - Background fetch
-  - Background processing
-  - Remote notifications
-- **WeatherKit**: Weather data access
-- **Push Notifications**: Optional for future features
-- **Location**: When-in-use authorization
-- **EventKit**: Calendar access
-- **Photo Library**: Add-only access
-
-## Troubleshooting
-
-### WeatherKit Not Working
-
-- Verify WeatherKit is enabled in Apple Developer Portal
-- Ensure app is signed with valid provisioning profile
-- WeatherKit requires a paid Apple Developer Account
-- Check entitlements file includes `com.apple.developer.weatherkit`
-
-### iCloud Sync Issues
-
-- Verify iCloud container ID matches: `iCloud.com.smarttripplanner.SmartTripPlanner`
-- Sign in with Apple ID in iOS Settings > iCloud
-- Enable iCloud Drive on device
-- Check CloudKit Dashboard for container configuration
-
-### Google Sign-In Not Working
-
-- Verify Google Client ID is correctly configured in Info.plist
-- Check URL scheme matches reversed client ID
-- Enable Gmail API in Google Cloud Console
-- Verify OAuth consent screen is configured
-
-### Build Failures
-
-- Clean build folder: `Cmd+Shift+K`
-- Delete DerivedData: `rm -rf ~/Library/Developer/Xcode/DerivedData`
-- Update Swift Package dependencies
-- Verify Xcode version is 15.0+
-
-### Code Signing Issues
-
-- Ensure Development Team is selected in project settings
-- Verify provisioning profile includes all required capabilities
-- Check certificate is valid and not expired
-- Try automatic signing management
-
-## Project Configuration
-
-### Bundle Identifier
-
-```
-com.smarttripplanner.SmartTripPlanner
-```
-
-### Deployment Target
-
-- iOS 17.0+
-
-### Swift Version
-
-- Swift 5.9
-
-### Supported Devices
-
-- iPhone (iOS 17+)
-- iPad (iOS 17+)
-- Not supported: macOS, watchOS, tvOS
-
-### Supported Orientations
-
-- iPhone: Portrait, Landscape Left, Landscape Right
-- iPad: All orientations
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/my-feature`
-3. Make changes and commit: `git commit -am 'Add new feature'`
-4. Run tests and linting: `fastlane test && fastlane lint`
-5. Push to branch: `git push origin feature/my-feature`
-6. Create a Pull Request
-
-### Code Style
-
-- Follow Swift API Design Guidelines
-- Use SwiftLint and SwiftFormat configurations
-- Write unit tests for new features
-- Document public APIs
-
-## License
-
-Copyright © 2024 SmartTripPlanner. All rights reserved.
-
-## Support
-
-For issues and questions:
-
-- Create an issue in GitHub repository
-- Contact: support@smarttripplanner.com
-- Documentation: https://docs.smarttripplanner.com
-
-## Roadmap
-
-- [ ] AI-powered trip suggestions
-- [ ] Collaboration features (shared trips)
-- [ ] Offline mode with local caching
-- [ ] Apple Watch companion app
-- [ ] Widget support
-- [ ] Siri shortcuts integration
-- [ ] Trip sharing to social media
-- [ ] Budget tracking
-- [ ] Multi-language support
+# SmartTripPlanner iOS Workspace
+
+SmartTripPlanner is a modular SwiftUI application targeting iOS 17 and later. The codebase is organised as an Xcode workspace that embeds a set of Swift Package Manager (SPM) modules to keep core domain logic, services, reusable UI, feature flows, and app shell composition cleanly separated. The primary goals of the project bootstrap are:
+
+- Consistent environment-aware configuration for Debug and Release builds
+- First-class support for privacy-sensitive system capabilities (CloudKit, background activity, notifications, location, documents, media capture)
+- SPM-managed SwiftLint and SwiftFormat toolchains wired into local hooks, Fastlane lanes, and CI
+- Automated build, lint, format, and test validation on the latest public Xcode
+- Ready-to-ship Fastlane pipelines for TestFlight distribution and marketing automations
 
 ---
 
-Built with ❤️ using SwiftUI and modern iOS technologies.
+## Table of Contents
+
+1. [Workspace & Modules](#workspace--modules)
+2. [System Requirements](#system-requirements)
+3. [Project Setup](#project-setup)
+   - [Clone & Open](#clone--open)
+   - [Configure Signing](#configure-signing)
+   - [Secrets & Environment](#secrets--environment)
+   - [Install Git Hooks](#install-git-hooks)
+4. [Apple Developer Configuration](#apple-developer-configuration)
+   - [Bundle Identifiers](#bundle-identifiers)
+   - [CloudKit & iCloud Drive](#cloudkit--icloud-drive)
+   - [Background Activity](#background-activity)
+   - [Push & Remote Notifications](#push--remote-notifications)
+   - [Location Services](#location-services)
+   - [Calendars & Documents](#calendars--documents)
+   - [WeatherKit Provisioning](#weatherkit-provisioning)
+5. [Running the App](#running-the-app)
+6. [Tooling & Automation](#tooling--automation)
+   - [SPM Style Tooling](#spm-style-tooling)
+   - [Fastlane Lanes](#fastlane-lanes)
+   - [GitHub Actions CI](#github-actions-ci)
+7. [Development Workflows](#development-workflows)
+   - [Formatting & Linting](#formatting--linting)
+   - [Unit Tests](#unit-tests)
+   - [Environment Switching](#environment-switching)
+8. [Troubleshooting](#troubleshooting)
+9. [Support](#support)
+
+---
+
+## Workspace & Modules
+
+The repository root defines `SmartTripPlanner.xcworkspace`, which links the iOS application target (`SmartTripPlanner`) and a co-located Swift package in `Modules/`.
+
+SwiftPM products exported by `Modules/Package.swift`:
+
+| Module        | Description                                                                                  |
+|---------------|----------------------------------------------------------------------------------------------|
+| `Core`        | Fundamental app state containers, navigation primitives, theming tokens, and configuration   |
+| `Services`    | Service layer protocols and concrete WeatherKit, CloudKit, Calendar, and Sync facades        |
+| `UIComponents`| Design-system level reusable SwiftUI components and styling helpers                          |
+| `Features`    | UI flows and view models that coordinate services, state, and UI components                   |
+| `AppShell`    | High-level scene composition (tab scaffolding, dependency injection, and entry points)       |
+
+Each target has the SwiftLint and SwiftFormat plugins applied, ensuring consistent style enforcement across modules whenever they are built or when plugins are executed manually.
+
+---
+
+## System Requirements
+
+- macOS 14.5 or later
+- Xcode 15.4 (or the latest publicly available Xcode with iOS 17 SDK)
+- Ruby 3.x (for Fastlane)
+- Bundler (optional, if you prefer to isolate Fastlane dependencies)
+- An Apple Developer Program membership with access to App Store Connect
+
+---
+
+## Project Setup
+
+### Clone & Open
+
+```bash
+git clone git@github.com:your-org/SmartTripPlanner.git
+cd SmartTripPlanner
+open SmartTripPlanner.xcworkspace
+```
+
+Always work via the workspace to ensure Xcode resolves embedded package targets correctly.
+
+### Configure Signing
+
+Signing defaults are defined in `SmartTripPlanner/Configurations/*.xcconfig`:
+
+- `Base.xcconfig` – shared values (`APP_BUNDLE_IDENTIFIER`, `DEVELOPMENT_TEAM`, deployment target, signing style)
+- `Debug.xcconfig` – debug-specific compiler flags and `ENVIRONMENT_NAME=Debug`
+- `Release.xcconfig` – release optimisation and `ENVIRONMENT_NAME=Release`
+
+Update `DEVELOPMENT_TEAM` and, if required, `APP_BUNDLE_IDENTIFIER` to match your developer account. Xcode will pick up these settings for both the app and test targets.
+
+### Secrets & Environment
+
+1. Duplicate the secrets template and keep the real file outside of source control:
+   ```bash
+   cp SmartTripPlanner/Configurations/Secrets.plist.template SmartTripPlanner/Configurations/Secrets.plist
+   ```
+2. Populate the following keys with production or sandbox credentials:
+   - `WEATHERKIT_KEY_ID`, `WEATHERKIT_TEAM_ID`, `WEATHERKIT_SERVICE_ID`
+   - `GOOGLE_OAUTH_CLIENT_ID`, `GOOGLE_OAUTH_REVERSED_CLIENT_ID`
+   - `ICLOUD_PRIMARY_CONTAINER`, `ICLOUD_SHARED_CONTAINER`, `ICLOUD_SERVICES_CONTAINER`
+3. `AppConfiguration` (in `Core`) gracefully handles missing values, but features such as WeatherKit or Google Sign-In require valid credentials at runtime.
+
+### Install Git Hooks
+
+Local formatting and linting are enforced via SPM plugins. Install the provided hook once per clone:
+
+```bash
+chmod +x scripts/*.sh
+ln -sf ../../scripts/pre-commit.sh .git/hooks/pre-commit
+```
+
+You can also run the hook manually at any time:
+
+```bash
+scripts/pre-commit.sh
+```
+
+---
+
+## Apple Developer Configuration
+
+### Bundle Identifiers
+
+- `com.smarttripplanner.app` – primary application identifier (configurable via xcconfig)
+- `com.smarttripplanner.app.tests` – generated automatically for the UI/unit-test bundle
+
+### CloudKit & iCloud Drive
+
+1. Enable iCloud with CloudKit and iCloud Documents for the main App ID.
+2. Create the following containers:
+   - `iCloud.com.smarttripplanner.core`
+   - `iCloud.com.smarttripplanner.services`
+   - `iCloud.com.smarttripplanner.shared`
+3. Regenerate development and distribution provisioning profiles after toggling capabilities.
+
+The entitlement file (`SmartTripPlanner.entitlements`) already references the above containers and sets the environment to *Development*.
+
+### Background Activity
+
+Enable the **Background Modes** capability with the following options:
+
+- Background fetch
+- Remote notifications
+- Background processing
+- Location updates
+
+`Info.plist` includes the necessary `UIBackgroundModes` entries.
+
+### Push & Remote Notifications
+
+- Enable the Push Notifications capability for your App ID.
+- The entitlement file contains `aps-environment` set to `development` by default; update to `production` when preparing release builds.
+
+### Location Services
+
+- Grant *When In Use* and *Always* permissions.
+- Ensure “Location updates” is ticked inside Background Modes.
+- `Info.plist` contains human-readable `NSLocation*` usage descriptions and a temporary usage reason for itinerary planning.
+
+### Calendars & Documents
+
+- Enable Calendar, Reminders (if required), and iCloud Documents access in the Apple Developer Portal.
+- `NSCalendarsUsageDescription`, `NSPhotoLibraryUsageDescription`, `NSPhotoLibraryAddUsageDescription`, and `NSCameraUsageDescription` are included to satisfy App Store review requirements.
+
+### WeatherKit Provisioning
+
+WeatherKit requires App Store Connect configuration:
+
+1. Create a WeatherKit key in the Apple Developer portal.
+2. Associate the key with the SmartTripPlanner service identifier.
+3. Record the Key ID, Team ID, and Service ID in `Secrets.plist`.
+4. Enable WeatherKit for the bundle identifier in Certificates, Identifiers & Profiles.
+
+---
+
+## Running the App
+
+1. Open `SmartTripPlanner.xcworkspace` in Xcode.
+2. Select the **SmartTripPlanner** scheme.
+3. Pick an iOS 17+ simulator (or a physical device with appropriate provisioning).
+4. Build (`⌘B`) and run (`⌘R`).
+
+The app loads the tab-based shell defined in the `AppShell` module and automatically injects dependencies from `DependencyContainer`.
+
+---
+
+## Tooling & Automation
+
+### SPM Style Tooling
+
+SwiftLint and SwiftFormat are brought in via the Swift Package Manager, avoiding Homebrew dependence. Useful scripts:
+
+- `scripts/format.sh` – runs the SwiftFormat plugin across all package targets (mutating)
+- `scripts/lint.sh` – runs the SwiftLint plugin across all package targets
+- `scripts/pre-commit.sh` – convenience wrapper that formats then lints
+
+### Fastlane Lanes
+
+Fastlane is configured under `fastlane/Fastfile` with the following lanes:
+
+| Lane        | Description                                                                                             |
+|-------------|---------------------------------------------------------------------------------------------------------|
+| `build`     | Build the Debug configuration for the simulator via the workspace                                       |
+| `test`      | Execute unit tests on the latest iPhone simulator                                                       |
+| `lint`      | Run `scripts/lint.sh` via Fastlane for CI parity                                                        |
+| `format`    | Apply workspace-wide formatting using `scripts/format.sh`                                               |
+| `beta`      | Increment build number, archive the Release configuration, and upload to TestFlight (requires signing)  |
+| `screenshots` | Capture UI screenshots with `capture_screenshots` (configure Snapfile as needed)                     |
+
+All Fastlane commands assume execution from the repository root: `fastlane <lane>`.
+
+### GitHub Actions CI
+
+`.github/workflows/ci.yml` runs on pushes to `main` and pull requests:
+
+1. Checks out the repository and selects the latest Xcode 15.2+ toolchain on macOS 14
+2. Restores SPM caches (including the workspace modules)
+3. Executes the SwiftFormat plugin and fails if unformatted changes are produced
+4. Executes the SwiftLint plugin to surface style violations
+5. Builds the SmartTripPlanner scheme for the latest iPhone simulator
+6. Runs unit tests for the same destination
+
+CI never modifies workflow files—fix failing steps in code or configuration files instead.
+
+---
+
+## Development Workflows
+
+### Formatting & Linting
+
+Run locally before raising a pull request:
+
+```bash
+scripts/format.sh    # Applies formatting
+scripts/lint.sh      # Static analysis (fails on warnings/errors)
+```
+
+For pre-push confidence:
+
+```bash
+fastlane lint
+fastlane test
+```
+
+### Unit Tests
+
+Run tests from Xcode (`⌘U`) or via the command line:
+
+```bash
+fastlane test
+```
+
+### Environment Switching
+
+`ENVIRONMENT_NAME` is injected into the Info.plist from the active xcconfig. Access it at runtime through `AppConfiguration.shared.environmentName`. Use this to toggle between sandbox APIs, feature flags, or analytics destinations.
+
+---
+
+## Troubleshooting
+
+| Issue | Resolution |
+|-------|------------|
+| **WeatherKit responses are empty** | Verify WeatherKit entitlements and credentials in `Secrets.plist`. Ensure the device/simulator has a valid network connection. |
+| **CloudKit operations fail** | Confirm the container identifiers in `Secrets.plist` match those configured in the Apple Developer portal. Regenerate provisioning profiles after changes. |
+| **Location permissions denied** | Ensure the simulator/device has location services enabled and background location granted. Review `NSLocation*` usage descriptions for clarity. |
+| **CI fails during format check** | Run `scripts/format.sh` locally and re-stage any modified files before pushing. |
+| **Signing errors** | Make sure your developer team identifier is set in `Base.xcconfig` and that the correct provisioning profiles are installed. |
+
+---
+
+## Support
+
+For questions or improvements:
+
+- Open a GitHub issue describing the requested change or bug report
+- Contact the iOS platform team at `ios@smarttripplanner.com`
+- Review additional documentation in `PROJECT_SUMMARY.md` and `CONTRIBUTING.md`
+
+---
+
+Happy travels and happy shipping! ✈️🌤️
