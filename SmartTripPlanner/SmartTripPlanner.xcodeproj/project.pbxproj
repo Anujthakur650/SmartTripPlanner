@@ -33,6 +33,17 @@
         AA000000000000000000008C /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008B /* MapViewModel.swift */; };
         AA0000000000000000000043 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000044 /* GoogleSignIn */; };
         AA0000000000000000000045 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000046 /* GoogleSignInSwift */; };
+        AA00000000000000000000A1 /* DocumentAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000090 /* DocumentAsset.swift */; };
+        AA00000000000000000000A2 /* DocumentViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000091 /* DocumentViewerView.swift */; };
+        AA00000000000000000000A3 /* DocumentImportComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000092 /* DocumentImportComponents.swift */; };
+        AA00000000000000000000A4 /* DocumentViewerComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000093 /* DocumentViewerComponents.swift */; };
+        AA00000000000000000000A5 /* TagEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000094 /* TagEditorView.swift */; };
+        AA00000000000000000000A6 /* DocumentIntakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000095 /* DocumentIntakeView.swift */; };
+        AA00000000000000000000A7 /* PendingDocumentContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000096 /* PendingDocumentContext.swift */; };
+        AA00000000000000000000A8 /* DocumentStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000097 /* DocumentStorageService.swift */; };
+        AA00000000000000000000A9 /* DocumentMetadataExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000098 /* DocumentMetadataExtractor.swift */; };
+        AA00000000000000000000AA /* DocumentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000099 /* DocumentService.swift */; };
+        AA00000000000000000000AB /* UIApplication+TopMost.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000009A /* UIApplication+TopMost.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +85,17 @@
         AA000000000000000000008B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
         AA0000000000000000000052 /* SmartTripPlanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartTripPlanner.entitlements; sourceTree = "<group>"; };
         AA0000000000000000000053 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+        AA0000000000000000000090 /* DocumentAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentAsset.swift; sourceTree = "<group>"; };
+        AA0000000000000000000091 /* DocumentViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentViewerView.swift; sourceTree = "<group>"; };
+        AA0000000000000000000092 /* DocumentImportComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentImportComponents.swift; sourceTree = "<group>"; };
+        AA0000000000000000000093 /* DocumentViewerComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentViewerComponents.swift; sourceTree = "<group>"; };
+        AA0000000000000000000094 /* TagEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagEditorView.swift; sourceTree = "<group>"; };
+        AA0000000000000000000095 /* DocumentIntakeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentIntakeView.swift; sourceTree = "<group>"; };
+        AA0000000000000000000096 /* PendingDocumentContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingDocumentContext.swift; sourceTree = "<group>"; };
+        AA0000000000000000000097 /* DocumentStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentStorageService.swift; sourceTree = "<group>"; };
+        AA0000000000000000000098 /* DocumentMetadataExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentMetadataExtractor.swift; sourceTree = "<group>"; };
+        AA0000000000000000000099 /* DocumentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentService.swift; sourceTree = "<group>"; };
+        AA000000000000000000009A /* UIApplication+TopMost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopMost.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +168,7 @@
                 AA0000000000000000000012 /* DependencyContainer.swift */,
                 AA0000000000000000000014 /* AppEnvironment.swift */,
                 AA0000000000000000000016 /* NavigationCoordinator.swift */,
+                AA00000000000000000000B3 /* Extensions */,
             );
             path = Core;
             sourceTree = "<group>";
@@ -172,6 +195,9 @@
                 AA0000000000000000000038 /* EmailService.swift */,
                 AA0000000000000000000040 /* ExportService.swift */,
                 AA0000000000000000000042 /* SyncService.swift */,
+                AA0000000000000000000097 /* DocumentStorageService.swift */,
+                AA0000000000000000000098 /* DocumentMetadataExtractor.swift */,
+                AA0000000000000000000099 /* DocumentService.swift */,
                 AA0000000000000000000087 /* AnalyticsService.swift */,
                 AA0000000000000000000089 /* MapsModels.swift */,
             );
@@ -238,6 +264,10 @@
             isa = PBXGroup;
             children = (
                 AA0000000000000000000028 /* DocsView.swift */,
+                AA0000000000000000000091 /* DocumentViewerView.swift */,
+                AA00000000000000000000B1 /* Components */,
+                AA00000000000000000000B0 /* Models */,
+                AA00000000000000000000B2 /* ViewModels */,
             );
             path = Docs;
             sourceTree = "<group>";
@@ -248,6 +278,41 @@
                 AA0000000000000000000030 /* SettingsView.swift */,
             );
             path = Settings;
+            sourceTree = "<group>";
+        };
+        AA00000000000000000000B0 /* Models */ = {
+            isa = PBXGroup;
+            children = (
+                AA0000000000000000000090 /* DocumentAsset.swift */,
+            );
+            path = Models;
+            sourceTree = "<group>";
+        };
+        AA00000000000000000000B1 /* Components */ = {
+            isa = PBXGroup;
+            children = (
+                AA0000000000000000000092 /* DocumentImportComponents.swift */,
+                AA0000000000000000000093 /* DocumentViewerComponents.swift */,
+                AA0000000000000000000094 /* TagEditorView.swift */,
+                AA0000000000000000000095 /* DocumentIntakeView.swift */,
+            );
+            path = Components;
+            sourceTree = "<group>";
+        };
+        AA00000000000000000000B2 /* ViewModels */ = {
+            isa = PBXGroup;
+            children = (
+                AA0000000000000000000096 /* PendingDocumentContext.swift */,
+            );
+            path = ViewModels;
+            sourceTree = "<group>";
+        };
+        AA00000000000000000000B3 /* Extensions */ = {
+            isa = PBXGroup;
+            children = (
+                AA000000000000000000009A /* UIApplication+TopMost.swift */,
+            );
+            path = Extensions;
             sourceTree = "<group>";
         };
 /* End PBXGroup section */
