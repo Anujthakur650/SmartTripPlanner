@@ -1,66 +1,42 @@
 import SwiftUI
 
 struct DocsView: View {
-    @EnvironmentObject var container: DependencyContainer
-    @State private var documents: [TravelDocument] = []
+    @EnvironmentObject var dataStore: TravelDataStore
     
     var body: some View {
         NavigationStack {
             List {
-                if documents.isEmpty {
+                if dataStore.documents.isEmpty {
                     ContentUnavailableView(
-                        "No Documents",
+                        String(localized: "No Documents"),
                         systemImage: "folder",
-                        description: Text("Add travel documents like passports, tickets, and reservations")
+                        description: Text(String(localized: "Add travel documents like passports, tickets, and reservations"))
                     )
                 } else {
-                    ForEach(documents) { document in
+                    ForEach(dataStore.documents) { document in
                         DocumentRow(document: document)
                     }
                     .onDelete(perform: deleteDocuments)
                 }
             }
-            .navigationTitle("Documents")
+            .navigationTitle(String(localized: "Documents"))
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: addDocument) {
                         Image(systemName: "plus")
                     }
+                    .accessibilityLabel(String(localized: "Add document"))
                 }
             }
         }
     }
     
     private func addDocument() {
-        documents.append(TravelDocument(id: UUID(), name: "New Document", type: .other))
+        dataStore.addDocument()
     }
     
     private func deleteDocuments(at offsets: IndexSet) {
-        documents.remove(atOffsets: offsets)
-    }
-}
-
-struct TravelDocument: Identifiable {
-    let id: UUID
-    var name: String
-    var type: DocumentType
-    
-    enum DocumentType {
-        case passport
-        case ticket
-        case reservation
-        case insurance
-        case other
-        
-        var icon: String {
-            switch self {
-            case .passport: return "person.text.rectangle"
-            case .ticket: return "ticket"
-            case .reservation: return "calendar.badge.clock"
-            case .insurance: return "shield.fill"
-            case .other: return "doc"
-            }
-        }
+        dataStore.deleteDocuments(at: offsets)
     }
 }
 
@@ -69,13 +45,20 @@ struct DocumentRow: View {
     @EnvironmentObject var theme: AppEnvironment
     
     var body: some View {
-        HStack {
-            Image(systemName: document.type.icon)
+        HStack(spacing: 12) {
+            Image(systemName: document.type.systemImage)
                 .foregroundColor(theme.theme.primaryColor)
-                .frame(width: 30)
+                .frame(width: 28)
             
-            Text(document.name)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(document.name)
+                    .font(.body)
+                Text(document.type.localizedTitle)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
         }
+        .padding(.vertical, 4)
     }
 }
 
@@ -83,4 +66,5 @@ struct DocumentRow: View {
     DocsView()
         .environmentObject(DependencyContainer())
         .environmentObject(AppEnvironment())
+        .environmentObject(TravelDataStore())
 }

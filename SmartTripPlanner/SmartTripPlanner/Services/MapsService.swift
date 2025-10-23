@@ -433,3 +433,5 @@ extension MapsService: CLLocationManagerDelegate {
         }
     }
 }
+
+extension MapsService: MapsDataSource {}
