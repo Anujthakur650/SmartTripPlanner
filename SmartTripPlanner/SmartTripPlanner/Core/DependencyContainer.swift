@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import Combine
 
 @MainActor
 class DependencyContainer: ObservableObject {
@@ -10,7 +11,10 @@ class DependencyContainer: ObservableObject {
     let calendarService: CalendarService
     let emailService: EmailService
     let exportService: ExportService
+    let dataController: TripDataController
     let syncService: SyncService
+    
+    private var cancellables = Set<AnyCancellable>()
     
     init() {
         self.appEnvironment = AppEnvironment()
@@ -20,6 +24,21 @@ class DependencyContainer: ObservableObject {
         self.calendarService = CalendarService()
         self.emailService = EmailService()
         self.exportService = ExportService()
-        self.syncService = SyncService()
+        let dataController = TripDataController()
+        self.dataController = dataController
+        self.syncService = SyncService(coordinator: dataController.syncCoordinator)
+        self.syncService.scheduleBackgroundSync()
+        self.syncService.$isOnline
+            .receive(on: RunLoop.main)
+            .sink { [weak appEnvironment] isOnline in
+                appEnvironment?.isOnline = isOnline
+            }
+            .store(in: &cancellables)
+        self.syncService.$syncStatus
+            .receive(on: RunLoop.main)
+            .sink { [weak appEnvironment] status in
+                appEnvironment?.isSyncing = (status == .syncing)
+            }
+            .store(in: &cancellables)
     }
 }

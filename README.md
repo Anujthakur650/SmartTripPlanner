@@ -48,12 +48,24 @@ SmartTripPlanner/
 │   ├── CalendarService.swift     # EventKit integration
 │   ├── EmailService.swift        # Gmail integration
 │   ├── ExportService.swift       # PDF/JSON export
-│   └── SyncService.swift         # CloudKit sync
+│   └── SyncService.swift         # CloudKit sync facade
+├── Persistence/                   # SwiftData + CloudKit data layer
+│   ├── TripDataSchema.swift      # Versioned schema definitions
+│   ├── DataController.swift      # Model container + repositories
+│   ├── SyncCoordinator.swift     # Offline queue + CloudKit mirroring
+│   ├── CloudKitAdapter.swift     # CloudKit adaptor abstraction
+│   └── Repositories.swift        # Generic repository implementations
+├── DeveloperSupport/              # QA / preview helpers (DEBUG only)
+│   └── TripDataPreviewHarness.swift
+├── Docs/                          # Project documentation
+│   └── DataModel.md              # Data model & sync architecture
 ├── UIComponents/                  # Reusable UI components
 ├── DesignSystem/                  # Theme and styling
 │   └── Theme.swift
 └── Assets.xcassets/              # Images and colors
 ```
+
+See [Docs/DataModel.md](Docs/DataModel.md) for the full SwiftData schema, conflict resolution policy, and sync behaviour.
 
 ## Setup Instructions
 
