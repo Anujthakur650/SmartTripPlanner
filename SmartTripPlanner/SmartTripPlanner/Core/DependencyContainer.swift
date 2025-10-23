@@ -11,15 +11,19 @@ class DependencyContainer: ObservableObject {
     let emailService: EmailService
     let exportService: ExportService
     let syncService: SyncService
+    let tripStore: TripStore
+    let packingService: PackingService
     
     init() {
         self.appEnvironment = AppEnvironment()
         self.analyticsService = AnalyticsService()
-        self.weatherService = WeatherService()
+        self.weatherService = WeatherService(appEnvironment: appEnvironment)
         self.mapsService = MapsService(analyticsService: analyticsService)
         self.calendarService = CalendarService()
         self.emailService = EmailService()
         self.exportService = ExportService()
         self.syncService = SyncService()
+        self.tripStore = TripStore()
+        self.packingService = PackingService(weatherService: weatherService, syncService: syncService)
     }
 }

@@ -2,12 +2,12 @@ import SwiftUI
 
 struct TripsView: View {
     @EnvironmentObject var container: DependencyContainer
-    @State private var trips: [Trip] = []
+    @EnvironmentObject var tripStore: TripStore
     
     var body: some View {
         NavigationStack {
             ScrollView {
-                if trips.isEmpty {
+                if tripStore.trips.isEmpty {
                     VStack(spacing: 20) {
                         Image(systemName: "suitcase.fill")
                             .font(.system(size: 64))
@@ -25,8 +25,15 @@ struct TripsView: View {
                     .padding()
                 } else {
                     LazyVStack(spacing: 16) {
-                        ForEach(trips) { trip in
+                        ForEach(tripStore.trips) { trip in
                             TripCard(trip: trip)
+                                .contextMenu {
+                                    Button(role: .destructive) {
+                                        tripStore.remove(trip)
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                }
                         }
                     }
                     .padding()
@@ -44,23 +51,19 @@ struct TripsView: View {
     }
     
     private func addTrip() {
+        let today = Calendar.current.startOfDay(for: Date())
+        let end = Calendar.current.date(byAdding: .day, value: 4, to: today) ?? today
         let newTrip = Trip(
-            id: UUID(),
             name: "New Trip",
             destination: "Destination",
-            startDate: Date(),
-            endDate: Date().addingTimeInterval(86400 * 7)
+            coordinate: nil,
+            startDate: today,
+            endDate: end,
+            tripType: .leisure,
+            activities: []
         )
-        trips.append(newTrip)
+        tripStore.add(newTrip)
     }
-}
-
-struct Trip: Identifiable {
-    let id: UUID
-    var name: String
-    var destination: String
-    var startDate: Date
-    var endDate: Date
 }
 
 struct TripCard: View {
@@ -80,10 +83,30 @@ struct TripCard: View {
             }
             
             HStack {
+                Image(systemName: "tag.fill")
+                    .foregroundColor(theme.theme.secondaryColor)
+                Text(trip.tripType.displayName)
+                    .font(.caption)
+            }
+            
+            HStack {
                 Image(systemName: "calendar")
                     .foregroundColor(theme.theme.secondaryColor)
                 Text("\(trip.startDate.formatted(date: .abbreviated, time: .omitted)) - \(trip.endDate.formatted(date: .abbreviated, time: .omitted))")
                     .font(.caption)
+            }
+            
+            if !trip.activities.isEmpty {
+                HStack(alignment: .top, spacing: 6) {
+                    Image(systemName: "figure.walk")
+                        .foregroundColor(theme.theme.primaryColor)
+                    Text(trip.activities
+                        .map { $0.displayName }
+                        .sorted()
+                        .joined(separator: ", "))
+                    .font(.caption)
+                    .lineLimit(2)
+                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -93,7 +116,9 @@ struct TripCard: View {
 }
 
 #Preview {
-    TripsView()
-        .environmentObject(DependencyContainer())
-        .environmentObject(AppEnvironment())
+    let container = DependencyContainer()
+    return TripsView()
+        .environmentObject(container)
+        .environmentObject(container.tripStore)
+        .environmentObject(container.appEnvironment)
 }

@@ -31,6 +31,15 @@
         AA0000000000000000000088 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000087 /* AnalyticsService.swift */; };
         AA000000000000000000008A /* MapsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000089 /* MapsModels.swift */; };
         AA000000000000000000008C /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008B /* MapViewModel.swift */; };
+        AA0000000000000000000091 /* DateRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000090 /* DateRange.swift */; };
+        AA0000000000000000000093 /* TripModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000092 /* TripModels.swift */; };
+        AA0000000000000000000095 /* TripStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000094 /* TripStore.swift */; };
+        AA0000000000000000000097 /* WeatherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000096 /* WeatherModels.swift */; };
+        AA0000000000000000000099 /* WeatherCacheStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000098 /* WeatherCacheStore.swift */; };
+        AA000000000000000000009B /* PackingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000009A /* PackingModels.swift */; };
+        AA000000000000000000009D /* PackingRuleEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000009C /* PackingRuleEngine.swift */; };
+        AA000000000000000000009F /* PackingListStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000009E /* PackingListStore.swift */; };
+        AA00000000000000000000A1 /* PackingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A0 /* PackingService.swift */; };
         AA0000000000000000000043 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000044 /* GoogleSignIn */; };
         AA0000000000000000000045 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000046 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
@@ -72,6 +81,15 @@
         AA0000000000000000000087 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
         AA0000000000000000000089 /* MapsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsModels.swift; sourceTree = "<group>"; };
         AA000000000000000000008B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+        AA0000000000000000000090 /* DateRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRange.swift; sourceTree = "<group>"; };
+        AA0000000000000000000092 /* TripModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripModels.swift; sourceTree = "<group>"; };
+        AA0000000000000000000094 /* TripStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripStore.swift; sourceTree = "<group>"; };
+        AA0000000000000000000096 /* WeatherModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModels.swift; sourceTree = "<group>"; };
+        AA0000000000000000000098 /* WeatherCacheStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCacheStore.swift; sourceTree = "<group>"; };
+        AA000000000000000000009A /* PackingModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackingModels.swift; sourceTree = "<group>"; };
+        AA000000000000000000009C /* PackingRuleEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackingRuleEngine.swift; sourceTree = "<group>"; };
+        AA000000000000000000009E /* PackingListStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackingListStore.swift; sourceTree = "<group>"; };
+        AA00000000000000000000A0 /* PackingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackingService.swift; sourceTree = "<group>"; };
         AA0000000000000000000052 /* SmartTripPlanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartTripPlanner.entitlements; sourceTree = "<group>"; };
         AA0000000000000000000053 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -146,6 +164,9 @@
                 AA0000000000000000000012 /* DependencyContainer.swift */,
                 AA0000000000000000000014 /* AppEnvironment.swift */,
                 AA0000000000000000000016 /* NavigationCoordinator.swift */,
+                AA0000000000000000000090 /* DateRange.swift */,
+                AA0000000000000000000092 /* TripModels.swift */,
+                AA0000000000000000000094 /* TripStore.swift */,
             );
             path = Core;
             sourceTree = "<group>";
@@ -167,11 +188,17 @@
             isa = PBXGroup;
             children = (
                 AA0000000000000000000032 /* WeatherService.swift */,
+                AA0000000000000000000096 /* WeatherModels.swift */,
+                AA0000000000000000000098 /* WeatherCacheStore.swift */,
                 AA0000000000000000000034 /* MapsService.swift */,
                 AA0000000000000000000036 /* CalendarService.swift */,
                 AA0000000000000000000038 /* EmailService.swift */,
                 AA0000000000000000000040 /* ExportService.swift */,
                 AA0000000000000000000042 /* SyncService.swift */,
+                AA000000000000000000009A /* PackingModels.swift */,
+                AA000000000000000000009C /* PackingRuleEngine.swift */,
+                AA000000000000000000009E /* PackingListStore.swift */,
+                AA00000000000000000000A0 /* PackingService.swift */,
                 AA0000000000000000000087 /* AnalyticsService.swift */,
                 AA0000000000000000000089 /* MapsModels.swift */,
             );
@@ -421,6 +448,15 @@
                 AA0000000000000000000039 /* ExportService.swift in Sources */,
                 AA0000000000000000000041 /* SyncService.swift in Sources */,
                 AA0000000000000000000088 /* AnalyticsService.swift in Sources */,
+                AA0000000000000000000091 /* DateRange.swift in Sources */,
+                AA0000000000000000000093 /* TripModels.swift in Sources */,
+                AA0000000000000000000095 /* TripStore.swift in Sources */,
+                AA0000000000000000000097 /* WeatherModels.swift in Sources */,
+                AA0000000000000000000099 /* WeatherCacheStore.swift in Sources */,
+                AA000000000000000000009B /* PackingModels.swift in Sources */,
+                AA000000000000000000009D /* PackingRuleEngine.swift in Sources */,
+                AA000000000000000000009F /* PackingListStore.swift in Sources */,
+                AA00000000000000000000A1 /* PackingService.swift in Sources */,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
