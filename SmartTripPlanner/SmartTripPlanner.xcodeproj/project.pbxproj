@@ -31,6 +31,13 @@
         AA0000000000000000000088 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000087 /* AnalyticsService.swift */; };
         AA000000000000000000008A /* MapsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000089 /* MapsModels.swift */; };
         AA000000000000000000008C /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008B /* MapViewModel.swift */; };
+        3CD672A3DC5543A1918B3F54 /* Date+Planner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A96F7539A5B4F47A0340001 /* Date+Planner.swift */; };
+        87A2A436059640979DA01C91 /* DayPlannerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC03040EC244F2293478D5E /* DayPlannerModels.swift */; };
+        847A79616D884C8CA00E0B54 /* QuickAddSuggestionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4830F75AA8489A92A31623 /* QuickAddSuggestionProvider.swift */; };
+        34C866B4AB3E4403A9C94107 /* DayPlannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A74750E01BC4170B206CA30 /* DayPlannerViewModel.swift */; };
+        04D7FCA83A004EEDB2D1780D /* PlannerRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9D82668ABA4199BBFA3226 /* PlannerRepository.swift */; };
+        7B0ADE2E085849CB9CE77933 /* HapticFeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1F8662D83E41E4AFCD2901 /* HapticFeedbackService.swift */; };
+        A3EB13FC8EF14F16B71AB467 /* DayPlannerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9309A2E6364789BBD204EA /* DayPlannerViewModelTests.swift */; };
         AA0000000000000000000043 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000044 /* GoogleSignIn */; };
         AA0000000000000000000045 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000046 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
@@ -72,6 +79,13 @@
         AA0000000000000000000087 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
         AA0000000000000000000089 /* MapsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsModels.swift; sourceTree = "<group>"; };
         AA000000000000000000008B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+        6A96F7539A5B4F47A0340001 /* Date+Planner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Planner.swift"; sourceTree = "<group>"; };
+        2DC03040EC244F2293478D5E /* DayPlannerModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayPlannerModels.swift; sourceTree = "<group>"; };
+        5D4830F75AA8489A92A31623 /* QuickAddSuggestionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddSuggestionProvider.swift; sourceTree = "<group>"; };
+        1A74750E01BC4170B206CA30 /* DayPlannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayPlannerViewModel.swift; sourceTree = "<group>"; };
+        BD9D82668ABA4199BBFA3226 /* PlannerRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerRepository.swift; sourceTree = "<group>"; };
+        3F1F8662D83E41E4AFCD2901 /* HapticFeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedbackService.swift; sourceTree = "<group>"; };
+        FE9309A2E6364789BBD204EA /* DayPlannerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayPlannerViewModelTests.swift; sourceTree = "<group>"; };
         AA0000000000000000000052 /* SmartTripPlanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartTripPlanner.entitlements; sourceTree = "<group>"; };
         AA0000000000000000000053 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +141,7 @@
             isa = PBXGroup;
             children = (
                 AA0000000000000000000010 /* SmartTripPlannerTests.swift */,
+                FE9309A2E6364789BBD204EA /* DayPlannerViewModelTests.swift */,
             );
             path = SmartTripPlannerTests;
             sourceTree = "<group>";
@@ -146,6 +161,7 @@
                 AA0000000000000000000012 /* DependencyContainer.swift */,
                 AA0000000000000000000014 /* AppEnvironment.swift */,
                 AA0000000000000000000016 /* NavigationCoordinator.swift */,
+                3785654FAEC74E30A0736563 /* Extensions */,
             );
             path = Core;
             sourceTree = "<group>";
@@ -172,6 +188,8 @@
                 AA0000000000000000000038 /* EmailService.swift */,
                 AA0000000000000000000040 /* ExportService.swift */,
                 AA0000000000000000000042 /* SyncService.swift */,
+                BD9D82668ABA4199BBFA3226 /* PlannerRepository.swift */,
+                3F1F8662D83E41E4AFCD2901 /* HapticFeedbackService.swift */,
                 AA0000000000000000000087 /* AnalyticsService.swift */,
                 AA0000000000000000000089 /* MapsModels.swift */,
             );
@@ -191,6 +209,14 @@
                 AA0000000000000000000018 /* Theme.swift */,
             );
             path = DesignSystem;
+            sourceTree = "<group>";
+        };
+        3785654FAEC74E30A0736563 /* Extensions */ = {
+            isa = PBXGroup;
+            children = (
+                6A96F7539A5B4F47A0340001 /* Date+Planner.swift */,
+            );
+            path = Extensions;
             sourceTree = "<group>";
         };
         AA0000000000000000000065 /* Preview Content */ = {
@@ -213,6 +239,9 @@
             isa = PBXGroup;
             children = (
                 AA0000000000000000000022 /* PlannerView.swift */,
+                2DC03040EC244F2293478D5E /* DayPlannerModels.swift */,
+                1A74750E01BC4170B206CA30 /* DayPlannerViewModel.swift */,
+                5D4830F75AA8489A92A31623 /* QuickAddSuggestionProvider.swift */,
             );
             path = Planner;
             sourceTree = "<group>";
@@ -420,6 +449,12 @@
                 AA0000000000000000000037 /* EmailService.swift in Sources */,
                 AA0000000000000000000039 /* ExportService.swift in Sources */,
                 AA0000000000000000000041 /* SyncService.swift in Sources */,
+                3CD672A3DC5543A1918B3F54 /* Date+Planner.swift in Sources */,
+                87A2A436059640979DA01C91 /* DayPlannerModels.swift in Sources */,
+                34C866B4AB3E4403A9C94107 /* DayPlannerViewModel.swift in Sources */,
+                847A79616D884C8CA00E0B54 /* QuickAddSuggestionProvider.swift in Sources */,
+                04D7FCA83A004EEDB2D1780D /* PlannerRepository.swift in Sources */,
+                7B0ADE2E085849CB9CE77933 /* HapticFeedbackService.swift in Sources */,
                 AA0000000000000000000088 /* AnalyticsService.swift in Sources */,
             );
             runOnlyForDeploymentPostprocessing = 0;
@@ -429,6 +464,7 @@
             buildActionMask = 2147483647;
             files = (
                 AA0000000000000000000009 /* SmartTripPlannerTests.swift in Sources */,
+                A3EB13FC8EF14F16B71AB467 /* DayPlannerViewModelTests.swift in Sources */,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };

@@ -11,6 +11,9 @@ class DependencyContainer: ObservableObject {
     let emailService: EmailService
     let exportService: ExportService
     let syncService: SyncService
+    let plannerRepository: PlannerRepositoryProviding
+    let hapticFeedbackService: HapticFeedbackProviding
+    let quickAddSuggestionProvider: QuickAddSuggestionProviding
     
     init() {
         self.appEnvironment = AppEnvironment()
@@ -21,5 +24,8 @@ class DependencyContainer: ObservableObject {
         self.emailService = EmailService()
         self.exportService = ExportService()
         self.syncService = SyncService()
+        self.plannerRepository = DayPlannerRepository(syncService: syncService)
+        self.hapticFeedbackService = HapticFeedbackService()
+        self.quickAddSuggestionProvider = QuickAddSuggestionProvider()
     }
 }
