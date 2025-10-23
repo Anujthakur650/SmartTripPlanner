@@ -9,6 +9,7 @@ class DependencyContainer: ObservableObject {
     let mapsService: MapsService
     let calendarService: CalendarService
     let emailService: EmailService
+    let travelDataStore: TravelDataStore
     let exportService: ExportService
     let syncService: SyncService
     
@@ -19,7 +20,8 @@ class DependencyContainer: ObservableObject {
         self.mapsService = MapsService(analyticsService: analyticsService)
         self.calendarService = CalendarService()
         self.emailService = EmailService()
-        self.exportService = ExportService()
+        self.travelDataStore = TravelDataStore()
+        self.exportService = ExportService(appEnvironment: appEnvironment, travelDataSource: travelDataStore, mapsDataSource: mapsService)
         self.syncService = SyncService()
     }
 }

@@ -7,6 +7,7 @@ enum NavigationTab: Int, Hashable {
     case map
     case packing
     case docs
+    case exports
     case settings
 }
 

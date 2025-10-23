@@ -1,23 +1,22 @@
 import SwiftUI
 
 struct TripsView: View {
-    @EnvironmentObject var container: DependencyContainer
-    @State private var trips: [Trip] = []
+    @EnvironmentObject var dataStore: TravelDataStore
     
     var body: some View {
         NavigationStack {
             ScrollView {
-                if trips.isEmpty {
+                if dataStore.trips.isEmpty {
                     VStack(spacing: 20) {
                         Image(systemName: "suitcase.fill")
                             .font(.system(size: 64))
                             .foregroundColor(.secondary)
                         
-                        Text("No trips yet")
+                        Text(String(localized: "No trips yet"))
                             .font(.title2)
                             .fontWeight(.semibold)
                         
-                        Text("Start planning your next adventure")
+                        Text(String(localized: "Start planning your next adventure"))
                             .font(.body)
                             .foregroundColor(.secondary)
                     }
@@ -25,42 +24,28 @@ struct TripsView: View {
                     .padding()
                 } else {
                     LazyVStack(spacing: 16) {
-                        ForEach(trips) { trip in
+                        ForEach(dataStore.trips) { trip in
                             TripCard(trip: trip)
                         }
                     }
                     .padding()
                 }
             }
-            .navigationTitle("Trips")
+            .navigationTitle(String(localized: "Trips"))
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: addTrip) {
                         Image(systemName: "plus")
                     }
+                    .accessibilityLabel(String(localized: "Add trip"))
                 }
             }
         }
     }
     
     private func addTrip() {
-        let newTrip = Trip(
-            id: UUID(),
-            name: "New Trip",
-            destination: "Destination",
-            startDate: Date(),
-            endDate: Date().addingTimeInterval(86400 * 7)
-        )
-        trips.append(newTrip)
+        dataStore.addTrip()
     }
-}
-
-struct Trip: Identifiable {
-    let id: UUID
-    var name: String
-    var destination: String
-    var startDate: Date
-    var endDate: Date
 }
 
 struct TripCard: View {
@@ -72,23 +57,43 @@ struct TripCard: View {
             Text(trip.name)
                 .font(.headline)
             
-            HStack {
+            HStack(spacing: 8) {
                 Image(systemName: "mappin.circle.fill")
                     .foregroundColor(theme.theme.primaryColor)
                 Text(trip.destination)
                     .font(.subheadline)
             }
             
-            HStack {
+            HStack(spacing: 8) {
                 Image(systemName: "calendar")
                     .foregroundColor(theme.theme.secondaryColor)
-                Text("\(trip.startDate.formatted(date: .abbreviated, time: .omitted)) - \(trip.endDate.formatted(date: .abbreviated, time: .omitted))")
+                Text(dateRange(for: trip))
                     .font(.caption)
+            }
+            
+            if !trip.travelers.isEmpty {
+                Label("\(trip.travelers.count)" + " " + String(localized: trip.travelers.count == 1 ? "traveler" : "travelers"), systemImage: "person.2")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            
+            if let notes = trip.notes, !notes.isEmpty {
+                Text(notes)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .lineLimit(3)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .cardStyle(theme: theme.theme)
+        .accessibilityElement(children: .combine)
+    }
+    
+    private func dateRange(for trip: Trip) -> String {
+        let start = trip.startDate.formatted(date: .abbreviated, time: .omitted)
+        let end = trip.endDate.formatted(date: .abbreviated, time: .omitted)
+        return "\(start) – \(end)"
     }
 }
 
@@ -96,4 +101,5 @@ struct TripCard: View {
     TripsView()
         .environmentObject(DependencyContainer())
         .environmentObject(AppEnvironment())
+        .environmentObject(TravelDataStore())
 }

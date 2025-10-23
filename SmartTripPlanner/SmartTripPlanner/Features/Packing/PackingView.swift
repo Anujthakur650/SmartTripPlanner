@@ -1,22 +1,21 @@
 import SwiftUI
 
 struct PackingView: View {
-    @EnvironmentObject var container: DependencyContainer
-    @State private var packingItems: [PackingItem] = []
+    @EnvironmentObject var dataStore: TravelDataStore
     
     var body: some View {
         NavigationStack {
             List {
-                if packingItems.isEmpty {
+                if dataStore.packingItems.isEmpty {
                     ContentUnavailableView(
-                        "No Packing Lists",
+                        String(localized: "No Packing Lists"),
                         systemImage: "checkmark.circle",
-                        description: Text("Create your first packing list")
+                        description: Text(String(localized: "Create your first packing list"))
                     )
                 } else {
-                    ForEach($packingItems) { $item in
+                    ForEach(dataStore.packingItems) { item in
                         HStack {
-                            Button(action: { item.isChecked.toggle() }) {
+                            Button(action: { dataStore.togglePackingItem(item) }) {
                                 Image(systemName: item.isChecked ? "checkmark.circle.fill" : "circle")
                                     .foregroundColor(item.isChecked ? .green : .gray)
                             }
@@ -24,39 +23,36 @@ struct PackingView: View {
                             
                             Text(item.name)
                                 .strikethrough(item.isChecked)
+                                .foregroundColor(item.isChecked ? .secondary : .primary)
                         }
                     }
                     .onDelete(perform: deleteItems)
                 }
             }
-            .navigationTitle("Packing")
+            .navigationTitle(String(localized: "Packing"))
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: addItem) {
                         Image(systemName: "plus")
                     }
+                    .accessibilityLabel(String(localized: "Add packing item"))
                 }
             }
         }
     }
     
     private func addItem() {
-        packingItems.append(PackingItem(id: UUID(), name: "New Item", isChecked: false))
+        dataStore.addPackingItem()
     }
     
     private func deleteItems(at offsets: IndexSet) {
-        packingItems.remove(atOffsets: offsets)
+        dataStore.deletePackingItems(at: offsets)
     }
-}
-
-struct PackingItem: Identifiable {
-    let id: UUID
-    var name: String
-    var isChecked: Bool
 }
 
 #Preview {
     PackingView()
         .environmentObject(DependencyContainer())
         .environmentObject(AppEnvironment())
+        .environmentObject(TravelDataStore())
 }

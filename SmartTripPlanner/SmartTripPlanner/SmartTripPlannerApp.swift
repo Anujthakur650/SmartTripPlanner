@@ -11,6 +11,8 @@ struct SmartTripPlannerApp: App {
                 .environmentObject(container)
                 .environmentObject(navigationCoordinator)
                 .environmentObject(container.appEnvironment)
+                .environmentObject(container.travelDataStore)
+                .environmentObject(container.exportService)
         }
     }
 }

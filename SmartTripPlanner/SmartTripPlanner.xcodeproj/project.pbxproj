@@ -12,6 +12,7 @@
         AA0000000000000000000005 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000006 /* Assets.xcassets */; };
         AA0000000000000000000007 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000008 /* Preview Assets.xcassets */; };
         AA0000000000000000000009 /* SmartTripPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000010 /* SmartTripPlannerTests.swift */; };
+        AA0000000000000000000099 /* ExportServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000098 /* ExportServiceTests.swift */; };
         AA0000000000000000000011 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000012 /* DependencyContainer.swift */; };
         AA0000000000000000000013 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000014 /* AppEnvironment.swift */; };
         AA0000000000000000000015 /* NavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000016 /* NavigationCoordinator.swift */; };
@@ -31,6 +32,9 @@
         AA0000000000000000000088 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000087 /* AnalyticsService.swift */; };
         AA000000000000000000008A /* MapsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000089 /* MapsModels.swift */; };
         AA000000000000000000008C /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008B /* MapViewModel.swift */; };
+        AA0000000000000000000091 /* TravelDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000090 /* TravelDataStore.swift */; };
+        AA0000000000000000000093 /* TravelModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000092 /* TravelModels.swift */; };
+        AA0000000000000000000095 /* ExportsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000094 /* ExportsView.swift */; };
         AA0000000000000000000043 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000044 /* GoogleSignIn */; };
         AA0000000000000000000045 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000046 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
@@ -53,6 +57,7 @@
         AA0000000000000000000008 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
         AA0000000000000000000051 /* SmartTripPlannerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartTripPlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
         AA0000000000000000000010 /* SmartTripPlannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartTripPlannerTests.swift; sourceTree = "<group>"; };
+        AA0000000000000000000098 /* ExportServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportServiceTests.swift; sourceTree = "<group>"; };
         AA0000000000000000000012 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
         AA0000000000000000000014 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
         AA0000000000000000000016 /* NavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCoordinator.swift; sourceTree = "<group>"; };
@@ -72,6 +77,9 @@
         AA0000000000000000000087 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
         AA0000000000000000000089 /* MapsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsModels.swift; sourceTree = "<group>"; };
         AA000000000000000000008B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+        AA0000000000000000000090 /* TravelDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDataStore.swift; sourceTree = "<group>"; };
+        AA0000000000000000000092 /* TravelModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelModels.swift; sourceTree = "<group>"; };
+        AA0000000000000000000094 /* ExportsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportsView.swift; sourceTree = "<group>"; };
         AA0000000000000000000052 /* SmartTripPlanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartTripPlanner.entitlements; sourceTree = "<group>"; };
         AA0000000000000000000053 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +121,7 @@
                 AA0000000000000000000002 /* SmartTripPlannerApp.swift */,
                 AA0000000000000000000004 /* ContentView.swift */,
                 AA0000000000000000000060 /* Core */,
+                AA0000000000000000000096 /* Models */,
                 AA0000000000000000000061 /* Features */,
                 AA0000000000000000000062 /* Services */,
                 AA0000000000000000000063 /* UIComponents */,
@@ -127,6 +136,7 @@
             isa = PBXGroup;
             children = (
                 AA0000000000000000000010 /* SmartTripPlannerTests.swift */,
+                AA0000000000000000000098 /* ExportServiceTests.swift */,
             );
             path = SmartTripPlannerTests;
             sourceTree = "<group>";
@@ -158,6 +168,7 @@
                 AA0000000000000000000068 /* Map */,
                 AA0000000000000000000069 /* Packing */,
                 AA0000000000000000000070 /* Docs */,
+                AA0000000000000000000097 /* Exports */,
                 AA0000000000000000000071 /* Settings */,
             );
             path = Features;
@@ -171,6 +182,7 @@
                 AA0000000000000000000036 /* CalendarService.swift */,
                 AA0000000000000000000038 /* EmailService.swift */,
                 AA0000000000000000000040 /* ExportService.swift */,
+                AA0000000000000000000090 /* TravelDataStore.swift */,
                 AA0000000000000000000042 /* SyncService.swift */,
                 AA0000000000000000000087 /* AnalyticsService.swift */,
                 AA0000000000000000000089 /* MapsModels.swift */,
@@ -193,12 +205,28 @@
             path = DesignSystem;
             sourceTree = "<group>";
         };
+        AA0000000000000000000096 /* Models */ = {
+            isa = PBXGroup;
+            children = (
+                AA0000000000000000000092 /* TravelModels.swift */,
+            );
+            path = Models;
+            sourceTree = "<group>";
+        };
         AA0000000000000000000065 /* Preview Content */ = {
             isa = PBXGroup;
             children = (
                 AA0000000000000000000008 /* Preview Assets.xcassets */,
             );
             path = "Preview Content";
+            sourceTree = "<group>";
+        };
+        AA0000000000000000000097 /* Exports */ = {
+            isa = PBXGroup;
+            children = (
+                AA0000000000000000000094 /* ExportsView.swift */,
+            );
+            path = Exports;
             sourceTree = "<group>";
         };
         AA0000000000000000000066 /* Trips */ = {
@@ -405,6 +433,7 @@
                 AA0000000000000000000011 /* DependencyContainer.swift in Sources */,
                 AA0000000000000000000013 /* AppEnvironment.swift in Sources */,
                 AA0000000000000000000015 /* NavigationCoordinator.swift in Sources */,
+                AA0000000000000000000093 /* TravelModels.swift in Sources */,
                 AA0000000000000000000017 /* Theme.swift in Sources */,
                 AA0000000000000000000019 /* TripsView.swift in Sources */,
                 AA0000000000000000000021 /* PlannerView.swift in Sources */,
@@ -412,6 +441,7 @@
                 AA000000000000000000008C /* MapViewModel.swift in Sources */,
                 AA0000000000000000000025 /* PackingView.swift in Sources */,
                 AA0000000000000000000027 /* DocsView.swift in Sources */,
+                AA0000000000000000000095 /* ExportsView.swift in Sources */,
                 AA0000000000000000000029 /* SettingsView.swift in Sources */,
                 AA0000000000000000000031 /* WeatherService.swift in Sources */,
                 AA0000000000000000000033 /* MapsService.swift in Sources */,
@@ -419,6 +449,7 @@
                 AA0000000000000000000035 /* CalendarService.swift in Sources */,
                 AA0000000000000000000037 /* EmailService.swift in Sources */,
                 AA0000000000000000000039 /* ExportService.swift in Sources */,
+                AA0000000000000000000091 /* TravelDataStore.swift in Sources */,
                 AA0000000000000000000041 /* SyncService.swift in Sources */,
                 AA0000000000000000000088 /* AnalyticsService.swift in Sources */,
             );
@@ -429,6 +460,7 @@
             buildActionMask = 2147483647;
             files = (
                 AA0000000000000000000009 /* SmartTripPlannerTests.swift in Sources */,
+                AA0000000000000000000099 /* ExportServiceTests.swift in Sources */,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
