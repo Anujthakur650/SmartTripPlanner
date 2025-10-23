@@ -31,6 +31,13 @@
         AA0000000000000000000088 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000087 /* AnalyticsService.swift */; };
         AA000000000000000000008A /* MapsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000089 /* MapsModels.swift */; };
         AA000000000000000000008C /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008B /* MapViewModel.swift */; };
+        AA0000000000000000000098 /* TripDataSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000091 /* TripDataSchema.swift */; };
+        AA0000000000000000000099 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000092 /* DataController.swift */; };
+        AA000000000000000000009A /* SyncCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000093 /* SyncCoordinator.swift */; };
+        AA000000000000000000009B /* CloudKitAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000094 /* CloudKitAdapter.swift */; };
+        AA000000000000000000009C /* Repositories.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000095 /* Repositories.swift */; };
+        AA000000000000000000009D /* TripDataPreviewHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000096 /* TripDataPreviewHarness.swift */; };
+        AA000000000000000000009E /* TripDataPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000097 /* TripDataPersistenceTests.swift */; };
         AA0000000000000000000043 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000044 /* GoogleSignIn */; };
         AA0000000000000000000045 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000046 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
@@ -72,6 +79,13 @@
         AA0000000000000000000087 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
         AA0000000000000000000089 /* MapsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsModels.swift; sourceTree = "<group>"; };
         AA000000000000000000008B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+        AA0000000000000000000091 /* TripDataSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDataSchema.swift; sourceTree = "<group>"; };
+        AA0000000000000000000092 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+        AA0000000000000000000093 /* SyncCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncCoordinator.swift; sourceTree = "<group>"; };
+        AA0000000000000000000094 /* CloudKitAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitAdapter.swift; sourceTree = "<group>"; };
+        AA0000000000000000000095 /* Repositories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repositories.swift; sourceTree = "<group>"; };
+        AA0000000000000000000096 /* TripDataPreviewHarness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDataPreviewHarness.swift; sourceTree = "<group>"; };
+        AA0000000000000000000097 /* TripDataPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDataPersistenceTests.swift; sourceTree = "<group>"; };
         AA0000000000000000000052 /* SmartTripPlanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartTripPlanner.entitlements; sourceTree = "<group>"; };
         AA0000000000000000000053 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,6 +129,8 @@
                 AA0000000000000000000060 /* Core */,
                 AA0000000000000000000061 /* Features */,
                 AA0000000000000000000062 /* Services */,
+                AA000000000000000000009A /* Persistence */,
+                AA000000000000000000009B /* DeveloperSupport */,
                 AA0000000000000000000063 /* UIComponents */,
                 AA0000000000000000000064 /* DesignSystem */,
                 AA0000000000000000000006 /* Assets.xcassets */,
@@ -127,6 +143,7 @@
             isa = PBXGroup;
             children = (
                 AA0000000000000000000010 /* SmartTripPlannerTests.swift */,
+                AA0000000000000000000097 /* TripDataPersistenceTests.swift */,
             );
             path = SmartTripPlannerTests;
             sourceTree = "<group>";
@@ -191,6 +208,26 @@
                 AA0000000000000000000018 /* Theme.swift */,
             );
             path = DesignSystem;
+            sourceTree = "<group>";
+        };
+        AA000000000000000000009A /* Persistence */ = {
+            isa = PBXGroup;
+            children = (
+                AA0000000000000000000091 /* TripDataSchema.swift */,
+                AA0000000000000000000092 /* DataController.swift */,
+                AA0000000000000000000093 /* SyncCoordinator.swift */,
+                AA0000000000000000000094 /* CloudKitAdapter.swift */,
+                AA0000000000000000000095 /* Repositories.swift */,
+            );
+            path = Persistence;
+            sourceTree = "<group>";
+        };
+        AA000000000000000000009B /* DeveloperSupport */ = {
+            isa = PBXGroup;
+            children = (
+                AA0000000000000000000096 /* TripDataPreviewHarness.swift */,
+            );
+            path = DeveloperSupport;
             sourceTree = "<group>";
         };
         AA0000000000000000000065 /* Preview Content */ = {
@@ -420,6 +457,12 @@
                 AA0000000000000000000037 /* EmailService.swift in Sources */,
                 AA0000000000000000000039 /* ExportService.swift in Sources */,
                 AA0000000000000000000041 /* SyncService.swift in Sources */,
+                AA0000000000000000000098 /* TripDataSchema.swift in Sources */,
+                AA0000000000000000000099 /* DataController.swift in Sources */,
+                AA000000000000000000009A /* SyncCoordinator.swift in Sources */,
+                AA000000000000000000009B /* CloudKitAdapter.swift in Sources */,
+                AA000000000000000000009C /* Repositories.swift in Sources */,
+                AA000000000000000000009D /* TripDataPreviewHarness.swift in Sources */,
                 AA0000000000000000000088 /* AnalyticsService.swift in Sources */,
             );
             runOnlyForDeploymentPostprocessing = 0;
@@ -429,6 +472,7 @@
             buildActionMask = 2147483647;
             files = (
                 AA0000000000000000000009 /* SmartTripPlannerTests.swift in Sources */,
+                AA000000000000000000009E /* TripDataPersistenceTests.swift in Sources */,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };

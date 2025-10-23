@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 @main
 struct SmartTripPlannerApp: App {
@@ -11,6 +12,8 @@ struct SmartTripPlannerApp: App {
                 .environmentObject(container)
                 .environmentObject(navigationCoordinator)
                 .environmentObject(container.appEnvironment)
+                .environmentObject(container.dataController)
         }
+        .modelContainer(container.dataController.container)
     }
 }
