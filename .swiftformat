@@ -1,0 +1,16 @@
+--swiftversion 5.9
+
+--disable blankLinesAtStartOfScope
+--disable blankLinesAtEndOfScope
+
+--indent 4
+--indentcase false
+--trimwhitespace always
+--commas inline
+--semicolons inline
+--ifdef indent
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--maxwidth 120
+--header strip
