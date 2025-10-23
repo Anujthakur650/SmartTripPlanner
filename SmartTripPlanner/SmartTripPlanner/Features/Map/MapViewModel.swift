@@ -25,6 +25,19 @@ final class MapViewModel: ObservableObject {
     @Published private(set) var currentLocation: CLLocationCoordinate2D?
     @Published var presentedError: ServiceError?
     @Published var infoMessage: String?
+    @Published var offlineStatusMessage: String?
+    
+    @available(iOS 17.0, *)
+    @Published private(set) var offlineRegions: [OfflineMapRegionState] = []
+    
+    @available(iOS 17.0, *)
+    @Published private(set) var offlineSuggestions: [OfflineRegionSuggestion] = []
+    
+    @available(iOS 17.0, *)
+    @Published private(set) var offlineDownloads: [OfflineDownloadSnapshot] = []
+    
+    @available(iOS 17.0, *)
+    @Published private(set) var offlineStorageUsage: OfflineStorageUsage = .zero
     
     private(set) var lastRouteOrigin: Place?
     
@@ -45,6 +58,10 @@ final class MapViewModel: ObservableObject {
         self.mapsService = container.mapsService
         mapsService?.loadPersistedDataIfNeeded()
         bindService()
+        if #available(iOS 17.0, *) {
+            mapsService?.refreshOfflineCollections()
+            mapsService?.setOfflineFocus(selectedPlace)
+        }
     }
     
     func handleSearchTextChange() {
@@ -91,6 +108,12 @@ final class MapViewModel: ObservableObject {
     func clearSearchResults() {
         mapsService?.clearSearch()
         searchResults = []
+        if selectedPlace != nil {
+            selectedPlace = nil
+            if #available(iOS 17.0, *) {
+                mapsService?.setOfflineFocus(nil)
+            }
+        }
     }
     
     func toggleCategory(_ category: MapCategory) {
@@ -111,6 +134,9 @@ final class MapViewModel: ObservableObject {
     
     func selectPlace(_ place: Place) {
         selectedPlace = place
+        if #available(iOS 17.0, *) {
+            mapsService?.setOfflineFocus(place)
+        }
     }
     
     func setRouteOrigin(_ place: Place) {
@@ -158,6 +184,31 @@ final class MapViewModel: ObservableObject {
         case .none:
             break
         }
+    }
+    
+    @available(iOS 17.0, *)
+    func refreshOfflineRegions() {
+        mapsService?.refreshOfflineCollections()
+    }
+    
+    @available(iOS 17.0, *)
+    func downloadOfflineSuggestion(_ suggestion: OfflineRegionSuggestion) {
+        mapsService?.downloadOfflineRegion(suggestion)
+    }
+    
+    @available(iOS 17.0, *)
+    func cancelOfflineDownload(_ snapshot: OfflineDownloadSnapshot) {
+        mapsService?.cancelOfflineDownload(id: snapshot.id)
+    }
+    
+    @available(iOS 17.0, *)
+    func deleteOfflineRegion(_ region: OfflineMapRegionState) {
+        mapsService?.deleteOfflineRegion(region)
+    }
+    
+    @available(iOS 17.0, *)
+    func updateOfflineRegion(_ region: OfflineMapRegionState) {
+        mapsService?.updateOfflineRegion(region)
     }
     
     func saveSelectedPlace(association: PlaceAssociation?, bookmarked: Bool) {
@@ -213,6 +264,15 @@ final class MapViewModel: ObservableObject {
     
     var hasOfflineData: Bool {
         !savedPlaces.isEmpty || !savedRoutes.isEmpty
+    }
+    
+    var supportsOfflineDownloads: Bool {
+        mapsService?.supportsOfflineDownloads ?? false
+    }
+    
+    @available(iOS 17.0, *)
+    var hasOfflineDownloadsInProgress: Bool {
+        !offlineDownloads.isEmpty
     }
     
     private var currentLocationPlace: Place? {
@@ -329,5 +389,32 @@ final class MapViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .sink { [weak self] in self?.offlineFallbackRoute = $0 }
             .store(in: &cancellables)
+        
+        mapsService.$offlineStatusMessage
+            .receive(on: RunLoop.main)
+            .sink { [weak self] in self?.offlineStatusMessage = $0 }
+            .store(in: &cancellables)
+        
+        if #available(iOS 17.0, *) {
+            mapsService.$offlineRegions
+                .receive(on: RunLoop.main)
+                .sink { [weak self] in self?.offlineRegions = $0 }
+                .store(in: &cancellables)
+            
+            mapsService.$offlineSuggestions
+                .receive(on: RunLoop.main)
+                .sink { [weak self] in self?.offlineSuggestions = $0 }
+                .store(in: &cancellables)
+            
+            mapsService.$offlineDownloads
+                .receive(on: RunLoop.main)
+                .sink { [weak self] in self?.offlineDownloads = $0 }
+                .store(in: &cancellables)
+            
+            mapsService.$offlineStorageUsage
+                .receive(on: RunLoop.main)
+                .sink { [weak self] in self?.offlineStorageUsage = $0 }
+                .store(in: &cancellables)
+        }
     }
 }

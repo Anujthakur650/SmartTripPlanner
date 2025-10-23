@@ -279,3 +279,105 @@ struct MapSearchSuggestion: Identifiable, Hashable {
         return "\(title) \(subtitle)"
     }
 }
+
+@available(iOS 17.0, *)
+enum OfflineRegionStatus: Hashable {
+    case notDownloaded
+    case queued
+    case downloading(progress: Double)
+    case available(updatedAt: Date?)
+    case needsUpdate(updatedAt: Date?)
+    case failed(message: String?)
+    case cancelled
+    
+    var isActiveDownload: Bool {
+        switch self {
+        case .queued, .downloading:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var isDownloaded: Bool {
+        switch self {
+        case .available, .needsUpdate:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+@available(iOS 17.0, *)
+struct OfflineStorageUsage: Equatable {
+    var bytesUsed: Int64
+    var bytesAvailable: Int64?
+    
+    static let zero = OfflineStorageUsage(bytesUsed: 0, bytesAvailable: nil)
+}
+
+@available(iOS 17.0, *)
+struct OfflineRegionSuggestion: Identifiable, Hashable {
+    let id: UUID
+    var name: String
+    var detail: String
+    var boundingRegion: MKCoordinateRegion
+    var estimatedBytes: Int64?
+    var sourceDescription: String
+    
+    init(id: UUID = UUID(), name: String, detail: String, boundingRegion: MKCoordinateRegion, estimatedBytes: Int64? = nil, sourceDescription: String) {
+        self.id = id
+        self.name = name
+        self.detail = detail
+        self.boundingRegion = boundingRegion
+        self.estimatedBytes = estimatedBytes
+        self.sourceDescription = sourceDescription
+    }
+}
+
+@available(iOS 17.0, *)
+struct OfflineMapRegionState: Identifiable, Hashable {
+    let id: UUID
+    var mapIdentifier: UUID
+    var name: String
+    var subtitle: String
+    var boundingRegion: MKCoordinateRegion
+    var bytesOnDisk: Int64?
+    var status: OfflineRegionStatus
+    var lastUpdated: Date?
+    var sourceDescription: String
+    
+    init(id: UUID = UUID(), mapIdentifier: UUID, name: String, subtitle: String, boundingRegion: MKCoordinateRegion, bytesOnDisk: Int64?, status: OfflineRegionStatus, lastUpdated: Date?, sourceDescription: String) {
+        self.id = id
+        self.mapIdentifier = mapIdentifier
+        self.name = name
+        self.subtitle = subtitle
+        self.boundingRegion = boundingRegion
+        self.bytesOnDisk = bytesOnDisk
+        self.status = status
+        self.lastUpdated = lastUpdated
+        self.sourceDescription = sourceDescription
+    }
+}
+
+@available(iOS 17.0, *)
+struct OfflineDownloadSnapshot: Identifiable, Hashable {
+    let id: UUID
+    var name: String
+    var detail: String
+    var progress: Double
+    var stateDescription: String
+    var sourceDescription: String
+    var canCancel: Bool
+    
+    init(id: UUID = UUID(), name: String, detail: String, progress: Double, stateDescription: String, sourceDescription: String, canCancel: Bool = true) {
+        self.id = id
+        self.name = name
+        self.detail = detail
+        self.progress = progress
+        self.stateDescription = stateDescription
+        self.sourceDescription = sourceDescription
+        self.canCancel = canCancel
+    }
+}

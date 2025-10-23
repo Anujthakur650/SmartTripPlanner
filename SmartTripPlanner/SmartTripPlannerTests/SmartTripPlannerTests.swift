@@ -54,6 +54,11 @@ final class SmartTripPlannerTests: XCTestCase {
     }
     
     @MainActor
+    func testMapsServiceSupportsOfflineDownloads() throws {
+        XCTAssertTrue(container.mapsService.supportsOfflineDownloads)
+    }
+    
+    @MainActor
     func testThemeColors() throws {
         let theme = Theme()
         XCTAssertNotNil(theme.primaryColor)
