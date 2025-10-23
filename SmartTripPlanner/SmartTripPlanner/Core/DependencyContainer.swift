@@ -11,6 +11,7 @@ class DependencyContainer: ObservableObject {
     let emailService: EmailService
     let exportService: ExportService
     let syncService: SyncService
+    let tripsRepository: TripsRepository
     
     init() {
         self.appEnvironment = AppEnvironment()
@@ -21,5 +22,6 @@ class DependencyContainer: ObservableObject {
         self.emailService = EmailService()
         self.exportService = ExportService()
         self.syncService = SyncService()
+        self.tripsRepository = TripsRepository()
     }
 }
