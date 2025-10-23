@@ -1,0 +1,67 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Build the app"
+  lane :build do
+    build_app(
+      workspace: "SmartTripPlanner/SmartTripPlanner.xcodeproj",
+      scheme: "SmartTripPlanner",
+      configuration: "Debug",
+      export_method: "development",
+      skip_codesigning: true,
+      skip_archive: true,
+      destination: "generic/platform=iOS Simulator"
+    )
+  end
+
+  desc "Run unit tests"
+  lane :test do
+    run_tests(
+      workspace: "SmartTripPlanner/SmartTripPlanner.xcodeproj",
+      scheme: "SmartTripPlanner",
+      devices: ["iPhone 15 Pro"],
+      code_coverage: true,
+      skip_build: false
+    )
+  end
+
+  desc "Build and upload to TestFlight"
+  lane :beta do
+    increment_build_number(
+      xcodeproj: "SmartTripPlanner/SmartTripPlanner.xcodeproj"
+    )
+    
+    build_app(
+      workspace: "SmartTripPlanner/SmartTripPlanner.xcodeproj",
+      scheme: "SmartTripPlanner",
+      configuration: "Release",
+      export_method: "app-store"
+    )
+    
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  desc "Take screenshots"
+  lane :screenshots do
+    capture_screenshots(
+      scheme: "SmartTripPlanner"
+    )
+  end
+
+  desc "Run SwiftLint"
+  lane :lint do
+    swiftlint(
+      mode: :lint,
+      config_file: ".swiftlint.yml",
+      strict: true,
+      raise_if_swiftlint_error: false
+    )
+  end
+
+  desc "Format code with SwiftFormat"
+  lane :format do
+    sh("cd .. && swiftformat . --swiftversion 5.9")
+  end
+end
