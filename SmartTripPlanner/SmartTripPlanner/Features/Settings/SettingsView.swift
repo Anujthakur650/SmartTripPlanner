@@ -18,19 +18,41 @@ struct SettingsView: View {
                     HStack {
                         Text("iCloud Sync")
                         Spacer()
-                        if appEnvironment.isSyncing {
+                        switch container.syncService.syncStatus {
+                        case .idle:
+                            Image(systemName: "icloud")
+                                .foregroundColor(.blue)
+                        case .syncing:
                             ProgressView()
-                        } else {
+                        case .success:
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(.green)
+                        case .failed:
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundColor(.orange)
                         }
                     }
                     
-                    Button("Sync Now") {
+                    if let lastSyncDate = container.syncService.lastSyncDate {
+                        Text("Last synced \(lastSyncDate.formatted(date: .abbreviated, time: .shortened))")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    if case .failed(let error) = container.syncService.syncStatus {
+                        Text(error.localizedDescription)
+                            .font(.caption)
+                            .foregroundColor(.red)
+                    }
+                    
+                    Button(action: {
                         Task {
                             await performSync()
                         }
+                    }) {
+                        Text("Sync Now")
                     }
+                    .disabled(appEnvironment.isSyncing)
                 }
                 
                 Section("About") {
@@ -56,9 +78,11 @@ struct SettingsView: View {
     }
     
     private func performSync() async {
-        appEnvironment.isSyncing = true
-        try? await Task.sleep(nanoseconds: 2_000_000_000)
-        appEnvironment.isSyncing = false
+        do {
+            try await container.syncService.syncAllData()
+        } catch {
+            appEnvironment.isSyncing = false
+        }
     }
     
     private func signOut() {

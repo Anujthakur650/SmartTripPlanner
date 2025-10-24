@@ -32,35 +32,11 @@ struct DocsView: View {
     }
     
     private func addDocument() {
-        documents.append(TravelDocument(id: UUID(), name: "New Document", type: .other))
+        documents.append(TravelDocument(name: "New Document", type: .custom))
     }
     
     private func deleteDocuments(at offsets: IndexSet) {
         documents.remove(atOffsets: offsets)
-    }
-}
-
-struct TravelDocument: Identifiable {
-    let id: UUID
-    var name: String
-    var type: DocumentType
-    
-    enum DocumentType {
-        case passport
-        case ticket
-        case reservation
-        case insurance
-        case other
-        
-        var icon: String {
-            switch self {
-            case .passport: return "person.text.rectangle"
-            case .ticket: return "ticket"
-            case .reservation: return "calendar.badge.clock"
-            case .insurance: return "shield.fill"
-            case .other: return "doc"
-            }
-        }
     }
 }
 
@@ -70,12 +46,22 @@ struct DocumentRow: View {
     
     var body: some View {
         HStack {
-            Image(systemName: document.type.icon)
+            Image(systemName: document.type.iconName)
                 .foregroundColor(theme.theme.primaryColor)
                 .frame(width: 30)
             
-            Text(document.name)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(document.name)
+                    .font(.body)
+                
+                if let referenceCode = document.referenceCode, !referenceCode.isEmpty {
+                    Text(referenceCode)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
         }
+        .padding(.vertical, 4)
     }
 }
 

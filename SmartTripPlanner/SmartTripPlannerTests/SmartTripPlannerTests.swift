@@ -60,4 +60,14 @@ final class SmartTripPlannerTests: XCTestCase {
         XCTAssertNotNil(theme.secondaryColor)
         XCTAssertNotNil(theme.backgroundColor)
     }
+    
+    func testTripFormattedDateRange() {
+        let trip = Trip(
+            name: "Test Trip",
+            destination: "Testville",
+            startDate: Date(),
+            endDate: Date().addingTimeInterval(86_400)
+        )
+        XCTAssertFalse(trip.formattedDateRange.isEmpty)
+    }
 }
