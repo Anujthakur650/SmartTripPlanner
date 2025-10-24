@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 @MainActor
-class DependencyContainer: ObservableObject {
+final class DependencyContainer: ObservableObject {
     let appEnvironment: AppEnvironment
     let analyticsService: AnalyticsService
     let weatherService: WeatherService
@@ -12,14 +12,23 @@ class DependencyContainer: ObservableObject {
     let exportService: ExportService
     let syncService: SyncService
     
-    init() {
-        self.appEnvironment = AppEnvironment()
-        self.analyticsService = AnalyticsService()
-        self.weatherService = WeatherService()
-        self.mapsService = MapsService(analyticsService: analyticsService)
-        self.calendarService = CalendarService()
-        self.emailService = EmailService()
-        self.exportService = ExportService()
-        self.syncService = SyncService()
+    init(
+        appEnvironment: AppEnvironment = AppEnvironment(),
+        analyticsService: AnalyticsService = AnalyticsService(),
+        weatherService: WeatherService = WeatherService(),
+        mapsService: MapsService? = nil,
+        calendarService: CalendarService = CalendarService(),
+        emailService: EmailService = EmailService(),
+        exportService: ExportService = ExportService(),
+        syncService: SyncService? = nil
+    ) {
+        self.appEnvironment = appEnvironment
+        self.analyticsService = analyticsService
+        self.weatherService = weatherService
+        self.mapsService = mapsService ?? MapsService(analyticsService: analyticsService)
+        self.calendarService = calendarService
+        self.emailService = emailService
+        self.exportService = exportService
+        self.syncService = syncService ?? SyncService(appEnvironment: appEnvironment)
     }
 }

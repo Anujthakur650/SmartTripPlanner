@@ -31,6 +31,8 @@
         AA0000000000000000000088 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000087 /* AnalyticsService.swift */; };
         AA000000000000000000008A /* MapsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000089 /* MapsModels.swift */; };
         AA000000000000000000008C /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008B /* MapViewModel.swift */; };
+        AA0000000000000000000091 /* TripModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000092 /* TripModels.swift */; };
+        AA0000000000000000000093 /* CloudSyncable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000094 /* CloudSyncable.swift */; };
         AA0000000000000000000043 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000044 /* GoogleSignIn */; };
         AA0000000000000000000045 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000046 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
@@ -72,6 +74,8 @@
         AA0000000000000000000087 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
         AA0000000000000000000089 /* MapsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsModels.swift; sourceTree = "<group>"; };
         AA000000000000000000008B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+        AA0000000000000000000092 /* TripModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripModels.swift; sourceTree = "<group>"; };
+        AA0000000000000000000094 /* CloudSyncable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncable.swift; sourceTree = "<group>"; };
         AA0000000000000000000052 /* SmartTripPlanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartTripPlanner.entitlements; sourceTree = "<group>"; };
         AA0000000000000000000053 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +117,7 @@
                 AA0000000000000000000002 /* SmartTripPlannerApp.swift */,
                 AA0000000000000000000004 /* ContentView.swift */,
                 AA0000000000000000000060 /* Core */,
+                AA0000000000000000000095 /* Models */,
                 AA0000000000000000000061 /* Features */,
                 AA0000000000000000000062 /* Services */,
                 AA0000000000000000000063 /* UIComponents */,
@@ -148,6 +153,15 @@
                 AA0000000000000000000016 /* NavigationCoordinator.swift */,
             );
             path = Core;
+            sourceTree = "<group>";
+        };
+        AA0000000000000000000095 /* Models */ = {
+            isa = PBXGroup;
+            children = (
+                AA0000000000000000000094 /* CloudSyncable.swift */,
+                AA0000000000000000000092 /* TripModels.swift */,
+            );
+            path = Models;
             sourceTree = "<group>";
         };
         AA0000000000000000000061 /* Features */ = {
@@ -407,6 +421,8 @@
                 AA0000000000000000000015 /* NavigationCoordinator.swift in Sources */,
                 AA0000000000000000000017 /* Theme.swift in Sources */,
                 AA0000000000000000000019 /* TripsView.swift in Sources */,
+                AA0000000000000000000091 /* TripModels.swift in Sources */,
+                AA0000000000000000000093 /* CloudSyncable.swift in Sources */,
                 AA0000000000000000000021 /* PlannerView.swift in Sources */,
                 AA0000000000000000000023 /* MapView.swift in Sources */,
                 AA000000000000000000008C /* MapViewModel.swift in Sources */,
