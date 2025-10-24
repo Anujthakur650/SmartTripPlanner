@@ -8,37 +8,37 @@ struct ContentView: View {
         TabView(selection: $navigationCoordinator.selectedTab) {
             TripsView()
                 .tabItem {
-                    Label("Trips", systemImage: "suitcase.fill")
+                    Label(L10n.Tab.trips, systemImage: "suitcase.fill")
                 }
                 .tag(NavigationTab.trips)
             
             PlannerView()
                 .tabItem {
-                    Label("Planner", systemImage: "calendar")
+                    Label(L10n.Tab.planner, systemImage: "calendar")
                 }
                 .tag(NavigationTab.planner)
             
             MapView()
                 .tabItem {
-                    Label("Map", systemImage: "map.fill")
+                    Label(L10n.Tab.map, systemImage: "map.fill")
                 }
                 .tag(NavigationTab.map)
             
             PackingView()
                 .tabItem {
-                    Label("Packing", systemImage: "checkmark.circle.fill")
+                    Label(L10n.Tab.packing, systemImage: "checkmark.circle.fill")
                 }
                 .tag(NavigationTab.packing)
             
             DocsView()
                 .tabItem {
-                    Label("Docs", systemImage: "folder.fill")
+                    Label(L10n.Tab.docs, systemImage: "folder.fill")
                 }
                 .tag(NavigationTab.docs)
             
             SettingsView()
                 .tabItem {
-                    Label("Settings", systemImage: "gear")
+                    Label(L10n.Tab.settings, systemImage: "gear")
                 }
                 .tag(NavigationTab.settings)
         }

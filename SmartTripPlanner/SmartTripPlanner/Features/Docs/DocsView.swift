@@ -9,9 +9,9 @@ struct DocsView: View {
             List {
                 if documents.isEmpty {
                     ContentUnavailableView(
-                        "No Documents",
+                        L10n.Docs.emptyTitle,
                         systemImage: "folder",
-                        description: Text("Add travel documents like passports, tickets, and reservations")
+                        description: Text(L10n.Docs.emptyDescription)
                     )
                 } else {
                     ForEach(documents) { document in
@@ -20,7 +20,7 @@ struct DocsView: View {
                     .onDelete(perform: deleteDocuments)
                 }
             }
-            .navigationTitle("Documents")
+            .navigationTitle(L10n.Docs.title)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: addDocument) {
@@ -32,7 +32,7 @@ struct DocsView: View {
     }
     
     private func addDocument() {
-        documents.append(TravelDocument(id: UUID(), name: "New Document", type: .other))
+        documents.append(TravelDocument(id: UUID(), name: L10n.Docs.newDocumentName, type: .other))
     }
     
     private func deleteDocuments(at offsets: IndexSet) {

@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 
 @MainActor
@@ -16,7 +17,16 @@ final class AnalyticsService: ObservableObject {
         case openInAppleMaps
     }
     
+    @Published var isEnabled: Bool
+    @Published var diagnosticsOptIn: Bool
+    
+    init(isEnabled: Bool = true, diagnosticsOptIn: Bool = false) {
+        self.isEnabled = isEnabled
+        self.diagnosticsOptIn = diagnosticsOptIn
+    }
+    
     func log(event name: String, metadata: [String: String]? = nil) {
+        guard isEnabled else { return }
         #if DEBUG
         if let metadata = metadata, !metadata.isEmpty {
             print("[Analytics] \(name): \(metadata)")
@@ -28,5 +38,10 @@ final class AnalyticsService: ObservableObject {
     
     func log(map event: MapAnalyticsEvent, metadata: [String: String]? = nil) {
         log(event: "map_\(event.rawValue)", metadata: metadata)
+    }
+    
+    func logDiagnostics(event name: String, metadata: [String: String]? = nil) {
+        guard diagnosticsOptIn else { return }
+        log(event: name, metadata: metadata)
     }
 }

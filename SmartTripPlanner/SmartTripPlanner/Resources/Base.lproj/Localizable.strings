@@ -1,0 +1,99 @@
+/* Tab Bar */
+"tab.trips" = "Trips";
+"tab.planner" = "Planner";
+"tab.map" = "Map";
+"tab.packing" = "Packing";
+"tab.docs" = "Docs";
+"tab.settings" = "Settings";
+
+/* Settings Sections */
+"settings.title" = "Settings";
+"settings.section.account" = "Account";
+"settings.section.privacy" = "Privacy";
+"settings.section.sync" = "Sync";
+"settings.section.data" = "Data Management";
+"settings.section.support" = "Support";
+"settings.section.about" = "About";
+"settings.section.legal" = "Legal";
+
+/* Account */
+"settings.account.signedInAs" = "Signed in as";
+"settings.account.signIn" = "Sign In with Google";
+"settings.account.signInDescription" = "Connect your account to access email import and itinerary syncing.";
+"settings.account.signOut" = "Sign Out";
+"settings.account.manageSubscriptions" = "Manage Subscriptions";
+
+/* Privacy */
+"settings.privacy.analytics" = "Allow usage analytics";
+"settings.privacy.personalization" = "Personalize travel suggestions";
+"settings.privacy.diagnostics" = "Share diagnostics";
+"settings.privacy.notifications" = "Enable SmartTrip notifications";
+"settings.privacy.notificationsDenied" = "Notifications are disabled. Enable them in Settings to receive important trip updates.";
+"settings.privacy.location" = "Use location services";
+"settings.privacy.locationDenied" = "Location access is disabled. Turn it on in Settings for nearby recommendations.";
+"settings.privacy.backgroundRefresh" = "Allow background refresh";
+"settings.privacy.openSettings" = "Open System Settings";
+"settings.privacy.footer" = "These preferences control SmartTripPlanner features only. Some permissions must also be granted in iOS Settings.";
+
+/* Sync */
+"settings.sync.icloudStatus" = "iCloud Sync";
+"settings.sync.syncNow" = "Sync Now";
+"settings.sync.status.healthy" = "Up to date";
+"settings.sync.status.syncing" = "Syncing…";
+"settings.sync.lastSynced_format" = "Last synced %@";
+
+/* Data */
+"settings.data.export" = "Export My Data";
+"settings.data.delete" = "Request Account & Data Deletion";
+"settings.data.deletionInProgress" = "Processing your deletion request…";
+"settings.data.confirmation.title" = "Delete Account and Data?";
+"settings.data.confirmation.message" = "This will sign you out and remove your SmartTripPlanner data from iCloud and your device. This action cannot be undone.";
+"settings.data.confirmation.action" = "Delete My Data";
+"settings.data.confirmation.cancel" = "Cancel";
+"settings.data.openSettings" = "Manage App Data in Settings";
+"settings.data.error" = "Something went wrong. Please try again.";
+
+/* Legal */
+"settings.legal.privacyPolicy" = "Privacy Policy";
+"settings.legal.termsOfService" = "Terms of Service";
+"settings.legal.dataSafety" = "Data Safety Summary";
+
+/* Support */
+"settings.support.rateApp" = "Rate SmartTripPlanner";
+"settings.support.contactSupport" = "Contact Support";
+"settings.support.diagnostics" = "Send Diagnostics Snapshot";
+
+/* About */
+"settings.about.website" = "Visit smarttripplanner.app";
+"settings.about.version" = "Version";
+"settings.about.version_format" = "Version %@ (%@)";
+
+/* Alerts */
+"settings.alert.signInError.title" = "Sign-in Failed";
+"settings.alert.deletionSuccess.title" = "Deletion Requested";
+"settings.alert.deletionFailure.title" = "Deletion Failed";
+"settings.alert.syncFailure.title" = "Sync Failed";
+"settings.alert.diagnosticsDisabled.title" = "Diagnostics Disabled";
+"settings.alert.diagnosticsShared.title" = "Diagnostics Shared";
+"settings.alert.dismiss" = "OK";
+"settings.alert.diagnosticsDisabled.message" = "Turn on diagnostic sharing to send a snapshot.";
+"settings.alert.diagnosticsShared.message" = "Diagnostic details were shared securely with the SmartTripPlanner team.";
+"settings.alert.syncFailure.message" = "We couldn't finish syncing. Please try again in a moment.";
+
+/* Data Deletion */
+"settings.dataDeletion.lastDeletion_format" = "Deletion requested on %@";
+"settings.dataDeletion.success_format" = "We received your deletion request on %@. We'll email you when it completes.";
+
+/* Trips */
+"trips.title" = "Trips";
+"trips.empty.title" = "No trips yet";
+"trips.empty.description" = "Start planning your next adventure.";
+"trips.addTripButton" = "Add Trip";
+"trips.newTrip.name" = "New Trip";
+"trips.newTrip.destination" = "Destination";
+
+/* Docs */
+"docs.title" = "Documents";
+"docs.empty.title" = "No documents";
+"docs.empty.description" = "Add passports, tickets, and reservation details here.";
+"docs.newDocument.name" = "New Document";

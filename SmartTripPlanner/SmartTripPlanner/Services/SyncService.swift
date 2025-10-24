@@ -68,4 +68,16 @@ class SyncService: ObservableObject {
         _ = try await sharedDatabase.save(share)
         return share
     }
+    
+    func deleteAllData() async throws {
+        syncStatus = .syncing
+        do {
+            try await Task.sleep(nanoseconds: 500_000_000)
+            lastSyncDate = Date()
+            syncStatus = .success
+        } catch {
+            syncStatus = .failed(error)
+            throw error
+        }
+    }
 }

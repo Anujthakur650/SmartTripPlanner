@@ -13,11 +13,11 @@ struct TripsView: View {
                             .font(.system(size: 64))
                             .foregroundColor(.secondary)
                         
-                        Text("No trips yet")
+                        Text(L10n.Trips.emptyStateTitle)
                             .font(.title2)
                             .fontWeight(.semibold)
                         
-                        Text("Start planning your next adventure")
+                        Text(L10n.Trips.emptyStateDescription)
                             .font(.body)
                             .foregroundColor(.secondary)
                     }
@@ -32,7 +32,7 @@ struct TripsView: View {
                     .padding()
                 }
             }
-            .navigationTitle("Trips")
+            .navigationTitle(L10n.Trips.title)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: addTrip) {
@@ -46,8 +46,8 @@ struct TripsView: View {
     private func addTrip() {
         let newTrip = Trip(
             id: UUID(),
-            name: "New Trip",
-            destination: "Destination",
+            name: L10n.Trips.newTripName,
+            destination: L10n.Trips.newTripDestination,
             startDate: Date(),
             endDate: Date().addingTimeInterval(86400 * 7)
         )

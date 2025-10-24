@@ -31,6 +31,13 @@
         AA0000000000000000000088 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000087 /* AnalyticsService.swift */; };
         AA000000000000000000008A /* MapsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000089 /* MapsModels.swift */; };
         AA000000000000000000008C /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008B /* MapViewModel.swift */; };
+        AA0000000000000000000097 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000090 /* AppDelegate.swift */; };
+        AA0000000000000000000098 /* PrivacySettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000091 /* PrivacySettingsService.swift */; };
+        AA0000000000000000000099 /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000092 /* AccountService.swift */; };
+        AA000000000000000000009A /* BackgroundRefreshService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000093 /* BackgroundRefreshService.swift */; };
+        AA000000000000000000009B /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000094 /* Localization.swift */; };
+        AA000000000000000000009C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000095 /* Localizable.strings */; };
+        AA000000000000000000009D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000096 /* PrivacyInfo.xcprivacy */; };
         AA0000000000000000000043 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000044 /* GoogleSignIn */; };
         AA0000000000000000000045 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000046 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
@@ -74,6 +81,13 @@
         AA000000000000000000008B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
         AA0000000000000000000052 /* SmartTripPlanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartTripPlanner.entitlements; sourceTree = "<group>"; };
         AA0000000000000000000053 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+        AA0000000000000000000090 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+        AA0000000000000000000091 /* PrivacySettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacySettingsService.swift; sourceTree = "<group>"; };
+        AA0000000000000000000092 /* AccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
+        AA0000000000000000000093 /* BackgroundRefreshService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRefreshService.swift; sourceTree = "<group>"; };
+        AA0000000000000000000094 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+        AA0000000000000000000095 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+        AA0000000000000000000096 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +129,7 @@
                 AA0000000000000000000060 /* Core */,
                 AA0000000000000000000061 /* Features */,
                 AA0000000000000000000062 /* Services */,
+                AA000000000000000000009E /* Resources */,
                 AA0000000000000000000063 /* UIComponents */,
                 AA0000000000000000000064 /* DesignSystem */,
                 AA0000000000000000000006 /* Assets.xcassets */,
@@ -146,6 +161,7 @@
                 AA0000000000000000000012 /* DependencyContainer.swift */,
                 AA0000000000000000000014 /* AppEnvironment.swift */,
                 AA0000000000000000000016 /* NavigationCoordinator.swift */,
+                AA0000000000000000000090 /* AppDelegate.swift */,
             );
             path = Core;
             sourceTree = "<group>";
@@ -172,6 +188,9 @@
                 AA0000000000000000000038 /* EmailService.swift */,
                 AA0000000000000000000040 /* ExportService.swift */,
                 AA0000000000000000000042 /* SyncService.swift */,
+                AA0000000000000000000091 /* PrivacySettingsService.swift */,
+                AA0000000000000000000092 /* AccountService.swift */,
+                AA0000000000000000000093 /* BackgroundRefreshService.swift */,
                 AA0000000000000000000087 /* AnalyticsService.swift */,
                 AA0000000000000000000089 /* MapsModels.swift */,
             );
@@ -248,6 +267,24 @@
                 AA0000000000000000000030 /* SettingsView.swift */,
             );
             path = Settings;
+            sourceTree = "<group>";
+        };
+        AA000000000000000000009E /* Resources */ = {
+            isa = PBXGroup;
+            children = (
+                AA0000000000000000000094 /* Localization.swift */,
+                AA000000000000000000009F /* Base.lproj */,
+                AA0000000000000000000096 /* PrivacyInfo.xcprivacy */,
+            );
+            path = Resources;
+            sourceTree = "<group>";
+        };
+        AA000000000000000000009F /* Base.lproj */ = {
+            isa = PBXGroup;
+            children = (
+                AA0000000000000000000095 /* Localizable.strings */,
+            );
+            path = Base.lproj;
             sourceTree = "<group>";
         };
 /* End PBXGroup section */
@@ -342,6 +379,8 @@
             files = (
                 AA0000000000000000000007 /* Preview Assets.xcassets in Resources */,
                 AA0000000000000000000005 /* Assets.xcassets in Resources */,
+                AA000000000000000000009C /* Localizable.strings in Resources */,
+                AA000000000000000000009D /* PrivacyInfo.xcprivacy in Resources */,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
@@ -421,6 +460,11 @@
                 AA0000000000000000000039 /* ExportService.swift in Sources */,
                 AA0000000000000000000041 /* SyncService.swift in Sources */,
                 AA0000000000000000000088 /* AnalyticsService.swift in Sources */,
+                AA0000000000000000000097 /* AppDelegate.swift in Sources */,
+                AA0000000000000000000098 /* PrivacySettingsService.swift in Sources */,
+                AA0000000000000000000099 /* AccountService.swift in Sources */,
+                AA000000000000000000009A /* BackgroundRefreshService.swift in Sources */,
+                AA000000000000000000009B /* Localization.swift in Sources */,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
