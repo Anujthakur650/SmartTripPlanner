@@ -1,8 +1,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var navigationCoordinator: NavigationCoordinator
-    @EnvironmentObject var theme: AppEnvironment
+    @EnvironmentObject private var navigationCoordinator: NavigationCoordinator
+    @EnvironmentObject private var appEnvironment: AppEnvironment
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         TabView(selection: $navigationCoordinator.selectedTab) {
@@ -42,7 +43,8 @@ struct ContentView: View {
                 }
                 .tag(NavigationTab.settings)
         }
-        .accentColor(theme.theme.primaryColor)
+        .tint(appEnvironment.theme.colors.primary.resolved(for: colorScheme))
+        .background(appEnvironment.theme.colors.background.resolved(for: colorScheme).ignoresSafeArea())
     }
 }
 

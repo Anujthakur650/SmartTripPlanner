@@ -7,8 +7,8 @@ class AppEnvironment: ObservableObject {
     @Published var isOnline: Bool = true
     @Published var isSyncing: Bool = false
     
-    init() {
-        self.theme = Theme()
+    init(theme: Theme = .minimalCalm) {
+        self.theme = theme
     }
     
     func setTheme(_ theme: Theme) {
