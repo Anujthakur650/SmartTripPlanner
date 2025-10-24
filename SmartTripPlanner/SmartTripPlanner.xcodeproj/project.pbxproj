@@ -31,6 +31,8 @@
         AA0000000000000000000088 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000087 /* AnalyticsService.swift */; };
         AA000000000000000000008A /* MapsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000089 /* MapsModels.swift */; };
         AA000000000000000000008C /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008B /* MapViewModel.swift */; };
+        AA0000000000000000000091 /* DesignSystemComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000090 /* DesignSystemComponents.swift */; };
+        AA0000000000000000000093 /* DesignSystemPreviewCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000092 /* DesignSystemPreviewCatalog.swift */; };
         AA0000000000000000000043 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000044 /* GoogleSignIn */; };
         AA0000000000000000000045 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000046 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
@@ -57,6 +59,8 @@
         AA0000000000000000000014 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
         AA0000000000000000000016 /* NavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCoordinator.swift; sourceTree = "<group>"; };
         AA0000000000000000000018 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+        AA0000000000000000000090 /* DesignSystemComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystemComponents.swift; sourceTree = "<group>"; };
+        AA0000000000000000000092 /* DesignSystemPreviewCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystemPreviewCatalog.swift; sourceTree = "<group>"; };
         AA0000000000000000000020 /* TripsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsView.swift; sourceTree = "<group>"; };
         AA0000000000000000000022 /* PlannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerView.swift; sourceTree = "<group>"; };
         AA0000000000000000000024 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -189,6 +193,8 @@
             isa = PBXGroup;
             children = (
                 AA0000000000000000000018 /* Theme.swift */,
+                AA0000000000000000000090 /* DesignSystemComponents.swift */,
+                AA0000000000000000000092 /* DesignSystemPreviewCatalog.swift */,
             );
             path = DesignSystem;
             sourceTree = "<group>";
@@ -406,6 +412,8 @@
                 AA0000000000000000000013 /* AppEnvironment.swift in Sources */,
                 AA0000000000000000000015 /* NavigationCoordinator.swift in Sources */,
                 AA0000000000000000000017 /* Theme.swift in Sources */,
+                AA0000000000000000000091 /* DesignSystemComponents.swift in Sources */,
+                AA0000000000000000000093 /* DesignSystemPreviewCatalog.swift in Sources */,
                 AA0000000000000000000019 /* TripsView.swift in Sources */,
                 AA0000000000000000000021 /* PlannerView.swift in Sources */,
                 AA0000000000000000000023 /* MapView.swift in Sources */,

@@ -1,64 +1,109 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var container: DependencyContainer
-    @EnvironmentObject var appEnvironment: AppEnvironment
+    @EnvironmentObject private var container: DependencyContainer
+    @EnvironmentObject private var appEnvironment: AppEnvironment
+    @Environment(\.colorScheme) private var colorScheme
     @State private var notificationsEnabled = true
     @State private var locationEnabled = true
     
+    private var theme: Theme { appEnvironment.theme }
+    
     var body: some View {
         NavigationStack {
-            Form {
-                Section("Preferences") {
-                    Toggle("Enable Notifications", isOn: $notificationsEnabled)
-                    Toggle("Location Services", isOn: $locationEnabled)
-                }
-                
-                Section("Sync") {
-                    HStack {
-                        Text("iCloud Sync")
-                        Spacer()
-                        if appEnvironment.isSyncing {
-                            ProgressView()
-                        } else {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(.green)
+            ScrollView {
+                VStack(alignment: .leading, spacing: theme.spacing.l) {
+                    SectionHeader(
+                        title: "Preferences",
+                        caption: "Tailor SmartTrip Planner to your workflow"
+                    )
+                    Card(style: .standard) {
+                        VStack(spacing: theme.spacing.m) {
+                            FormToggleRow(
+                                title: "Enable notifications",
+                                isOn: $notificationsEnabled,
+                                helper: "Receive gentle nudges for itinerary tasks"
+                            )
+                            FormToggleRow(
+                                title: "Share location",
+                                isOn: $locationEnabled,
+                                helper: "Used to surface relevant places and weather"
+                            )
                         }
                     }
-                    
-                    Button("Sync Now") {
-                        Task {
-                            await performSync()
+                    SectionHeader(
+                        title: "Sync & account",
+                        caption: "Keep everything backed up and current"
+                    )
+                    Card(style: .standard) {
+                        VStack(alignment: .leading, spacing: theme.spacing.m) {
+                            if appEnvironment.isSyncing {
+                                LoadingStateView(message: "Syncing your data…")
+                            } else {
+                                ListRow(
+                                    icon: "icloud",
+                                    title: "iCloud sync",
+                                    subtitle: "Last synced moments ago",
+                                    tagText: "Active",
+                                    tagStyle: .success
+                                ) {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                            AppButton(
+                                title: appEnvironment.isSyncing ? "Syncing" : "Sync now",
+                                style: .tinted,
+                                isLoading: appEnvironment.isSyncing,
+                                action: triggerSync
+                            )
                         }
                     }
-                }
-                
-                Section("About") {
-                    HStack {
-                        Text("Version")
-                        Spacer()
-                        Text("1.0.0")
-                            .foregroundColor(.secondary)
+                    SectionHeader(
+                        title: "About",
+                        caption: "Transparency builds trust"
+                    )
+                    Card(style: .standard) {
+                        VStack(spacing: theme.spacing.m) {
+                            ListRow(
+                                icon: "number",
+                                title: "Version",
+                                subtitle: "1.0.0"
+                            )
+                            ListRow(
+                                icon: "lock.doc",
+                                title: "Privacy policy",
+                                subtitle: "Understand how we protect your data"
+                            ) {
+                                Image(systemName: "arrow.up.right.square")
+                            }
+                            ListRow(
+                                icon: "doc.text",
+                                title: "Terms of service",
+                                subtitle: "Review the agreement"
+                            ) {
+                                Image(systemName: "arrow.up.right.square")
+                            }
+                        }
                     }
-                    
-                    Link("Privacy Policy", destination: URL(string: "https://example.com/privacy")!)
-                    Link("Terms of Service", destination: URL(string: "https://example.com/terms")!)
+                    AppButton(title: "Sign out", style: .destructive, action: signOut)
                 }
-                
-                Section {
-                    Button("Sign Out", role: .destructive) {
-                        signOut()
-                    }
-                }
+                .padding(.horizontal, theme.spacing.l)
+                .padding(.vertical, theme.spacing.l)
             }
+            .background(theme.colors.background.resolved(for: colorScheme))
             .navigationTitle("Settings")
         }
     }
     
-    private func performSync() async {
+    private func triggerSync() {
+        guard !appEnvironment.isSyncing else { return }
         appEnvironment.isSyncing = true
-        try? await Task.sleep(nanoseconds: 2_000_000_000)
-        appEnvironment.isSyncing = false
+        Task {
+            try? await Task.sleep(nanoseconds: 2_000_000_000)
+            await MainActor.run {
+                appEnvironment.isSyncing = false
+            }
+        }
     }
     
     private func signOut() {

@@ -169,13 +169,13 @@ struct MapView: View {
                 .frame(maxWidth: .infinity)
             } else {
                 if !viewModel.searchResults.isEmpty {
-                    sectionHeader("Search Results")
+                    SectionHeader(title: "Search Results")
                     ForEach(viewModel.searchResults) { place in
                         placeRow(for: place)
                     }
                 }
                 if !viewModel.savedPlaces.isEmpty {
-                    sectionHeader("Saved Places")
+                    SectionHeader(title: "Saved Places")
                     ForEach(viewModel.savedPlaces) { place in
                         placeRow(for: place)
                     }
@@ -208,7 +208,7 @@ struct MapView: View {
     private var savedRoutesSection: some View {
         Group {
             if !viewModel.savedRoutes.isEmpty {
-                sectionHeader("Saved Routes")
+                SectionHeader(title: "Saved Routes")
                     .padding(.top, 8)
                 ForEach(viewModel.savedRoutes) { route in
                     SavedRouteRow(route: route) {
@@ -250,32 +250,27 @@ struct MapView: View {
     }
     
     private func placeRow(for place: Place) -> some View {
-        Button {
+        let tagDetails: (String, TagLabel.Style)? = {
+            if let summary = place.association?.summary {
+                return (summary, .info)
+            }
+            if place.isBookmarked {
+                return ("Saved", .primary)
+            }
+            return nil
+        }()
+        return Button {
             select(place: place, center: true)
         } label: {
-            HStack(alignment: .top, spacing: 12) {
-                Image(systemName: place.isBookmarked ? "bookmark.fill" : "mappin.circle")
-                    .foregroundColor(place.isBookmarked ? .accentColor : .secondary)
-                    .font(.title3)
-                    .padding(.top, 2)
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(place.name)
-                        .font(.body.weight(.semibold))
-                        .multilineTextAlignment(.leading)
-                        .foregroundColor(.primary)
-                    Text(place.addressDescription)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    if let association = place.association?.summary {
-                        Label(association, systemImage: "calendar")
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                Spacer()
+            ListRow(
+                icon: place.isBookmarked ? "bookmark.fill" : "mappin.circle",
+                title: place.name,
+                subtitle: place.addressDescription,
+                tagText: tagDetails?.0,
+                tagStyle: tagDetails?.1
+            ) {
+                Image(systemName: "chevron.right")
             }
-            .padding(12)
-            .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
         }
         .buttonStyle(.plain)
         .contextMenu {
@@ -292,92 +287,99 @@ struct MapView: View {
     }
     
     private func placeDetailCard(for place: Place) -> some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(place.name)
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                    if !place.addressDescription.isEmpty {
-                        Text(place.addressDescription)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+        let theme = appEnvironment.theme
+        return VStack(spacing: theme.spacing.m) {
+            MapCard(
+                title: place.name,
+                subtitle: place.addressDescription.isEmpty ? nil : place.addressDescription,
+                coordinate: place.coordinate.locationCoordinate,
+                footnote: place.association?.summary ?? contactSummary(for: place),
+                tags: tags(for: place),
+                actionTitle: "Add to trip",
+                action: { editingPlace = place }
+            )
+            Card(style: .standard) {
+                VStack(alignment: .leading, spacing: theme.spacing.m) {
+                    HStack(spacing: theme.spacing.s) {
+                        AppButton(
+                            title: place.isBookmarked ? "Saved" : "Save place",
+                            style: place.isBookmarked ? .primary : .secondary,
+                            fillWidth: false,
+                            action: { viewModel.toggleBookmark(for: place) }
+                        )
+                        AppButton(
+                            title: "Open in Maps",
+                            style: .ghost,
+                            fillWidth: false,
+                            action: viewModel.openSelectedPlaceInMaps
+                        )
                     }
-                    if let association = place.association?.summary {
-                        Label(association, systemImage: "calendar")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                    Picker("Mode", selection: $viewModel.selectedMode) {
+                        ForEach(TransportMode.allCases) { mode in
+                            Label(mode.displayName, systemImage: mode.systemImage).tag(mode)
+                        }
                     }
-                }
-                Spacer()
-                Button {
-                    editingPlace = place
-                } label: {
-                    Label("Add to Trip", systemImage: "plus")
-                }
-                .buttonStyle(.bordered)
-            }
-            
-            HStack(spacing: 12) {
-                Button {
-                    viewModel.toggleBookmark(for: place)
-                } label: {
-                    Label(place.isBookmarked ? "Bookmarked" : "Bookmark", systemImage: place.isBookmarked ? "bookmark.fill" : "bookmark")
-                        .font(.subheadline)
-                }
-                .buttonStyle(.bordered)
-                
-                Button(action: viewModel.openSelectedPlaceInMaps) {
-                    Label("Open in Maps", systemImage: "arrow.up.right.square")
-                        .font(.subheadline)
-                }
-                .buttonStyle(.bordered)
-            }
-            
-            Picker("Mode", selection: $viewModel.selectedMode) {
-                ForEach(TransportMode.allCases) { mode in
-                    Label(mode.displayName, systemImage: mode.systemImage).tag(mode)
-                }
-            }
-            .pickerStyle(.segmented)
-            
-            VStack(alignment: .leading, spacing: 8) {
-                if let origin = viewModel.routeOrigin {
-                    Label("From: \(origin.name)", systemImage: "mappin")
-                        .font(.footnote)
-                }
-                HStack {
-                    Button("Use Current Location", action: viewModel.useCurrentLocationAsOrigin)
-                    Spacer()
-                    Button("Clear Start") {
-                        viewModel.routeOrigin = nil
+                    .pickerStyle(.segmented)
+                    if let origin = viewModel.routeOrigin {
+                        ListRow(
+                            icon: "mappin.and.ellipse",
+                            title: origin.name,
+                            subtitle: "Route origin"
+                        )
                     }
-                    .disabled(viewModel.routeOrigin == nil)
+                    HStack(spacing: theme.spacing.s) {
+                        AppButton(
+                            title: "Use current location",
+                            style: .ghost,
+                            fillWidth: false,
+                            action: viewModel.useCurrentLocationAsOrigin
+                        )
+                        AppButton(
+                            title: "Clear start",
+                            style: .ghost,
+                            fillWidth: false,
+                            isDisabled: viewModel.routeOrigin == nil,
+                            action: { viewModel.routeOrigin = nil }
+                        )
+                    }
+                    AppButton(
+                        title: "Get directions",
+                        style: .primary,
+                        isLoading: viewModel.isRouting,
+                        isDisabled: viewModel.isRouting,
+                        action: viewModel.routeToSelectedPlace
+                    )
                 }
-                .font(.footnote)
-            }
-            
-            Button(action: viewModel.routeToSelectedPlace) {
-                Label("Get Directions", systemImage: "arrow.triangle.turn.up.right.diamond.fill")
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.borderedProminent)
-            .disabled(viewModel.isRouting)
-            
-            if viewModel.isRouting {
-                ProgressView("Calculating route…")
-                    .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 16).fill(Color(.systemBackground)))
-        .shadow(radius: 4, y: 2)
     }
     
-    private func sectionHeader(_ title: String) -> some View {
-        Text(title)
-            .font(.headline)
-            .frame(maxWidth: .infinity, alignment: .leading)
+    private func tags(for place: Place) -> [MapCard.TagInfo] {
+        var items: [MapCard.TagInfo] = []
+        if place.isBookmarked {
+            items.append(.init(text: "Saved", style: .primary))
+        }
+        if let category = place.category, !category.isEmpty {
+            items.append(.init(text: normalizedCategory(category), style: .info))
+        }
+        if let urlHost = place.url?.host, !urlHost.isEmpty {
+            items.append(.init(text: urlHost, style: .neutral))
+        }
+        return items
+    }
+    
+    private func contactSummary(for place: Place) -> String? {
+        if let phone = place.phoneNumber, !phone.isEmpty {
+            return "Call \(phone)"
+        }
+        if let url = place.url?.absoluteString {
+            return url
+        }
+        return nil
+    }
+    
+    private func normalizedCategory(_ category: String) -> String {
+        category.replacingOccurrences(of: "_", with: " ").capitalized
     }
     
     private func infoBanner(text: String) -> some View {
