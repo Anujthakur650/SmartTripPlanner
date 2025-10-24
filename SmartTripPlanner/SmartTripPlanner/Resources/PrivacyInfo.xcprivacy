@@ -1,0 +1,46 @@
+{
+  "version": "1.0",
+  "tracking": [],
+  "collection": [
+    {
+      "identifier": "NSPrivacyCollectedDataTypeEmailAddress",
+      "description": "Email addresses are used to sign in, sync travel documents, and send account notifications.",
+      "optional": true,
+      "purpose": [
+        "NSPrivacyCollectedDataTypePurposeAppFunctionality",
+        "NSPrivacyCollectedDataTypePurposeAnalytics"
+      ]
+    },
+    {
+      "identifier": "NSPrivacyCollectedDataTypePreciseLocation",
+      "description": "Location data powers nearby recommendations, live navigation, and weather insights for trips.",
+      "optional": true,
+      "purpose": [
+        "NSPrivacyCollectedDataTypePurposeAppFunctionality"
+      ]
+    },
+    {
+      "identifier": "NSPrivacyCollectedDataTypeCalendarEvents",
+      "description": "Calendar access lets SmartTripPlanner keep your itinerary in sync across devices.",
+      "optional": true,
+      "purpose": [
+        "NSPrivacyCollectedDataTypePurposeAppFunctionality"
+      ]
+    },
+    {
+      "identifier": "NSPrivacyCollectedDataTypeDiagnostics",
+      "description": "Anonymous diagnostics help us resolve crashes and improve performance when you opt in.",
+      "optional": true,
+      "purpose": [
+        "NSPrivacyCollectedDataTypePurposeAnalytics"
+      ]
+    }
+  ],
+  "dataCategories": [
+    { "identifier": "NSPrivacyCollectedDataCategoryContactInfo" },
+    { "identifier": "NSPrivacyCollectedDataCategoryLocation" },
+    { "identifier": "NSPrivacyCollectedDataCategoryIdentifiers" },
+    { "identifier": "NSPrivacyCollectedDataCategoryDiagnostics" }
+  ],
+  "accessedAPITypes": []
+}

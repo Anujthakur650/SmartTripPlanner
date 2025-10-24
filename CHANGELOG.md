@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial project setup with SwiftUI and iOS 17+ support
 - Core architecture with dependency injection
 - Tab-based navigation system
+- Privacy manifest with data collection disclosures and refreshed Info.plist usage descriptions
+- Background refresh scheduling service and AppDelegate bootstrap for BGTask registration
+- Expanded settings experience with privacy controls, data deletion workflow, and legal resources
+- Base localization infrastructure (Localizable.strings and string helper utilities)
+- App Store submission checklist documentation
 - Feature modules:
   - Trips: Trip management and organization
   - Planner: Itinerary planning with calendar integration

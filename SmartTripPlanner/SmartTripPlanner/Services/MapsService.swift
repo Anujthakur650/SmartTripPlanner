@@ -322,6 +322,21 @@ final class MapsService: NSObject, ObservableObject {
         })
     }
     
+    func purgeLocalData() {
+        searchTask?.cancel()
+        routingTask?.cancel()
+        searchCache.removeAll()
+        lastSearchKey = nil
+        lastRouteRequest = nil
+        currentRoute = nil
+        alternativeRoutes = []
+        offlineFallbackRoute = nil
+        savedPlaces = []
+        savedRoutes = []
+        try? FileManager.default.removeItem(at: placesURL)
+        try? FileManager.default.removeItem(at: routesURL)
+    }
+    
     // MARK: - Private helpers
     
     private func routeSnapshot(from route: MKRoute) -> RouteSnapshot {
