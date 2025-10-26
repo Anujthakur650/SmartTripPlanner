@@ -1,6 +1,7 @@
 import Foundation
 import MapKit
 import CoreLocation
+import UIKit
 
 @MainActor
 final class MapsService: NSObject, ObservableObject {
@@ -64,10 +65,12 @@ final class MapsService: NSObject, ObservableObject {
     @Published private(set) var lastRoutingError: MapServiceError?
     @Published private(set) var offlineFallbackRoute: SavedRoute?
     @Published private(set) var currentTransportMode: TransportMode = .driving
+    @Published private(set) var offlineSnapshotIdentifiers: Set<String> = []
     
     private let locationManager = CLLocationManager()
     private let searchCompleter = MKLocalSearchCompleter()
     private let analyticsService: AnalyticsService
+    private let offlineCache: OfflineMapCaching
     
     private var searchTask: Task<Void, Never>?
     private var routingTask: Task<Void, Never>?
@@ -92,8 +95,9 @@ final class MapsService: NSObject, ObservableObject {
     private let placesURL: URL
     private let routesURL: URL
     
-    init(analyticsService: AnalyticsService) {
+    init(analyticsService: AnalyticsService, offlineCache: OfflineMapCaching = OfflineMapCache()) {
         self.analyticsService = analyticsService
+        self.offlineCache = offlineCache
         let directory: URL
         if let appSupport = try? FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true) {
             directory = appSupport.appendingPathComponent("Maps", isDirectory: true)
@@ -118,6 +122,32 @@ final class MapsService: NSObject, ObservableObject {
         persistenceLoaded = true
         loadSavedPlaces()
         loadSavedRoutes()
+    }
+    
+    func downloadOfflineMaps(for trip: Trip, places: [Place], span: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.18, longitudeDelta: 0.18)) async {
+        await offlineCache.prewarm(for: trip, places: places, span: span)
+        offlineSnapshotIdentifiers = expectedOfflineIdentifiers(for: trip, places: places)
+        analyticsService.log(map: .offlineTilesDownloaded, metadata: ["trip": trip.name, "count": "\(offlineSnapshotIdentifiers.count)"])
+    }
+    
+    func cachedSnapshot(for place: Place) -> UIImage? {
+        offlineCache.image(for: place.coordinateKey)
+    }
+    
+    func cachedSnapshotForReservationOrigin(_ reservation: TravelReservation) -> UIImage? {
+        offlineCache.image(for: reservationCacheIdentifier(reservation, suffix: "origin"))
+    }
+    
+    func cachedSnapshotForReservationDestination(_ reservation: TravelReservation) -> UIImage? {
+        offlineCache.image(for: reservationCacheIdentifier(reservation, suffix: "destination"))
+    }
+    
+    func clearOfflineMaps(olderThan days: Int) {
+        guard let date = Calendar.current.date(byAdding: .day, value: -days, to: Date()) else { return }
+        offlineCache.clearExpired(olderThan: date)
+        offlineSnapshotIdentifiers = offlineSnapshotIdentifiers.filter { identifier in
+            cachedImagesContains(identifier: identifier)
+        }
     }
     
     func updateSearchSuggestions(for fragment: String) {
@@ -320,6 +350,30 @@ final class MapsService: NSObject, ObservableObject {
             route.from.coordinateKey == source.coordinateKey &&
             route.to.coordinateKey == destination.coordinateKey
         })
+    }
+    
+    private func expectedOfflineIdentifiers(for trip: Trip, places: [Place]) -> Set<String> {
+        var identifiers: Set<String> = []
+        for place in places where !place.coordinateKey.isEmpty {
+            identifiers.insert(place.coordinateKey)
+        }
+        for reservation in trip.reservations {
+            if reservation.origin?.coordinate != nil {
+                identifiers.insert(reservationCacheIdentifier(reservation, suffix: "origin"))
+            }
+            if reservation.destination?.coordinate != nil {
+                identifiers.insert(reservationCacheIdentifier(reservation, suffix: "destination"))
+            }
+        }
+        return identifiers
+    }
+    
+    private func reservationCacheIdentifier(_ reservation: TravelReservation, suffix: String) -> String {
+        "reservation-\(reservation.id.uuidString)-\(suffix)"
+    }
+    
+    private func cachedImagesContains(identifier: String) -> Bool {
+        offlineCache.image(for: identifier) != nil
     }
     
     // MARK: - Private helpers

@@ -55,14 +55,6 @@ struct TripsView: View {
     }
 }
 
-struct Trip: Identifiable {
-    let id: UUID
-    var name: String
-    var destination: String
-    var startDate: Date
-    var endDate: Date
-}
-
 struct TripCard: View {
     let trip: Trip
     @EnvironmentObject var theme: AppEnvironment
