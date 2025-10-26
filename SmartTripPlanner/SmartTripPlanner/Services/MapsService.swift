@@ -64,10 +64,12 @@ final class MapsService: NSObject, ObservableObject {
     @Published private(set) var lastRoutingError: MapServiceError?
     @Published private(set) var offlineFallbackRoute: SavedRoute?
     @Published private(set) var currentTransportMode: TransportMode = .driving
+    @Published private(set) var offlineSnapshots: [UUID: URL] = [:]
     
     private let locationManager = CLLocationManager()
     private let searchCompleter = MKLocalSearchCompleter()
     private let analyticsService: AnalyticsService
+    private let offlineCache: OfflineMapCache
     
     private var searchTask: Task<Void, Never>?
     private var routingTask: Task<Void, Never>?
@@ -92,8 +94,9 @@ final class MapsService: NSObject, ObservableObject {
     private let placesURL: URL
     private let routesURL: URL
     
-    init(analyticsService: AnalyticsService) {
+    init(analyticsService: AnalyticsService, offlineCache: OfflineMapCache = OfflineMapCache()) {
         self.analyticsService = analyticsService
+        self.offlineCache = offlineCache
         let directory: URL
         if let appSupport = try? FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true) {
             directory = appSupport.appendingPathComponent("Maps", isDirectory: true)
@@ -282,6 +285,15 @@ final class MapsService: NSObject, ObservableObject {
             savedPlaces[index].isBookmarked.toggle()
             analyticsService.log(map: .placeBookmarkToggled, metadata: ["state": savedPlaces[index].isBookmarked ? "bookmarked" : "unbookmarked"])
             persistPlaces()
+            if savedPlaces[index].isBookmarked {
+                scheduleSnapshot(for: savedPlaces[index])
+            } else {
+                offlineSnapshots.removeValue(forKey: savedPlaces[index].id)
+                Task { [weak self] in
+                    guard let self else { return }
+                    await self.offlineCache.removeSnapshot(for: savedPlaces[index])
+                }
+            }
             return
         }
         var newPlace = place
@@ -304,6 +316,7 @@ final class MapsService: NSObject, ObservableObject {
         }
         savedPlaces.sort { $0.createdAt > $1.createdAt }
         persistPlaces()
+        scheduleSnapshot(for: updatedPlace)
         analyticsService.log(map: .placeSaved, metadata: ["name": updatedPlace.name])
     }
     
@@ -311,6 +324,13 @@ final class MapsService: NSObject, ObservableObject {
         if let index = savedPlaces.firstIndex(where: { $0.id == place.id }) {
             savedPlaces.remove(at: index)
             persistPlaces()
+            Task { [weak self] in
+                guard let self else { return }
+                await self.offlineCache.removeSnapshot(for: place)
+                await MainActor.run {
+                    self.offlineSnapshots.removeValue(forKey: place.id)
+                }
+            }
         }
     }
     
@@ -368,6 +388,20 @@ final class MapsService: NSObject, ObservableObject {
         guard let data = try? Data(contentsOf: placesURL) else { return }
         if let places = try? decoder.decode([Place].self, from: data) {
             savedPlaces = places
+            Task { [weak self] in
+                guard let self else { return }
+                var snapshotMap: [UUID: URL] = [:]
+                for place in places {
+                    if let existing = await self.offlineCache.snapshotURL(for: place) {
+                        snapshotMap[place.id] = existing
+                    } else if let generated = try? await self.offlineCache.ensureSnapshot(for: place) {
+                        snapshotMap[place.id] = generated
+                    }
+                }
+                await MainActor.run {
+                    self.offlineSnapshots = snapshotMap
+                }
+            }
         }
     }
     
@@ -386,6 +420,20 @@ final class MapsService: NSObject, ObservableObject {
     private func persistRoutes() {
         guard let data = try? encoder.encode(savedRoutes) else { return }
         try? data.write(to: routesURL)
+    }
+    
+    private func scheduleSnapshot(for place: Place) {
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                let url = try await self.offlineCache.ensureSnapshot(for: place)
+                await MainActor.run {
+                    self.offlineSnapshots[place.id] = url
+                }
+            } catch {
+                self.analyticsService.log(event: "offline_snapshot_failed", metadata: ["reason": error.localizedDescription])
+            }
+        }
     }
 }
 
