@@ -1,5 +1,6 @@
 import SwiftUI
 import MapKit
+import UIKit
 
 struct MapView: View {
     @EnvironmentObject private var container: DependencyContainer
@@ -74,25 +75,38 @@ struct MapView: View {
     }
     
     private var mapSection: some View {
-        Map(position: $position, interactionModes: .all, showsUserLocation: true, selection: $mapSelection) {
-            if let primaryRoute = viewModel.currentRoute {
-                MapPolyline(primaryRoute.polyline)
-                    .stroke(.blue, lineWidth: 5)
+        ZStack {
+            Map(position: $position, interactionModes: .all, showsUserLocation: true, selection: $mapSelection) {
+                if let primaryRoute = viewModel.currentRoute {
+                    MapPolyline(primaryRoute.polyline)
+                        .stroke(.blue, lineWidth: 5)
+                }
+                ForEach(Array(viewModel.alternativeRoutes.enumerated()), id: \.offset) { _, route in
+                    MapPolyline(route.polyline)
+                        .stroke(.blue.opacity(0.4), style: StrokeStyle(lineWidth: 3, dash: [6]))
+                }
+                ForEach(viewModel.displayedPlaces) { place in
+                    Marker(place.name, coordinate: place.coordinate.locationCoordinate)
+                        .tint(place.id == viewModel.selectedPlace?.id ? .red : .accentColor)
+                        .tag(place.id)
+                }
             }
-            ForEach(Array(viewModel.alternativeRoutes.enumerated()), id: \.offset) { _, route in
-                MapPolyline(route.polyline)
-                    .stroke(.blue.opacity(0.4), style: StrokeStyle(lineWidth: 3, dash: [6]))
+            .mapStyle(.standard)
+            .onChange(of: mapSelection) { newValue in
+                guard let id = newValue, let place = place(with: id) else { return }
+                select(place: place, center: false)
             }
-            ForEach(viewModel.displayedPlaces) { place in
-                Marker(place.name, coordinate: place.coordinate.locationCoordinate)
-                    .tint(place.id == viewModel.selectedPlace?.id ? .red : .accentColor)
-                    .tag(place.id)
+            if !appEnvironment.isOnline,
+               let snapshotURL = viewModel.cachedSnapshotURL,
+               let snapshot = UIImage(contentsOfFile: snapshotURL.path) {
+                Image(uiImage: snapshot)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .clipped()
+                    .allowsHitTesting(false)
+                    .transition(.opacity)
             }
-        }
-        .mapStyle(.standard)
-        .onChange(of: mapSelection) { newValue in
-            guard let id = newValue, let place = place(with: id) else { return }
-            select(place: place, center: false)
         }
     }
     

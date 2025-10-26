@@ -31,6 +31,14 @@
         AA0000000000000000000088 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000087 /* AnalyticsService.swift */; };
         AA000000000000000000008A /* MapsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000089 /* MapsModels.swift */; };
         AA000000000000000000008C /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008B /* MapViewModel.swift */; };
+        AA0000000000000000000092 /* OfflineMapCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000091 /* OfflineMapCache.swift */; };
+        AA0000000000000000000094 /* TravelReservationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000093 /* TravelReservationParser.swift */; };
+        AA0000000000000000000096 /* DocumentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000095 /* DocumentStore.swift */; };
+        AA0000000000000000000098 /* String+Sanitized.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000097 /* String+Sanitized.swift */; };
+        AA000000000000000000009A /* WeatherServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000099 /* WeatherServiceTests.swift */; };
+        AA000000000000000000009C /* EmailServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000009B /* EmailServiceTests.swift */; };
+        AA000000000000000000009E /* MapsServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000009D /* MapsServiceTests.swift */; };
+        AA00000000000000000000A0 /* DocumentStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000009F /* DocumentStoreTests.swift */; };
         AA0000000000000000000043 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000044 /* GoogleSignIn */; };
         AA0000000000000000000045 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000046 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
@@ -72,6 +80,14 @@
         AA0000000000000000000087 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
         AA0000000000000000000089 /* MapsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsModels.swift; sourceTree = "<group>"; };
         AA000000000000000000008B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+        AA0000000000000000000091 /* OfflineMapCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineMapCache.swift; sourceTree = "<group>"; };
+        AA0000000000000000000093 /* TravelReservationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelReservationParser.swift; sourceTree = "<group>"; };
+        AA0000000000000000000095 /* DocumentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentStore.swift; sourceTree = "<group>"; };
+        AA0000000000000000000097 /* String+Sanitized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Sanitized.swift"; sourceTree = "<group>"; };
+        AA0000000000000000000099 /* WeatherServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherServiceTests.swift; sourceTree = "<group>"; };
+        AA000000000000000000009B /* EmailServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailServiceTests.swift; sourceTree = "<group>"; };
+        AA000000000000000000009D /* MapsServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsServiceTests.swift; sourceTree = "<group>"; };
+        AA000000000000000000009F /* DocumentStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentStoreTests.swift; sourceTree = "<group>"; };
         AA0000000000000000000052 /* SmartTripPlanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartTripPlanner.entitlements; sourceTree = "<group>"; };
         AA0000000000000000000053 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +143,10 @@
             isa = PBXGroup;
             children = (
                 AA0000000000000000000010 /* SmartTripPlannerTests.swift */,
+                AA0000000000000000000099 /* WeatherServiceTests.swift */,
+                AA000000000000000000009B /* EmailServiceTests.swift */,
+                AA000000000000000000009D /* MapsServiceTests.swift */,
+                AA000000000000000000009F /* DocumentStoreTests.swift */,
             );
             path = SmartTripPlannerTests;
             sourceTree = "<group>";
@@ -146,6 +166,7 @@
                 AA0000000000000000000012 /* DependencyContainer.swift */,
                 AA0000000000000000000014 /* AppEnvironment.swift */,
                 AA0000000000000000000016 /* NavigationCoordinator.swift */,
+                AA0000000000000000000097 /* String+Sanitized.swift */,
             );
             path = Core;
             sourceTree = "<group>";
@@ -171,6 +192,9 @@
                 AA0000000000000000000036 /* CalendarService.swift */,
                 AA0000000000000000000038 /* EmailService.swift */,
                 AA0000000000000000000040 /* ExportService.swift */,
+                AA0000000000000000000093 /* TravelReservationParser.swift */,
+                AA0000000000000000000091 /* OfflineMapCache.swift */,
+                AA0000000000000000000095 /* DocumentStore.swift */,
                 AA0000000000000000000042 /* SyncService.swift */,
                 AA0000000000000000000087 /* AnalyticsService.swift */,
                 AA0000000000000000000089 /* MapsModels.swift */,
@@ -405,6 +429,7 @@
                 AA0000000000000000000011 /* DependencyContainer.swift in Sources */,
                 AA0000000000000000000013 /* AppEnvironment.swift in Sources */,
                 AA0000000000000000000015 /* NavigationCoordinator.swift in Sources */,
+                AA0000000000000000000098 /* String+Sanitized.swift in Sources */,
                 AA0000000000000000000017 /* Theme.swift in Sources */,
                 AA0000000000000000000019 /* TripsView.swift in Sources */,
                 AA0000000000000000000021 /* PlannerView.swift in Sources */,
@@ -419,6 +444,9 @@
                 AA0000000000000000000035 /* CalendarService.swift in Sources */,
                 AA0000000000000000000037 /* EmailService.swift in Sources */,
                 AA0000000000000000000039 /* ExportService.swift in Sources */,
+                AA0000000000000000000094 /* TravelReservationParser.swift in Sources */,
+                AA0000000000000000000092 /* OfflineMapCache.swift in Sources */,
+                AA0000000000000000000096 /* DocumentStore.swift in Sources */,
                 AA0000000000000000000041 /* SyncService.swift in Sources */,
                 AA0000000000000000000088 /* AnalyticsService.swift in Sources */,
             );
@@ -429,6 +457,10 @@
             buildActionMask = 2147483647;
             files = (
                 AA0000000000000000000009 /* SmartTripPlannerTests.swift in Sources */,
+                AA000000000000000000009A /* WeatherServiceTests.swift in Sources */,
+                AA000000000000000000009C /* EmailServiceTests.swift in Sources */,
+                AA000000000000000000009E /* MapsServiceTests.swift in Sources */,
+                AA00000000000000000000A0 /* DocumentStoreTests.swift in Sources */,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };

@@ -40,12 +40,12 @@ struct DocsView: View {
     }
 }
 
-struct TravelDocument: Identifiable {
+struct TravelDocument: Identifiable, Codable {
     let id: UUID
     var name: String
     var type: DocumentType
     
-    enum DocumentType {
+    enum DocumentType: String, Codable, CaseIterable {
         case passport
         case ticket
         case reservation

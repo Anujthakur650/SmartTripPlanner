@@ -64,6 +64,7 @@ final class MapsService: NSObject, ObservableObject {
     @Published private(set) var lastRoutingError: MapServiceError?
     @Published private(set) var offlineFallbackRoute: SavedRoute?
     @Published private(set) var currentTransportMode: TransportMode = .driving
+    @Published private(set) var cachedSnapshotURL: URL?
     
     private let locationManager = CLLocationManager()
     private let searchCompleter = MKLocalSearchCompleter()
@@ -75,6 +76,8 @@ final class MapsService: NSObject, ObservableObject {
     private var lastSearchKey: SearchCacheKey?
     private var lastRouteRequest: RouteRequest?
     private var persistenceLoaded = false
+    
+    private let offlineMapCache = OfflineMapCache()
     
     private let encoder: JSONEncoder = {
         let encoder = JSONEncoder()
@@ -194,12 +197,14 @@ final class MapsService: NSObject, ObservableObject {
         currentTransportMode = mode
         lastRoutingError = nil
         offlineFallbackRoute = nil
+        cachedSnapshotURL = nil
         lastRouteRequest = RouteRequest(source: source, destination: destination, mode: mode, includeAlternatives: includeAlternatives)
         
         guard isOnline else {
             isRouting = false
             let fallback = savedRoute(from: source, to: destination, mode: mode)
             offlineFallbackRoute = fallback
+            cachedSnapshotURL = await offlineMapCache.getCachedSnapshot(for: destination.coordinate.locationCoordinate)
             lastRoutingError = .offline
             analyticsService.log(map: .routeFailed, metadata: ["mode": mode.rawValue, "reason": "offline"])
             return
@@ -272,6 +277,25 @@ final class MapsService: NSObject, ObservableObject {
         MKMapItem.openMaps(with: [source.makeMapItem(), destination.makeMapItem()], launchOptions: launchOptions)
     }
     
+    func cacheSnapshot(for place: Place, radius: CLLocationDistance = 2_000) {
+        Task { [weak self] in
+            guard let self else { return }
+            do {
+                try await self.offlineMapCache.cacheMapSnapshot(for: place.coordinate.locationCoordinate, radius: radius)
+                let cachedURL = await self.offlineMapCache.getCachedSnapshot(for: place.coordinate.locationCoordinate)
+                await MainActor.run {
+                    self.cachedSnapshotURL = cachedURL
+                }
+            } catch {
+                // Snapshot caching is best-effort; ignore failures for now.
+            }
+        }
+    }
+    
+    func cachedSnapshot(for place: Place) async -> URL? {
+        await offlineMapCache.getCachedSnapshot(for: place.coordinate.locationCoordinate)
+    }
+    
     func requestLocationPermission() {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
@@ -304,6 +328,7 @@ final class MapsService: NSObject, ObservableObject {
         }
         savedPlaces.sort { $0.createdAt > $1.createdAt }
         persistPlaces()
+        cacheSnapshot(for: updatedPlace)
         analyticsService.log(map: .placeSaved, metadata: ["name": updatedPlace.name])
     }
     
