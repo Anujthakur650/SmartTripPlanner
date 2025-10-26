@@ -13,6 +13,7 @@ class DependencyContainer: ObservableObject {
     let exportService: ExportService
     let dataController: TripDataController
     let syncService: SyncService
+    let tripsRepository: TripsRepository
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -27,6 +28,7 @@ class DependencyContainer: ObservableObject {
         let dataController = TripDataController()
         self.dataController = dataController
         self.syncService = SyncService(coordinator: dataController.syncCoordinator)
+        self.tripsRepository = TripsRepository()
         self.syncService.scheduleBackgroundSync()
         self.syncService.$isOnline
             .receive(on: RunLoop.main)
