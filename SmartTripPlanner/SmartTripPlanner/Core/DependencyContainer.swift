@@ -13,13 +13,22 @@ class DependencyContainer: ObservableObject {
     let syncService: SyncService
     
     init() {
-        self.appEnvironment = AppEnvironment()
-        self.analyticsService = AnalyticsService()
-        self.weatherService = WeatherService()
-        self.mapsService = MapsService(analyticsService: analyticsService)
-        self.calendarService = CalendarService()
-        self.emailService = EmailService()
-        self.exportService = ExportService()
-        self.syncService = SyncService()
+        let analyticsService = AnalyticsService()
+        let appEnvironment = AppEnvironment()
+        let weatherService = WeatherService()
+        let mapsService = MapsService(analyticsService: analyticsService)
+        let calendarService = CalendarService()
+        let syncService = SyncService()
+        let emailService = EmailService(syncService: syncService)
+        let exportService = ExportService()
+        
+        self.analyticsService = analyticsService
+        self.appEnvironment = appEnvironment
+        self.weatherService = weatherService
+        self.mapsService = mapsService
+        self.calendarService = calendarService
+        self.syncService = syncService
+        self.emailService = emailService
+        self.exportService = exportService
     }
 }

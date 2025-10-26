@@ -45,7 +45,6 @@ struct TripsView: View {
     
     private func addTrip() {
         let newTrip = Trip(
-            id: UUID(),
             name: "New Trip",
             destination: "Destination",
             startDate: Date(),
@@ -55,12 +54,36 @@ struct TripsView: View {
     }
 }
 
-struct Trip: Identifiable {
+struct Trip: Identifiable, Codable {
     let id: UUID
     var name: String
     var destination: String
     var startDate: Date
     var endDate: Date
+    var itineraryItems: [ItineraryItem]
+    
+    init(id: UUID = UUID(), name: String, destination: String, startDate: Date, endDate: Date, itineraryItems: [ItineraryItem] = []) {
+        self.id = id
+        self.name = name
+        self.destination = destination
+        self.startDate = startDate
+        self.endDate = endDate
+        self.itineraryItems = itineraryItems
+    }
+}
+
+struct ItineraryItem: Identifiable, Codable {
+    let id: UUID
+    var title: String
+    var startTime: Date
+    var location: Coordinate?
+    
+    init(id: UUID = UUID(), title: String, startTime: Date, location: Coordinate? = nil) {
+        self.id = id
+        self.title = title
+        self.startTime = startTime
+        self.location = location
+    }
 }
 
 struct TripCard: View {
