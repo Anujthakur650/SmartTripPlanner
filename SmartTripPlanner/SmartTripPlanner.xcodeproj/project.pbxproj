@@ -31,6 +31,29 @@
         AA0000000000000000000088 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000087 /* AnalyticsService.swift */; };
         AA000000000000000000008A /* MapsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000089 /* MapsModels.swift */; };
         AA000000000000000000008C /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008B /* MapViewModel.swift */; };
+AA0000000000000000000098 /* TripDataSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000091 /* TripDataSchema.swift */; };
+AA0000000000000000000099 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000092 /* DataController.swift */; };
+AA000000000000000000009A /* SyncCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000093 /* SyncCoordinator.swift */; };
+AA000000000000000000009B /* CloudKitAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000094 /* CloudKitAdapter.swift */; };
+AA000000000000000000009C /* Repositories.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000095 /* Repositories.swift */; };
+AA000000000000000000009D /* TripDataPreviewHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000096 /* TripDataPreviewHarness.swift */; };
+AA000000000000000000009E /* TripDataPersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000097 /* TripDataPersistenceTests.swift */; };
+AA00000000000000000000B0 /* TripModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A0 /* TripModels.swift */; };
+AA00000000000000000000B1 /* ICSParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A1 /* ICSParser.swift */; };
+AA00000000000000000000B2 /* TripsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A2 /* TripsRepository.swift */; };
+AA00000000000000000000B3 /* TripDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A3 /* TripDraft.swift */; };
+AA00000000000000000000B4 /* TripsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A4 /* TripsViewModel.swift */; };
+AA00000000000000000000B5 /* TripRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A5 /* TripRowView.swift */; };
+AA00000000000000000000B6 /* TripDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A6 /* TripDetailView.swift */; };
+AA00000000000000000000B7 /* TripCreationWizard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A7 /* TripCreationWizard.swift */; };
+AA00000000000000000000B8 /* TripsRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A8 /* TripsRepositoryTests.swift */; };
+3CD672A3DC5543A1918B3F54 /* Date+Planner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A96F7539A5B4F47A0340001 /* Date+Planner.swift */; };
+87A2A436059640979DA01C91 /* DayPlannerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC03040EC244F2293478D5E /* DayPlannerModels.swift */; };
+847A79616D884C8CA00E0B54 /* QuickAddSuggestionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4830F75AA8489A92A31623 /* QuickAddSuggestionProvider.swift */; };
+34C866B4AB3E4403A9C94107 /* DayPlannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A74750E01BC4170B206CA30 /* DayPlannerViewModel.swift */; };
+04D7FCA83A004EEDB2D1780D /* PlannerRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9D82668ABA4199BBFA3226 /* PlannerRepository.swift */; };
+7B0ADE2E085849CB9CE77933 /* HapticFeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1F8662D83E41E4AFCD2901 /* HapticFeedbackService.swift */; };
+A3EB13FC8EF14F16B71AB467 /* DayPlannerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9309A2E6364789BBD204EA /* DayPlannerViewModelTests.swift */; };
         AA0000000000000000000043 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000044 /* GoogleSignIn */; };
         AA0000000000000000000045 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000046 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
@@ -53,6 +76,7 @@
         AA0000000000000000000008 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
         AA0000000000000000000051 /* SmartTripPlannerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartTripPlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
         AA0000000000000000000010 /* SmartTripPlannerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartTripPlannerTests.swift; sourceTree = "<group>"; };
+        AA00000000000000000000A8 /* TripsRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsRepositoryTests.swift; sourceTree = "<group>"; };
         AA0000000000000000000012 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
         AA0000000000000000000014 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
         AA0000000000000000000016 /* NavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCoordinator.swift; sourceTree = "<group>"; };
@@ -72,8 +96,30 @@
         AA0000000000000000000087 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
         AA0000000000000000000089 /* MapsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsModels.swift; sourceTree = "<group>"; };
         AA000000000000000000008B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+AA0000000000000000000091 /* TripDataSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDataSchema.swift; sourceTree = "<group>"; };
+AA0000000000000000000092 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+AA0000000000000000000093 /* SyncCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncCoordinator.swift; sourceTree = "<group>"; };
+AA0000000000000000000094 /* CloudKitAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitAdapter.swift; sourceTree = "<group>"; };
+AA0000000000000000000095 /* Repositories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repositories.swift; sourceTree = "<group>"; };
+AA0000000000000000000096 /* TripDataPreviewHarness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDataPreviewHarness.swift; sourceTree = "<group>"; };
+AA0000000000000000000097 /* TripDataPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDataPersistenceTests.swift; sourceTree = "<group>"; };
+6A96F7539A5B4F47A0340001 /* Date+Planner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Planner.swift"; sourceTree = "<group>"; };
+2DC03040EC244F2293478D5E /* DayPlannerModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayPlannerModels.swift; sourceTree = "<group>"; };
+5D4830F75AA8489A92A31623 /* QuickAddSuggestionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddSuggestionProvider.swift; sourceTree = "<group>"; };
+1A74750E01BC4170B206CA30 /* DayPlannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayPlannerViewModel.swift; sourceTree = "<group>"; };
+BD9D82668ABA4199BBFA3226 /* PlannerRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerRepository.swift; sourceTree = "<group>"; };
+3F1F8662D83E41E4AFCD2901 /* HapticFeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedbackService.swift; sourceTree = "<group>"; };
+FE9309A2E6364789BBD204EA /* DayPlannerViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayPlannerViewModelTests.swift; sourceTree = "<group>"; };
         AA0000000000000000000052 /* SmartTripPlanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartTripPlanner.entitlements; sourceTree = "<group>"; };
         AA0000000000000000000053 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+        AA00000000000000000000A0 /* TripModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripModels.swift; sourceTree = "<group>"; };
+        AA00000000000000000000A1 /* ICSParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICSParser.swift; sourceTree = "<group>"; };
+        AA00000000000000000000A2 /* TripsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsRepository.swift; sourceTree = "<group>"; };
+        AA00000000000000000000A3 /* TripDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDraft.swift; sourceTree = "<group>"; };
+        AA00000000000000000000A4 /* TripsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsViewModel.swift; sourceTree = "<group>"; };
+        AA00000000000000000000A5 /* TripRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRowView.swift; sourceTree = "<group>"; };
+        AA00000000000000000000A6 /* TripDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailView.swift; sourceTree = "<group>"; };
+        AA00000000000000000000A7 /* TripCreationWizard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCreationWizard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +161,8 @@
                 AA0000000000000000000060 /* Core */,
                 AA0000000000000000000061 /* Features */,
                 AA0000000000000000000062 /* Services */,
+                AA000000000000000000009A /* Persistence */,
+                AA000000000000000000009B /* DeveloperSupport */,
                 AA0000000000000000000063 /* UIComponents */,
                 AA0000000000000000000064 /* DesignSystem */,
                 AA0000000000000000000006 /* Assets.xcassets */,
@@ -127,6 +175,9 @@
             isa = PBXGroup;
             children = (
                 AA0000000000000000000010 /* SmartTripPlannerTests.swift */,
+                AA0000000000000000000097 /* TripDataPersistenceTests.swift */,
+                AA00000000000000000000A8 /* TripsRepositoryTests.swift */,
+                FE9309A2E6364789BBD204EA /* DayPlannerViewModelTests.swift */,
             );
             path = SmartTripPlannerTests;
             sourceTree = "<group>";
@@ -146,6 +197,7 @@
                 AA0000000000000000000012 /* DependencyContainer.swift */,
                 AA0000000000000000000014 /* AppEnvironment.swift */,
                 AA0000000000000000000016 /* NavigationCoordinator.swift */,
+                3785654FAEC74E30A0736563 /* Extensions */,
             );
             path = Core;
             sourceTree = "<group>";
@@ -166,16 +218,29 @@
         AA0000000000000000000062 /* Services */ = {
             isa = PBXGroup;
             children = (
+                AA00000000000000000000C0 /* Trips */,
                 AA0000000000000000000032 /* WeatherService.swift */,
                 AA0000000000000000000034 /* MapsService.swift */,
                 AA0000000000000000000036 /* CalendarService.swift */,
                 AA0000000000000000000038 /* EmailService.swift */,
                 AA0000000000000000000040 /* ExportService.swift */,
                 AA0000000000000000000042 /* SyncService.swift */,
+                BD9D82668ABA4199BBFA3226 /* PlannerRepository.swift */,
+                3F1F8662D83E41E4AFCD2901 /* HapticFeedbackService.swift */,
                 AA0000000000000000000087 /* AnalyticsService.swift */,
                 AA0000000000000000000089 /* MapsModels.swift */,
             );
             path = Services;
+            sourceTree = "<group>";
+        };
+        AA00000000000000000000C0 /* Trips */ = {
+            isa = PBXGroup;
+            children = (
+                AA00000000000000000000A0 /* TripModels.swift */,
+                AA00000000000000000000A1 /* ICSParser.swift */,
+                AA00000000000000000000A2 /* TripsRepository.swift */,
+            );
+            path = Trips;
             sourceTree = "<group>";
         };
         AA0000000000000000000063 /* UIComponents */ = {
@@ -193,6 +258,34 @@
             path = DesignSystem;
             sourceTree = "<group>";
         };
+AA000000000000000000009A /* Persistence */ = {
+isa = PBXGroup;
+children = (
+AA0000000000000000000091 /* TripDataSchema.swift */,
+AA0000000000000000000092 /* DataController.swift */,
+AA0000000000000000000093 /* SyncCoordinator.swift */,
+AA0000000000000000000094 /* CloudKitAdapter.swift */,
+AA0000000000000000000095 /* Repositories.swift */,
+);
+path = Persistence;
+sourceTree = "<group>";
+};
+AA000000000000000000009B /* DeveloperSupport */ = {
+isa = PBXGroup;
+children = (
+AA0000000000000000000096 /* TripDataPreviewHarness.swift */,
+);
+path = DeveloperSupport;
+sourceTree = "<group>";
+};
+3785654FAEC74E30A0736563 /* Extensions */ = {
+isa = PBXGroup;
+children = (
+6A96F7539A5B4F47A0340001 /* Date+Planner.swift */,
+);
+path = Extensions;
+sourceTree = "<group>";
+};
         AA0000000000000000000065 /* Preview Content */ = {
             isa = PBXGroup;
             children = (
@@ -205,6 +298,11 @@
             isa = PBXGroup;
             children = (
                 AA0000000000000000000020 /* TripsView.swift */,
+                AA00000000000000000000A4 /* TripsViewModel.swift */,
+                AA00000000000000000000A3 /* TripDraft.swift */,
+                AA00000000000000000000A5 /* TripRowView.swift */,
+                AA00000000000000000000A6 /* TripDetailView.swift */,
+                AA00000000000000000000A7 /* TripCreationWizard.swift */,
             );
             path = Trips;
             sourceTree = "<group>";
@@ -213,6 +311,9 @@
             isa = PBXGroup;
             children = (
                 AA0000000000000000000022 /* PlannerView.swift */,
+                2DC03040EC244F2293478D5E /* DayPlannerModels.swift */,
+                1A74750E01BC4170B206CA30 /* DayPlannerViewModel.swift */,
+                5D4830F75AA8489A92A31623 /* QuickAddSuggestionProvider.swift */,
             );
             path = Planner;
             sourceTree = "<group>";
@@ -420,7 +521,27 @@
                 AA0000000000000000000037 /* EmailService.swift in Sources */,
                 AA0000000000000000000039 /* ExportService.swift in Sources */,
                 AA0000000000000000000041 /* SyncService.swift in Sources */,
+                AA0000000000000000000098 /* TripDataSchema.swift in Sources */,
+                AA0000000000000000000099 /* DataController.swift in Sources */,
+                AA000000000000000000009A /* SyncCoordinator.swift in Sources */,
+                AA000000000000000000009B /* CloudKitAdapter.swift in Sources */,
+                AA000000000000000000009C /* Repositories.swift in Sources */,
+                AA000000000000000000009D /* TripDataPreviewHarness.swift in Sources */,
+                3CD672A3DC5543A1918B3F54 /* Date+Planner.swift in Sources */,
+                87A2A436059640979DA01C91 /* DayPlannerModels.swift in Sources */,
+                34C866B4AB3E4403A9C94107 /* DayPlannerViewModel.swift in Sources */,
+                847A79616D884C8CA00E0B54 /* QuickAddSuggestionProvider.swift in Sources */,
+                04D7FCA83A004EEDB2D1780D /* PlannerRepository.swift in Sources */,
+                7B0ADE2E085849CB9CE77933 /* HapticFeedbackService.swift in Sources */,
                 AA0000000000000000000088 /* AnalyticsService.swift in Sources */,
+                AA00000000000000000000B0 /* TripModels.swift in Sources */,
+                AA00000000000000000000B1 /* ICSParser.swift in Sources */,
+                AA00000000000000000000B2 /* TripsRepository.swift in Sources */,
+                AA00000000000000000000B3 /* TripDraft.swift in Sources */,
+                AA00000000000000000000B4 /* TripsViewModel.swift in Sources */,
+                AA00000000000000000000B5 /* TripRowView.swift in Sources */,
+                AA00000000000000000000B6 /* TripDetailView.swift in Sources */,
+                AA00000000000000000000B7 /* TripCreationWizard.swift in Sources */,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };
@@ -429,6 +550,9 @@
             buildActionMask = 2147483647;
             files = (
                 AA0000000000000000000009 /* SmartTripPlannerTests.swift in Sources */,
+                AA000000000000000000009E /* TripDataPersistenceTests.swift in Sources */,
+                AA00000000000000000000B8 /* TripsRepositoryTests.swift in Sources */,
+                A3EB13FC8EF14F16B71AB467 /* DayPlannerViewModelTests.swift in Sources */,
             );
             runOnlyForDeploymentPostprocessing = 0;
         };

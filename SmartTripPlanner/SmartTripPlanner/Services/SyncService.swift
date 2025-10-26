@@ -1,71 +1,60 @@
 import Foundation
-import CloudKit
+import Combine
 
 @MainActor
-class SyncService: ObservableObject {
-    private let privateDatabase = CKContainer.default().privateCloudDatabase
-    private let sharedDatabase = CKContainer.default().sharedCloudDatabase
-    
-    @Published var syncStatus: SyncStatus = .idle
-    @Published var lastSyncDate: Date?
-    
+final class SyncService: ObservableObject {
     enum SyncStatus {
         case idle
         case syncing
         case success
         case failed(Error)
     }
-    
-    func syncToCloud<T: Encodable>(data: T, recordType: String, recordID: String) async throws {
-        syncStatus = .syncing
-        
-        do {
-            let recordID = CKRecord.ID(recordName: recordID)
-            let record = CKRecord(recordType: recordType, recordID: recordID)
-            
-            let encoder = JSONEncoder()
-            let jsonData = try encoder.encode(data)
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                record["data"] = jsonString as CKRecordValue
+
+    @Published private(set) var syncStatus: SyncStatus = .idle
+    @Published private(set) var lastSyncDate: Date?
+    @Published var isOnline: Bool {
+        didSet {
+            if isOnline != oldValue {
+                coordinator.setOnline(isOnline)
             }
-            
-            _ = try await privateDatabase.save(record)
-            
-            lastSyncDate = Date()
-            syncStatus = .success
-        } catch {
-            syncStatus = .failed(error)
-            throw error
         }
     }
-    
-    func fetchFromCloud(recordType: String, recordID: String) async throws -> CKRecord {
-        let recordID = CKRecord.ID(recordName: recordID)
-        return try await privateDatabase.record(for: recordID)
+
+    private let coordinator: TripSyncCoordinator
+    private var cancellables = Set<AnyCancellable>()
+
+    init(coordinator: TripSyncCoordinator) {
+        self.coordinator = coordinator
+        self.isOnline = coordinator.isOnline
+
+        coordinator.$lastSuccessfulSync
+            .receive(on: RunLoop.main)
+            .sink { [weak self] value in
+                self?.lastSyncDate = value
+            }
+            .store(in: &cancellables)
+
+        coordinator.$isOnline
+            .receive(on: RunLoop.main)
+            .sink { [weak self] value in
+                self?.isOnline = value
+            }
+            .store(in: &cancellables)
     }
-    
-    func deleteFromCloud(recordType: String, recordID: String) async throws {
-        let recordID = CKRecord.ID(recordName: recordID)
-        _ = try await privateDatabase.deleteRecord(withID: recordID)
-    }
-    
-    func syncAllData() async throws {
+
+    func synchronizeNow() async {
         syncStatus = .syncing
-        
         do {
-            lastSyncDate = Date()
+            try await coordinator.processPendingChanges()
+            try await coordinator.flushOutboxIfNeeded()
+            await coordinator.performPull()
             syncStatus = .success
         } catch {
             syncStatus = .failed(error)
-            throw error
         }
     }
-    
-    func shareRecord(_ record: CKRecord) async throws -> CKShare {
-        let share = CKShare(rootRecord: record)
-        share[CKShare.SystemFieldKey.title] = "Shared Trip" as CKRecordValue
-        
-        _ = try await sharedDatabase.save(share)
-        return share
+
+    func scheduleBackgroundSync(interval: TimeInterval = 180) {
+        coordinator.scheduleBackgroundSync(interval: interval)
     }
 }
