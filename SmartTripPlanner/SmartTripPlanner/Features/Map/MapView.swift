@@ -1,5 +1,6 @@
 import SwiftUI
 import MapKit
+import UIKit
 
 struct MapView: View {
     @EnvironmentObject private var container: DependencyContainer
@@ -316,6 +317,22 @@ struct MapView: View {
                     Label("Add to Trip", systemImage: "plus")
                 }
                 .buttonStyle(.bordered)
+            }
+            
+            if !appEnvironment.isOnline, let snapshotURL = viewModel.offlineSnapshotURL(for: place), let snapshotImage = UIImage(contentsOfFile: snapshotURL.path) {
+                Image(uiImage: snapshotImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity)
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    .overlay(alignment: .bottomTrailing) {
+                        Label("Offline Snapshot", systemImage: "icloud.slash")
+                            .font(.caption2)
+                            .padding(6)
+                            .background(.ultraThinMaterial)
+                            .clipShape(Capsule())
+                            .padding(8)
+                    }
             }
             
             HStack(spacing: 12) {

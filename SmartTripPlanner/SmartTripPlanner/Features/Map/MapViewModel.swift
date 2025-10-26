@@ -23,6 +23,7 @@ final class MapViewModel: ObservableObject {
     @Published private(set) var routingError: ServiceError?
     @Published private(set) var offlineFallbackRoute: SavedRoute?
     @Published private(set) var currentLocation: CLLocationCoordinate2D?
+    @Published private(set) var offlineSnapshots: [UUID: URL] = [:]
     @Published var presentedError: ServiceError?
     @Published var infoMessage: String?
     
@@ -215,6 +216,10 @@ final class MapViewModel: ObservableObject {
         !savedPlaces.isEmpty || !savedRoutes.isEmpty
     }
     
+    func offlineSnapshotURL(for place: Place) -> URL? {
+        offlineSnapshots[place.id]
+    }
+    
     private var currentLocationPlace: Place? {
         guard let coordinate = currentLocation else { return nil }
         return Place(
@@ -328,6 +333,10 @@ final class MapViewModel: ObservableObject {
         mapsService.$offlineFallbackRoute
             .receive(on: RunLoop.main)
             .sink { [weak self] in self?.offlineFallbackRoute = $0 }
+            .store(in: &cancellables)
+        mapsService.$offlineSnapshots
+            .receive(on: RunLoop.main)
+            .sink { [weak self] in self?.offlineSnapshots = $0 }
             .store(in: &cancellables)
     }
 }
