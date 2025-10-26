@@ -25,6 +25,55 @@ class ExportService: ObservableObject {
         return tempURL
     }
     
+    func exportGPX(trip: Trip) throws -> URL {
+        let gpxContent = generateGPX(for: trip)
+        let filename = "\(trip.name.sanitized())-\(Date().ISO8601Format()).gpx"
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
+        try gpxContent.write(to: url, atomically: true, encoding: .utf8)
+        return url
+    }
+    
+    private func generateGPX(for trip: Trip) -> String {
+        var gpx = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        gpx += "<gpx version=\"1.1\" creator=\"SmartTripPlanner\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n"
+        gpx += "  <metadata>\n"
+        gpx += "    <name>\(trip.name)</name>\n"
+        if let startDate = trip.startDate {
+            gpx += "    <time>\(startDate.ISO8601Format())</time>\n"
+        }
+        gpx += "  </metadata>\n"
+        
+        for item in trip.itineraryItems {
+            if let location = item.location {
+                gpx += "  <wpt lat=\"\(location.latitude)\" lon=\"\(location.longitude)\">\n"
+                gpx += "    <name>\(item.title)</name>\n"
+                if let time = item.startTime {
+                    gpx += "    <time>\(time.ISO8601Format())</time>\n"
+                }
+                gpx += "  </wpt>\n"
+            }
+        }
+        
+        gpx += "</gpx>\n"
+        return gpx
+    }
+    
+    func shareExports(for trip: Trip, exportedURLs: [URL]) async throws {
+        guard let windowScene = await UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let rootViewController = await windowScene.windows.first?.rootViewController else {
+            throw NSError(domain: "ExportService", code: -1, userInfo: [NSLocalizedDescriptionKey: "No root view controller"])
+        }
+        
+        let gpxURL = try? exportGPX(trip: trip)
+        var activityItems: [Any] = exportedURLs.map { $0 }
+        if let gpxURL {
+            activityItems.append(gpxURL)
+        }
+        
+        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        rootViewController.present(activityViewController, animated: true)
+    }
+    
     func shareFile(at url: URL) async throws {
         guard let windowScene = await UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let rootViewController = await windowScene.windows.first?.rootViewController else {
@@ -62,5 +111,15 @@ class ExportService: ObservableObject {
         }
         
         return data
+    }
+}
+
+private extension String {
+    func sanitized() -> String {
+        let invalidCharacters = CharacterSet(charactersIn: "/\\?%*|\"<>:")
+        let components = self.components(separatedBy: invalidCharacters)
+        let sanitized = components.filter { !$0.isEmpty }.joined(separator: "-")
+        let collapsedWhitespace = sanitized.replacingOccurrences(of: "[\\s_]+", with: "-", options: .regularExpression)
+        return collapsedWhitespace.trimmingCharacters(in: CharacterSet(charactersIn: "-"))
     }
 }

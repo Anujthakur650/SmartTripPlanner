@@ -55,12 +55,46 @@ struct TripsView: View {
     }
 }
 
-struct Trip: Identifiable {
+struct Trip: Identifiable, Codable {
+    struct Location: Codable {
+        var latitude: Double
+        var longitude: Double
+    }
+    
+    struct ItineraryItem: Identifiable, Codable {
+        let id: UUID
+        var title: String
+        var startTime: Date?
+        var location: Location?
+        
+        init(id: UUID = UUID(), title: String, startTime: Date? = nil, location: Location? = nil) {
+            self.id = id
+            self.title = title
+            self.startTime = startTime
+            self.location = location
+        }
+    }
+    
     let id: UUID
     var name: String
     var destination: String
-    var startDate: Date
-    var endDate: Date
+    var startDate: Date?
+    var endDate: Date?
+    var itineraryItems: [ItineraryItem]
+    
+    init(id: UUID,
+         name: String,
+         destination: String,
+         startDate: Date? = nil,
+         endDate: Date? = nil,
+         itineraryItems: [ItineraryItem] = []) {
+        self.id = id
+        self.name = name
+        self.destination = destination
+        self.startDate = startDate
+        self.endDate = endDate
+        self.itineraryItems = itineraryItems
+    }
 }
 
 struct TripCard: View {
@@ -79,11 +113,34 @@ struct TripCard: View {
                     .font(.subheadline)
             }
             
-            HStack {
-                Image(systemName: "calendar")
-                    .foregroundColor(theme.theme.secondaryColor)
-                Text("\(trip.startDate.formatted(date: .abbreviated, time: .omitted)) - \(trip.endDate.formatted(date: .abbreviated, time: .omitted))")
-                    .font(.caption)
+            if let startDate = trip.startDate, let endDate = trip.endDate {
+                HStack {
+                    Image(systemName: "calendar")
+                        .foregroundColor(theme.theme.secondaryColor)
+                    Text("\(startDate.formatted(date: .abbreviated, time: .omitted)) - \(endDate.formatted(date: .abbreviated, time: .omitted))")
+                        .font(.caption)
+                }
+            } else if let startDate = trip.startDate {
+                HStack {
+                    Image(systemName: "calendar")
+                        .foregroundColor(theme.theme.secondaryColor)
+                    Text(startDate.formatted(date: .abbreviated, time: .omitted))
+                        .font(.caption)
+                }
+            } else if let endDate = trip.endDate {
+                HStack {
+                    Image(systemName: "calendar")
+                        .foregroundColor(theme.theme.secondaryColor)
+                    Text(endDate.formatted(date: .abbreviated, time: .omitted))
+                        .font(.caption)
+                }
+            } else {
+                HStack {
+                    Image(systemName: "calendar")
+                        .foregroundColor(theme.theme.secondaryColor)
+                    Text("Dates TBD")
+                        .font(.caption)
+                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
