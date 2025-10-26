@@ -72,8 +72,10 @@ struct MapView: View {
             }
         }
     }
-    
-    private var mapSection: some View {
+}
+
+private extension MapView {
+    var mapSection: some View {
         Map(position: $position, interactionModes: .all, showsUserLocation: true, selection: $mapSelection) {
             if let primaryRoute = viewModel.currentRoute {
                 MapPolyline(primaryRoute.polyline)
@@ -96,7 +98,7 @@ struct MapView: View {
         }
     }
     
-    private var searchControls: some View {
+    var searchControls: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 12) {
                 TextField("Search for places or addresses", text: $viewModel.searchText)
@@ -124,7 +126,7 @@ struct MapView: View {
         }
     }
     
-    private var suggestionsSection: some View {
+    var suggestionsSection: some View {
         Group {
             if !viewModel.suggestions.isEmpty && !viewModel.searchText.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
@@ -155,7 +157,7 @@ struct MapView: View {
         }
     }
     
-    private var placesSection: some View {
+    var placesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             if viewModel.isSearching {
                 ProgressView("Searching for places…")
@@ -184,7 +186,7 @@ struct MapView: View {
         }
     }
     
-    private var routesSection: some View {
+    var routesSection: some View {
         Group {
             if let route = viewModel.currentRoute, let destination = viewModel.selectedPlace {
                 RouteSummaryView(
@@ -205,7 +207,7 @@ struct MapView: View {
         }
     }
     
-    private var savedRoutesSection: some View {
+    var savedRoutesSection: some View {
         Group {
             if !viewModel.savedRoutes.isEmpty {
                 sectionHeader("Saved Routes")
@@ -225,7 +227,7 @@ struct MapView: View {
         }
     }
     
-    private var categoryChips: some View {
+    var categoryChips: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 ForEach(MapCategory.allCases) { category in
@@ -249,7 +251,7 @@ struct MapView: View {
         }
     }
     
-    private func placeRow(for place: Place) -> some View {
+    func placeRow(for place: Place) -> some View {
         Button {
             select(place: place, center: true)
         } label: {
@@ -291,7 +293,7 @@ struct MapView: View {
         }
     }
     
-    private func placeDetailCard(for place: Place) -> some View {
+    func placeDetailCard(for place: Place) -> some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 6) {
@@ -374,13 +376,13 @@ struct MapView: View {
         .shadow(radius: 4, y: 2)
     }
     
-    private func sectionHeader(_ title: String) -> some View {
+    func sectionHeader(_ title: String) -> some View {
         Text(title)
             .font(.headline)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
     
-    private func infoBanner(text: String) -> some View {
+    func infoBanner(text: String) -> some View {
         Text(text)
             .font(.footnote)
             .foregroundColor(.white)
@@ -389,7 +391,7 @@ struct MapView: View {
             .background(Color.accentColor.opacity(0.85))
     }
     
-    private func alert(for error: MapsService.MapServiceError) -> Alert {
+    func alert(for error: MapsService.MapServiceError) -> Alert {
         switch error {
         case .offline:
             return Alert(
@@ -409,7 +411,7 @@ struct MapView: View {
         }
     }
     
-    private func centerMap() {
+    func centerMap() {
         if let place = viewModel.selectedPlace {
             center(on: place)
             mapSelection = place.id
@@ -422,13 +424,13 @@ struct MapView: View {
         }
     }
     
-    private func center(on place: Place) {
+    func center(on place: Place) {
         let coordinate = place.coordinate.locationCoordinate
         let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
         position = .region(region)
     }
     
-    private func select(place: Place, center shouldCenter: Bool) {
+    func select(place: Place, center shouldCenter: Bool) {
         viewModel.selectPlace(place)
         mapSelection = place.id
         if shouldCenter {
@@ -436,7 +438,7 @@ struct MapView: View {
         }
     }
     
-    private func place(with id: Place.ID) -> Place? {
+    func place(with id: Place.ID) -> Place? {
         viewModel.displayedPlaces.first(where: { $0.id == id })
     }
 }
