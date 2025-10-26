@@ -619,7 +619,7 @@
             };
             name = Debug;
         };
-        AA0000000000000000000087 /* Release */ = {
+        8807A849F1814A9CB6BADFCE /* Release */ = {
             isa = XCBuildConfiguration;
             buildSettings = {
                 ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -658,7 +658,7 @@
             };
             name = Release;
         };
-        AA0000000000000000000088 /* Debug */ = {
+        C92A8E9BF14D4D94A45D356D /* Debug */ = {
             isa = XCBuildConfiguration;
             buildSettings = {
                 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -681,7 +681,7 @@
             };
             name = Debug;
         };
-        AA0000000000000000000089 /* Release */ = {
+        121362EB92634F31B77D38DC /* Release */ = {
             isa = XCBuildConfiguration;
             buildSettings = {
                 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
@@ -711,7 +711,7 @@
             isa = XCConfigurationList;
             buildConfigurations = (
                 AA0000000000000000000086 /* Debug */,
-                AA0000000000000000000087 /* Release */,
+                8807A849F1814A9CB6BADFCE /* Release */,
             );
             defaultConfigurationIsVisible = 0;
             defaultConfigurationName = Release;
@@ -719,8 +719,8 @@
         AA0000000000000000000078 /* Build configuration list for PBXNativeTarget "SmartTripPlannerTests" */ = {
             isa = XCConfigurationList;
             buildConfigurations = (
-                AA0000000000000000000088 /* Debug */,
-                AA0000000000000000000089 /* Release */,
+                C92A8E9BF14D4D94A45D356D /* Debug */,
+                121362EB92634F31B77D38DC /* Release */,
             );
             defaultConfigurationIsVisible = 0;
             defaultConfigurationName = Release;
