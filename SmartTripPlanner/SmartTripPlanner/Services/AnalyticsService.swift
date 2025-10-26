@@ -14,6 +14,7 @@ final class AnalyticsService: ObservableObject {
         case routeFailed
         case routeSaved
         case openInAppleMaps
+        case offlineTilesDownloaded
     }
     
     func log(event name: String, metadata: [String: String]? = nil) {

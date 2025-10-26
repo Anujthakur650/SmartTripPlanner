@@ -31,6 +31,19 @@
         AA0000000000000000000088 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000087 /* AnalyticsService.swift */; };
         AA000000000000000000008A /* MapsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000089 /* MapsModels.swift */; };
         AA000000000000000000008C /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008B /* MapViewModel.swift */; };
+        AA0000000000000000000101 /* TripModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000201 /* TripModels.swift */; };
+        AA0000000000000000000102 /* TravelReservationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000202 /* TravelReservationParser.swift */; };
+        AA0000000000000000000103 /* GmailClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000203 /* GmailClient.swift */; };
+        AA0000000000000000000104 /* TravelDocumentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000204 /* TravelDocumentModel.swift */; };
+        AA0000000000000000000105 /* DocumentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000205 /* DocumentStore.swift */; };
+        AA0000000000000000000106 /* DocumentMetadataEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000206 /* DocumentMetadataEditor.swift */; };
+        AA0000000000000000000107 /* DocumentScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000207 /* DocumentScannerView.swift */; };
+        AA0000000000000000000108 /* DocsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000208 /* DocsViewModel.swift */; };
+        AA0000000000000000000109 /* WeatherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000209 /* WeatherModels.swift */; };
+        AA000000000000000000010A /* WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000020A /* WeatherProvider.swift */; };
+        AA000000000000000000010B /* TripWeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000020B /* TripWeatherViewModel.swift */; };
+        AA000000000000000000010C /* TripWeatherPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000020C /* TripWeatherPanel.swift */; };
+        AA000000000000000000010D /* OfflineMapCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000020D /* OfflineMapCache.swift */; };
         AA0000000000000000000043 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000044 /* GoogleSignIn */; };
         AA0000000000000000000045 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000046 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
@@ -72,6 +85,19 @@
         AA0000000000000000000087 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
         AA0000000000000000000089 /* MapsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsModels.swift; sourceTree = "<group>"; };
         AA000000000000000000008B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+        AA0000000000000000000201 /* TripModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripModels.swift; sourceTree = "<group>"; };
+        AA0000000000000000000202 /* TravelReservationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelReservationParser.swift; sourceTree = "<group>"; };
+        AA0000000000000000000203 /* GmailClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GmailClient.swift; sourceTree = "<group>"; };
+        AA0000000000000000000204 /* TravelDocumentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDocumentModel.swift; sourceTree = "<group>"; };
+        AA0000000000000000000205 /* DocumentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentStore.swift; sourceTree = "<group>"; };
+        AA0000000000000000000206 /* DocumentMetadataEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentMetadataEditor.swift; sourceTree = "<group>"; };
+        AA0000000000000000000207 /* DocumentScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentScannerView.swift; sourceTree = "<group>"; };
+        AA0000000000000000000208 /* DocsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsViewModel.swift; sourceTree = "<group>"; };
+        AA0000000000000000000209 /* WeatherModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModels.swift; sourceTree = "<group>"; };
+        AA000000000000000000020A /* WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
+        AA000000000000000000020B /* TripWeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripWeatherViewModel.swift; sourceTree = "<group>"; };
+        AA000000000000000000020C /* TripWeatherPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripWeatherPanel.swift; sourceTree = "<group>"; };
+        AA000000000000000000020D /* OfflineMapCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineMapCache.swift; sourceTree = "<group>"; };
         AA0000000000000000000052 /* SmartTripPlanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartTripPlanner.entitlements; sourceTree = "<group>"; };
         AA0000000000000000000053 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,6 +141,10 @@
                 AA0000000000000000000060 /* Core */,
                 AA0000000000000000000061 /* Features */,
                 AA0000000000000000000062 /* Services */,
+                AA000000000000000000020E /* Models */,
+                AA000000000000000000020F /* Docs */,
+                AA0000000000000000000210 /* Weather */,
+                AA0000000000000000000211 /* OfflineMaps */,
                 AA0000000000000000000063 /* UIComponents */,
                 AA0000000000000000000064 /* DesignSystem */,
                 AA0000000000000000000006 /* Assets.xcassets */,
@@ -170,6 +200,8 @@
                 AA0000000000000000000034 /* MapsService.swift */,
                 AA0000000000000000000036 /* CalendarService.swift */,
                 AA0000000000000000000038 /* EmailService.swift */,
+                AA0000000000000000000203 /* GmailClient.swift */,
+                AA0000000000000000000202 /* TravelReservationParser.swift */,
                 AA0000000000000000000040 /* ExportService.swift */,
                 AA0000000000000000000042 /* SyncService.swift */,
                 AA0000000000000000000087 /* AnalyticsService.swift */,
@@ -191,6 +223,45 @@
                 AA0000000000000000000018 /* Theme.swift */,
             );
             path = DesignSystem;
+            sourceTree = "<group>";
+        };
+        AA000000000000000000020E /* Models */ = {
+            isa = PBXGroup;
+            children = (
+                AA0000000000000000000201 /* TripModels.swift */,
+            );
+            path = Models;
+            sourceTree = "<group>";
+        };
+        AA000000000000000000020F /* Docs */ = {
+            isa = PBXGroup;
+            children = (
+                AA0000000000000000000204 /* TravelDocumentModel.swift */,
+                AA0000000000000000000205 /* DocumentStore.swift */,
+                AA0000000000000000000206 /* DocumentMetadataEditor.swift */,
+                AA0000000000000000000207 /* DocumentScannerView.swift */,
+                AA0000000000000000000208 /* DocsViewModel.swift */,
+            );
+            path = Docs;
+            sourceTree = "<group>";
+        };
+        AA0000000000000000000210 /* Weather */ = {
+            isa = PBXGroup;
+            children = (
+                AA0000000000000000000209 /* WeatherModels.swift */,
+                AA000000000000000000020A /* WeatherProvider.swift */,
+                AA000000000000000000020B /* TripWeatherViewModel.swift */,
+                AA000000000000000000020C /* TripWeatherPanel.swift */,
+            );
+            path = Weather;
+            sourceTree = "<group>";
+        };
+        AA0000000000000000000211 /* OfflineMaps */ = {
+            isa = PBXGroup;
+            children = (
+                AA000000000000000000020D /* OfflineMapCache.swift */,
+            );
+            path = OfflineMaps;
             sourceTree = "<group>";
         };
         AA0000000000000000000065 /* Preview Content */ = {
@@ -420,6 +491,19 @@
                 AA0000000000000000000037 /* EmailService.swift in Sources */,
                 AA0000000000000000000039 /* ExportService.swift in Sources */,
                 AA0000000000000000000041 /* SyncService.swift in Sources */,
+                AA0000000000000000000101 /* TripModels.swift in Sources */,
+                AA0000000000000000000102 /* TravelReservationParser.swift in Sources */,
+                AA0000000000000000000103 /* GmailClient.swift in Sources */,
+                AA0000000000000000000104 /* TravelDocumentModel.swift in Sources */,
+                AA0000000000000000000105 /* DocumentStore.swift in Sources */,
+                AA0000000000000000000106 /* DocumentMetadataEditor.swift in Sources */,
+                AA0000000000000000000107 /* DocumentScannerView.swift in Sources */,
+                AA0000000000000000000108 /* DocsViewModel.swift in Sources */,
+                AA0000000000000000000109 /* WeatherModels.swift in Sources */,
+                AA000000000000000000010A /* WeatherProvider.swift in Sources */,
+                AA000000000000000000010B /* TripWeatherViewModel.swift in Sources */,
+                AA000000000000000000010C /* TripWeatherPanel.swift in Sources */,
+                AA000000000000000000010D /* OfflineMapCache.swift in Sources */,
                 AA0000000000000000000088 /* AnalyticsService.swift in Sources */,
             );
             runOnlyForDeploymentPostprocessing = 0;

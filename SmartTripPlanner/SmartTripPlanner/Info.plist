@@ -2,37 +2,39 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BGTaskSchedulerPermittedIdentifiers</key>
-	<array>
-		<string>com.smarttripplanner.refresh</string>
-		<string>com.smarttripplanner.sync</string>
-	</array>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.YOUR-CLIENT-ID</string>
-			</array>
-		</dict>
-	</array>
-	<key>NSCalendarsUsageDescription</key>
-	<string>We need access to your calendar to help you plan trips and sync itinerary events.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to provide location-based trip planning and navigation features.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>We need permission to save trip photos and documents to your photo library.</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>processing</string>
-		<string>remote-notification</string>
-	</array>
-	<key>UIFileSharingEnabled</key>
-	<true/>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
+    <key>BGTaskSchedulerPermittedIdentifiers</key>
+    <array>
+        <string>com.smarttripplanner.refresh</string>
+        <string>com.smarttripplanner.sync</string>
+    </array>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.googleusercontent.apps.YOUR-CLIENT-ID</string>
+            </array>
+        </dict>
+    </array>
+    <key>NSCalendarsUsageDescription</key>
+    <string>We need access to your calendar to help you plan trips and sync itinerary events.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need your location to provide location-based trip planning and navigation features.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Camera access is required to scan travel documents and receipts.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>We need permission to save trip photos and documents to your photo library.</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>processing</string>
+        <string>remote-notification</string>
+    </array>
+    <key>UIFileSharingEnabled</key>
+    <true/>
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <true/>
 </dict>
 </plist>
