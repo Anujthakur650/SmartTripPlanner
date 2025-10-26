@@ -21,6 +21,9 @@
         AA0000000000000000000019 /* TripsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000020 /* TripsView.swift */; };
         AA0000000000000000000021 /* PlannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000022 /* PlannerView.swift */; };
         AA0000000000000000000023 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000024 /* MapView.swift */; };
+        AA0000000000000000000101 /* PlaceDetailCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000100 /* PlaceDetailCard.swift */; };
+        AA0000000000000000000103 /* RouteViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000102 /* RouteViews.swift */; };
+        AA0000000000000000000105 /* AssociationEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000104 /* AssociationEditorView.swift */; };
         AA0000000000000000000025 /* PackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000026 /* PackingView.swift */; };
         AA0000000000000000000027 /* DocsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000028 /* DocsView.swift */; };
         AA0000000000000000000029 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000030 /* SettingsView.swift */; };
@@ -66,6 +69,9 @@
         AA0000000000000000000020 /* TripsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsView.swift; sourceTree = "<group>"; };
         AA0000000000000000000022 /* PlannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerView.swift; sourceTree = "<group>"; };
         AA0000000000000000000024 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+        AA0000000000000000000100 /* PlaceDetailCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailCard.swift; sourceTree = "<group>"; };
+        AA0000000000000000000102 /* RouteViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteViews.swift; sourceTree = "<group>"; };
+        AA0000000000000000000104 /* AssociationEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociationEditorView.swift; sourceTree = "<group>"; };
         AA0000000000000000000026 /* PackingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackingView.swift; sourceTree = "<group>"; };
         AA0000000000000000000028 /* DocsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsView.swift; sourceTree = "<group>"; };
         AA0000000000000000000030 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -233,6 +239,9 @@
             isa = PBXGroup;
             children = (
                 AA0000000000000000000024 /* MapView.swift */,
+                AA0000000000000000000100 /* PlaceDetailCard.swift */,
+                AA0000000000000000000102 /* RouteViews.swift */,
+                AA0000000000000000000104 /* AssociationEditorView.swift */,
                 AA000000000000000000008B /* MapViewModel.swift */,
             );
             path = Map;
@@ -421,6 +430,9 @@
                 AA0000000000000000000019 /* TripsView.swift in Sources */,
                 AA0000000000000000000021 /* PlannerView.swift in Sources */,
                 AA0000000000000000000023 /* MapView.swift in Sources */,
+                AA0000000000000000000101 /* PlaceDetailCard.swift in Sources */,
+                AA0000000000000000000103 /* RouteViews.swift in Sources */,
+                AA0000000000000000000105 /* AssociationEditorView.swift in Sources */,
                 AA000000000000000000008C /* MapViewModel.swift in Sources */,
                 AA0000000000000000000025 /* PackingView.swift in Sources */,
                 AA0000000000000000000027 /* DocsView.swift in Sources */,
