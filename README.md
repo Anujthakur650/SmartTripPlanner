@@ -1,5 +1,8 @@
 # SmartTripPlanner iOS App
 
+[![CI](https://github.com/smarttripplanner/SmartTripPlanner/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/smarttripplanner/SmartTripPlanner/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/smarttripplanner/SmartTripPlanner/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/smarttripplanner/SmartTripPlanner/actions/workflows/codeql.yml)
+
 A comprehensive trip planning application built with SwiftUI for iOS 17+. SmartTripPlanner helps users organize trips, plan itineraries, manage packing lists, store travel documents, and integrate with calendar, weather, and location services.
 
 ## Features
@@ -251,27 +254,32 @@ fastlane beta
 
 ### GitHub Actions
 
-The repository includes a GitHub Actions workflow (`.github/workflows/ci.yml`) that:
+The repository includes two GitHub Actions workflows:
 
-- Runs on pull requests to `main` and `develop`
-- Builds the app for iOS Simulator
-- Runs unit tests
-- Executes SwiftLint and SwiftFormat checks
+- **CI** (`.github/workflows/ci.yml`): Builds the app for iOS Simulator, runs unit tests, and enforces SwiftLint & SwiftFormat without allowing failures.
+- **CodeQL** (`.github/workflows/codeql.yml`): Performs static analysis for Swift code and surfaces security vulnerabilities.
 
-To enable GitHub Actions:
-
-1. Push code to GitHub repository
-2. Workflows run automatically on pull requests
-3. View results in the **Actions** tab
+Both workflows run on pull requests to `main` and `develop`, and on pushes to `main`. Results are available in the **Actions** tab.
 
 ### Continuous Integration
 
 The CI pipeline includes:
 
-- **Build validation**: Ensures code compiles successfully
-- **Unit tests**: Runs all test suites
-- **Code quality**: SwiftLint and SwiftFormat checks
-- **Platform**: Runs on macOS 14 with Xcode 15.2
+- **Build validation**: Ensures code compiles successfully.
+- **Unit tests**: Runs all test suites.
+- **Code quality**: SwiftLint and SwiftFormat checks fail the build if violations are found.
+- **Security**: CodeQL static analysis runs on macOS to catch Swift issues early.
+- **Platform**: Runs on macOS 14 with Xcode 15.2.
+
+### Branch Protection & Governance
+
+The `main` branch is protected and requires:
+
+- ✅ At least one maintainer approval (code owner review enforced via `.github/CODEOWNERS`).
+- ✅ Passing **CI / Build and Test** and **CodeQL Analysis** status checks.
+- ✅ Up-to-date merges with `main` prior to completion.
+
+See [GOVERNANCE.md](./GOVERNANCE.md) and [SECURITY.md](./SECURITY.md) for details on the governance model and security response process.
 
 ## Entitlements
 
@@ -355,6 +363,8 @@ com.smarttripplanner.SmartTripPlanner
 - iPad: All orientations
 
 ## Contributing
+
+Please review the [Code of Conduct](./CODE_OF_CONDUCT.md) and [Governance](./GOVERNANCE.md) guidelines before contributing.
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/my-feature`

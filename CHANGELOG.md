@@ -46,6 +46,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - .env.example for configuration
   - Privacy strings in Info.plist
 - Unit test suite with XCTest
+- Refactored Map feature with modular SwiftUI components, improved routing UI, and offline messaging.
+- Repository health assets: CodeQL security analysis workflow, CODEOWNERS, SECURITY policy, governance guidelines, and README status badges.
 
 ### Development Setup
 - Xcode 15.0+ support

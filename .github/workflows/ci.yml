@@ -43,13 +43,11 @@ jobs:
       run: |
         cd SmartTripPlanner
         swiftlint lint --strict
-      continue-on-error: true
     
     - name: Run SwiftFormat (Check only)
       run: |
         cd SmartTripPlanner
         swiftformat --lint .
-      continue-on-error: true
     
     - name: Build app
       run: |

@@ -1,0 +1,4 @@
+# Code owners for SmartTripPlanner
+*       @smarttripplanner/maintainers
+.github/  @smarttripplanner/maintainers
+SmartTripPlanner/ @smarttripplanner/maintainers
