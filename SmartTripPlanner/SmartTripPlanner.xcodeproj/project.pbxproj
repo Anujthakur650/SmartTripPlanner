@@ -21,6 +21,8 @@
         AA0000000000000000000019 /* TripsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000020 /* TripsView.swift */; };
         AA0000000000000000000021 /* PlannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000022 /* PlannerView.swift */; };
         AA0000000000000000000023 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000024 /* MapView.swift */; };
+        AA00000000000000000000A1 /* MapView+Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A0 /* MapView+Components.swift */; };
+        AA00000000000000000000A3 /* MapViewSubviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A2 /* MapViewSubviews.swift */; };
         AA0000000000000000000025 /* PackingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000026 /* PackingView.swift */; };
         AA0000000000000000000027 /* DocsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000028 /* DocsView.swift */; };
         AA0000000000000000000029 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000030 /* SettingsView.swift */; };
@@ -66,6 +68,8 @@
         AA0000000000000000000020 /* TripsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripsView.swift; sourceTree = "<group>"; };
         AA0000000000000000000022 /* PlannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerView.swift; sourceTree = "<group>"; };
         AA0000000000000000000024 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+        AA00000000000000000000A0 /* MapView+Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapView+Components.swift"; sourceTree = "<group>"; };
+        AA00000000000000000000A2 /* MapViewSubviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewSubviews.swift; sourceTree = "<group>"; };
         AA0000000000000000000026 /* PackingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackingView.swift; sourceTree = "<group>"; };
         AA0000000000000000000028 /* DocsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsView.swift; sourceTree = "<group>"; };
         AA0000000000000000000030 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -233,6 +237,8 @@
             isa = PBXGroup;
             children = (
                 AA0000000000000000000024 /* MapView.swift */,
+                AA00000000000000000000A0 /* MapView+Components.swift */,
+                AA00000000000000000000A2 /* MapViewSubviews.swift */,
                 AA000000000000000000008B /* MapViewModel.swift */,
             );
             path = Map;
@@ -421,6 +427,8 @@
                 AA0000000000000000000019 /* TripsView.swift in Sources */,
                 AA0000000000000000000021 /* PlannerView.swift in Sources */,
                 AA0000000000000000000023 /* MapView.swift in Sources */,
+                AA00000000000000000000A1 /* MapView+Components.swift in Sources */,
+                AA00000000000000000000A3 /* MapViewSubviews.swift in Sources */,
                 AA000000000000000000008C /* MapViewModel.swift in Sources */,
                 AA0000000000000000000025 /* PackingView.swift in Sources */,
                 AA0000000000000000000027 /* DocsView.swift in Sources */,
