@@ -83,9 +83,10 @@ SmartTripPlanner/
 - [x] Triggers on pull requests to main
 - [x] Builds app for iOS Simulator
 - [x] Runs unit tests
-- [x] Executes SwiftLint checks
-- [x] Executes SwiftFormat checks
+- [x] Executes SwiftLint checks (fails build on violations)
+- [x] Executes SwiftFormat checks (fails build on violations)
 - [x] Uses macOS 14 runner with Xcode 15.2
+- [x] CodeQL workflow (`.github/workflows/codeql.yml`) for Swift security analysis
 
 ### Fastlane
 - [x] Fastfile with lanes configured:

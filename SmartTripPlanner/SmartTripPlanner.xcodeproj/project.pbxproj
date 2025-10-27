@@ -35,6 +35,10 @@
         AA000000000000000000008C /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008B /* MapViewModel.swift */; };
         AA0000000000000000000092 /* DocumentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000091 /* DocumentStore.swift */; };
         AA0000000000000000000094 /* TravelReservationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000093 /* TravelReservationParser.swift */; };
+        AA00000000000000000000A1 /* MapView+Sections.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A0 /* MapView+Sections.swift */; };
+        AA00000000000000000000A3 /* PlaceDetailCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A2 /* PlaceDetailCard.swift */; };
+        AA00000000000000000000A5 /* RouteComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A4 /* RouteComponents.swift */; };
+        AA00000000000000000000A7 /* AssociationEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A6 /* AssociationEditorView.swift */; };
         AA0000000000000000000043 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000044 /* GoogleSignIn */; };
         AA0000000000000000000045 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000046 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
@@ -77,6 +81,10 @@
         AA0000000000000000000042 /* SyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
         AA0000000000000000000087 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
         AA0000000000000000000089 /* MapsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsModels.swift; sourceTree = "<group>"; };
+        AA00000000000000000000A0 /* MapView+Sections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapView+Sections.swift"; sourceTree = "<group>"; };
+        AA00000000000000000000A2 /* PlaceDetailCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailCard.swift; sourceTree = "<group>"; };
+        AA00000000000000000000A4 /* RouteComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteComponents.swift; sourceTree = "<group>"; };
+        AA00000000000000000000A6 /* AssociationEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociationEditorView.swift; sourceTree = "<group>"; };
         AA0000000000000000000091 /* DocumentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentStore.swift; sourceTree = "<group>"; };
         AA0000000000000000000093 /* TravelReservationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelReservationParser.swift; sourceTree = "<group>"; };
         AA000000000000000000008B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
@@ -233,6 +241,10 @@
             isa = PBXGroup;
             children = (
                 AA0000000000000000000024 /* MapView.swift */,
+                AA00000000000000000000A0 /* MapView+Sections.swift */,
+                AA00000000000000000000A2 /* PlaceDetailCard.swift */,
+                AA00000000000000000000A4 /* RouteComponents.swift */,
+                AA00000000000000000000A6 /* AssociationEditorView.swift */,
                 AA000000000000000000008B /* MapViewModel.swift */,
             );
             path = Map;
@@ -421,6 +433,10 @@
                 AA0000000000000000000019 /* TripsView.swift in Sources */,
                 AA0000000000000000000021 /* PlannerView.swift in Sources */,
                 AA0000000000000000000023 /* MapView.swift in Sources */,
+                AA00000000000000000000A1 /* MapView+Sections.swift in Sources */,
+                AA00000000000000000000A3 /* PlaceDetailCard.swift in Sources */,
+                AA00000000000000000000A5 /* RouteComponents.swift in Sources */,
+                AA00000000000000000000A7 /* AssociationEditorView.swift in Sources */,
                 AA000000000000000000008C /* MapViewModel.swift in Sources */,
                 AA0000000000000000000025 /* PackingView.swift in Sources */,
                 AA0000000000000000000027 /* DocsView.swift in Sources */,
