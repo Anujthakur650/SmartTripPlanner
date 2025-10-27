@@ -73,7 +73,10 @@ struct MapView: View {
         }
     }
     
-    private var mapSection: some View {
+}
+
+private extension MapView {
+    var mapSection: some View {
         Map(position: $position, interactionModes: .all, showsUserLocation: true, selection: $mapSelection) {
             if let primaryRoute = viewModel.currentRoute {
                 MapPolyline(primaryRoute.polyline)
@@ -96,7 +99,7 @@ struct MapView: View {
         }
     }
     
-    private var searchControls: some View {
+    var searchControls: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 12) {
                 TextField("Search for places or addresses", text: $viewModel.searchText)
@@ -124,7 +127,7 @@ struct MapView: View {
         }
     }
     
-    private var suggestionsSection: some View {
+    var suggestionsSection: some View {
         Group {
             if !viewModel.suggestions.isEmpty && !viewModel.searchText.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
@@ -155,7 +158,7 @@ struct MapView: View {
         }
     }
     
-    private var placesSection: some View {
+    var placesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             if viewModel.isSearching {
                 ProgressView("Searching for places…")
@@ -184,7 +187,7 @@ struct MapView: View {
         }
     }
     
-    private var routesSection: some View {
+    var routesSection: some View {
         Group {
             if let route = viewModel.currentRoute, let destination = viewModel.selectedPlace {
                 RouteSummaryView(
@@ -205,7 +208,7 @@ struct MapView: View {
         }
     }
     
-    private var savedRoutesSection: some View {
+    var savedRoutesSection: some View {
         Group {
             if !viewModel.savedRoutes.isEmpty {
                 sectionHeader("Saved Routes")
@@ -225,7 +228,7 @@ struct MapView: View {
         }
     }
     
-    private var categoryChips: some View {
+    var categoryChips: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 ForEach(MapCategory.allCases) { category in
@@ -249,7 +252,7 @@ struct MapView: View {
         }
     }
     
-    private func placeRow(for place: Place) -> some View {
+    func placeRow(for place: Place) -> some View {
         Button {
             select(place: place, center: true)
         } label: {
@@ -291,96 +294,116 @@ struct MapView: View {
         }
     }
     
-    private func placeDetailCard(for place: Place) -> some View {
+    func placeDetailCard(for place: Place) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(place.name)
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                    if !place.addressDescription.isEmpty {
-                        Text(place.addressDescription)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
-                    if let association = place.association?.summary {
-                        Label(association, systemImage: "calendar")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                Spacer()
-                Button {
-                    editingPlace = place
-                } label: {
-                    Label("Add to Trip", systemImage: "plus")
-                }
-                .buttonStyle(.bordered)
-            }
-            
-            HStack(spacing: 12) {
-                Button {
-                    viewModel.toggleBookmark(for: place)
-                } label: {
-                    Label(place.isBookmarked ? "Bookmarked" : "Bookmark", systemImage: place.isBookmarked ? "bookmark.fill" : "bookmark")
-                        .font(.subheadline)
-                }
-                .buttonStyle(.bordered)
-                
-                Button(action: viewModel.openSelectedPlaceInMaps) {
-                    Label("Open in Maps", systemImage: "arrow.up.right.square")
-                        .font(.subheadline)
-                }
-                .buttonStyle(.bordered)
-            }
-            
-            Picker("Mode", selection: $viewModel.selectedMode) {
-                ForEach(TransportMode.allCases) { mode in
-                    Label(mode.displayName, systemImage: mode.systemImage).tag(mode)
-                }
-            }
-            .pickerStyle(.segmented)
-            
-            VStack(alignment: .leading, spacing: 8) {
-                if let origin = viewModel.routeOrigin {
-                    Label("From: \(origin.name)", systemImage: "mappin")
-                        .font(.footnote)
-                }
-                HStack {
-                    Button("Use Current Location", action: viewModel.useCurrentLocationAsOrigin)
-                    Spacer()
-                    Button("Clear Start") {
-                        viewModel.routeOrigin = nil
-                    }
-                    .disabled(viewModel.routeOrigin == nil)
-                }
-                .font(.footnote)
-            }
-            
-            Button(action: viewModel.routeToSelectedPlace) {
-                Label("Get Directions", systemImage: "arrow.triangle.turn.up.right.diamond.fill")
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.borderedProminent)
-            .disabled(viewModel.isRouting)
-            
-            if viewModel.isRouting {
-                ProgressView("Calculating route…")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
+            placeHeader(for: place)
+            bookmarkActions(for: place)
+            transportModePicker
+            routeOriginSection
+            routeActionButton
+            routingIndicator()
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 16).fill(Color(.systemBackground)))
         .shadow(radius: 4, y: 2)
     }
     
-    private func sectionHeader(_ title: String) -> some View {
+    func placeHeader(for place: Place) -> some View {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(place.name)
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                if !place.addressDescription.isEmpty {
+                    Text(place.addressDescription)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                if let association = place.association?.summary {
+                    Label(association, systemImage: "calendar")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+            Spacer()
+            Button {
+                editingPlace = place
+            } label: {
+                Label("Add to Trip", systemImage: "plus")
+            }
+            .buttonStyle(.bordered)
+        }
+    }
+    
+    func bookmarkActions(for place: Place) -> some View {
+        HStack(spacing: 12) {
+            Button {
+                viewModel.toggleBookmark(for: place)
+            } label: {
+                Label(place.isBookmarked ? "Bookmarked" : "Bookmark", systemImage: place.isBookmarked ? "bookmark.fill" : "bookmark")
+                    .font(.subheadline)
+            }
+            .buttonStyle(.bordered)
+            
+            Button(action: viewModel.openSelectedPlaceInMaps) {
+                Label("Open in Maps", systemImage: "arrow.up.right.square")
+                    .font(.subheadline)
+            }
+            .buttonStyle(.bordered)
+        }
+    }
+    
+    var transportModePicker: some View {
+        Picker("Mode", selection: $viewModel.selectedMode) {
+            ForEach(TransportMode.allCases) { mode in
+                Label(mode.displayName, systemImage: mode.systemImage).tag(mode)
+            }
+        }
+        .pickerStyle(.segmented)
+    }
+    
+    var routeOriginSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            if let origin = viewModel.routeOrigin {
+                Label("From: \(origin.name)", systemImage: "mappin")
+                    .font(.footnote)
+            }
+            HStack {
+                Button("Use Current Location", action: viewModel.useCurrentLocationAsOrigin)
+                Spacer()
+                Button("Clear Start") {
+                    viewModel.routeOrigin = nil
+                }
+                .disabled(viewModel.routeOrigin == nil)
+            }
+            .font(.footnote)
+        }
+    }
+    
+    var routeActionButton: some View {
+        Button(action: viewModel.routeToSelectedPlace) {
+            Label("Get Directions", systemImage: "arrow.triangle.turn.up.right.diamond.fill")
+                .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.borderedProminent)
+        .disabled(viewModel.isRouting)
+    }
+    
+    @ViewBuilder
+    func routingIndicator() -> some View {
+        if viewModel.isRouting {
+            ProgressView("Calculating route…")
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+    
+    func sectionHeader(_ title: String) -> some View {
         Text(title)
             .font(.headline)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
     
-    private func infoBanner(text: String) -> some View {
+    func infoBanner(text: String) -> some View {
         Text(text)
             .font(.footnote)
             .foregroundColor(.white)
@@ -389,7 +412,7 @@ struct MapView: View {
             .background(Color.accentColor.opacity(0.85))
     }
     
-    private func alert(for error: MapsService.MapServiceError) -> Alert {
+    func alert(for error: MapsService.MapServiceError) -> Alert {
         switch error {
         case .offline:
             return Alert(
@@ -409,7 +432,7 @@ struct MapView: View {
         }
     }
     
-    private func centerMap() {
+    func centerMap() {
         if let place = viewModel.selectedPlace {
             center(on: place)
             mapSelection = place.id
@@ -422,13 +445,13 @@ struct MapView: View {
         }
     }
     
-    private func center(on place: Place) {
+    func center(on place: Place) {
         let coordinate = place.coordinate.locationCoordinate
         let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
         position = .region(region)
     }
     
-    private func select(place: Place, center shouldCenter: Bool) {
+    func select(place: Place, center shouldCenter: Bool) {
         viewModel.selectPlace(place)
         mapSelection = place.id
         if shouldCenter {
@@ -436,219 +459,8 @@ struct MapView: View {
         }
     }
     
-    private func place(with id: Place.ID) -> Place? {
+    func place(with id: Place.ID) -> Place? {
         viewModel.displayedPlaces.first(where: { $0.id == id })
-    }
-}
-
-private struct RouteSummaryView: View {
-    let route: MKRoute
-    let alternatives: [MKRoute]
-    let mode: TransportMode
-    var onSave: () -> Void
-    var onOpenInMaps: () -> Void
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Label("Route Summary", systemImage: "point.topleft.down.curvedto.point.bottomright.up")
-                    .font(.headline)
-                Spacer()
-                Image(systemName: mode.systemImage)
-                    .foregroundColor(.accentColor)
-            }
-            Text("Estimated time: \(formatDuration(route.expectedTravelTime))")
-                .font(.subheadline)
-            Text("Distance: \(formatDistance(route.distance))")
-                .font(.subheadline)
-            if !route.advisoryNotices.isEmpty {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Notes:")
-                        .font(.caption.weight(.semibold))
-                    ForEach(route.advisoryNotices, id: \.self) { notice in
-                        Text("• \(notice)")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-            }
-            if !alternatives.isEmpty {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Alternatives")
-                        .font(.caption.weight(.semibold))
-                    ForEach(alternatives.indices, id: \.self) { index in
-                        let alt = alternatives[index]
-                        Text("Option \(index + 2): \(formatDuration(alt.expectedTravelTime)), \(formatDistance(alt.distance))")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-            }
-            HStack {
-                Button("Save Route", action: onSave)
-                Button("Open in Apple Maps", action: onOpenInMaps)
-            }
-            .buttonStyle(.bordered)
-        }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 16).fill(Color(.systemBackground)))
-        .shadow(radius: 4, y: 2)
-    }
-    
-    private func formatDuration(_ value: TimeInterval) -> String {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = value > 3600 ? [.hour, .minute] : [.minute]
-        formatter.unitsStyle = .full
-        return formatter.string(from: value) ?? "--"
-    }
-    
-    private func formatDistance(_ value: CLLocationDistance) -> String {
-        let measurement = Measurement(value: value / 1000, unit: UnitLength.kilometers)
-        let formatter = MeasurementFormatter()
-        formatter.unitStyle = .medium
-        formatter.numberFormatter.maximumFractionDigits = 1
-        return formatter.string(from: measurement)
-    }
-}
-
-private struct SavedRouteRow: View {
-    let route: SavedRoute
-    var onSelect: () -> Void
-    var onOpen: () -> Void
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Text("\(route.from.name) → \(route.to.name)")
-                    .font(.body.weight(.semibold))
-                Spacer()
-                Image(systemName: route.mode.systemImage)
-                    .foregroundColor(.accentColor)
-            }
-            Text("Primary: \(formatDuration(route.primary.expectedTravelTime)), \(formatDistance(route.primary.distance))")
-                .font(.caption)
-                .foregroundColor(.secondary)
-            HStack {
-                Text("Saved on \(formatDate(route.createdAt))")
-                    .font(.caption2)
-                    .foregroundColor(.secondary)
-                Spacer()
-                Button("Open in Maps", action: onOpen)
-                    .font(.caption)
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(12)
-        .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
-        .onTapGesture(perform: onSelect)
-    }
-    
-    private func formatDuration(_ value: TimeInterval) -> String {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = value > 3600 ? [.hour, .minute] : [.minute]
-        formatter.unitsStyle = .abbreviated
-        return formatter.string(from: value) ?? "--"
-    }
-    
-    private func formatDistance(_ value: CLLocationDistance) -> String {
-        let measurement = Measurement(value: value / 1000, unit: UnitLength.kilometers)
-        let formatter = MeasurementFormatter()
-        formatter.numberFormatter.maximumFractionDigits = 1
-        formatter.unitStyle = .short
-        return formatter.string(from: measurement)
-    }
-    
-    private func formatDate(_ date: Date) -> String {
-        date.formatted(date: .abbreviated, time: .shortened)
-    }
-}
-
-private struct SavedRouteSummaryCard: View {
-    let route: SavedRoute
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Label("Saved Route Available", systemImage: "tray.full")
-                .font(.headline)
-            Text("Showing saved details for when you're offline.")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-            Text("Primary: \(formatDuration(route.primary.expectedTravelTime)), \(formatDistance(route.primary.distance))")
-                .font(.footnote)
-            if !route.alternatives.isEmpty {
-                Text("Alternatives: \(route.alternatives.count)")
-                    .font(.footnote)
-            }
-        }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 16).fill(Color(.systemBackground)))
-        .shadow(radius: 4, y: 2)
-    }
-    
-    private func formatDuration(_ value: TimeInterval) -> String {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = value > 3600 ? [.hour, .minute] : [.minute]
-        formatter.unitsStyle = .full
-        return formatter.string(from: value) ?? "--"
-    }
-    
-    private func formatDistance(_ value: CLLocationDistance) -> String {
-        let measurement = Measurement(value: value / 1000, unit: UnitLength.kilometers)
-        let formatter = MeasurementFormatter()
-        formatter.numberFormatter.maximumFractionDigits = 1
-        formatter.unitStyle = .medium
-        return formatter.string(from: measurement)
-    }
-}
-
-private struct AssociationEditorView: View {
-    let place: Place
-    var onSave: (String, Date?, Bool) -> Void
-    @Environment(\.dismiss) private var dismiss
-    @State private var tripName: String = ""
-    @State private var includeDate: Bool = false
-    @State private var dayPlanDate: Date = .now
-    @State private var bookmarked: Bool = true
-    
-    init(place: Place, onSave: @escaping (String, Date?, Bool) -> Void) {
-        self.place = place
-        self.onSave = onSave
-        _tripName = State(initialValue: place.association?.tripName ?? "")
-        if let day = place.association?.dayPlanDate {
-            _includeDate = State(initialValue: true)
-            _dayPlanDate = State(initialValue: day)
-        }
-        _bookmarked = State(initialValue: place.isBookmarked)
-    }
-    
-    var body: some View {
-        NavigationStack {
-            Form {
-                Section("Trip Details") {
-                    TextField("Trip or Day Plan", text: $tripName)
-                    Toggle("Include day plan", isOn: $includeDate.animation())
-                    if includeDate {
-                        DatePicker("Day", selection: $dayPlanDate, displayedComponents: .date)
-                    }
-                }
-                Section("Bookmark") {
-                    Toggle("Bookmark this place", isOn: $bookmarked)
-                }
-            }
-            .navigationTitle(place.name)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel", action: dismiss.callAsFunction)
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
-                        onSave(tripName, includeDate ? dayPlanDate : nil, bookmarked)
-                        dismiss()
-                    }
-                }
-            }
-        }
     }
 }
 

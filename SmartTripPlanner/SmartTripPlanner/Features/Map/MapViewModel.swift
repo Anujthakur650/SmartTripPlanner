@@ -39,6 +39,35 @@ final class MapViewModel: ObservableObject {
         case route
     }
     
+    var activeCategories: Set<MapCategory> {
+        if selectedCategories.contains(.all) {
+            return []
+        }
+        return selectedCategories
+    }
+    
+    var displayedPlaces: [Place] {
+        if !searchResults.isEmpty {
+            return searchResults
+        }
+        return savedPlaces
+    }
+    
+    var hasOfflineData: Bool {
+        !savedPlaces.isEmpty || !savedRoutes.isEmpty
+    }
+    
+    private var currentLocationPlace: Place? {
+        guard let coordinate = currentLocation else { return nil }
+        return Place(
+            name: "Current Location",
+            subtitle: "",
+            coordinate: Coordinate(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        )
+    }
+}
+
+extension MapViewModel {
     func configure(with container: DependencyContainer, appEnvironment: AppEnvironment) {
         self.appEnvironment = appEnvironment
         guard mapsService !== container.mapsService else { return }
@@ -96,16 +125,16 @@ final class MapViewModel: ObservableObject {
     func toggleCategory(_ category: MapCategory) {
         if category == .all {
             selectedCategories = [.all]
+            return
+        }
+        selectedCategories.remove(.all)
+        if selectedCategories.contains(category) {
+            selectedCategories.remove(category)
         } else {
-            selectedCategories.remove(.all)
-            if selectedCategories.contains(category) {
-                selectedCategories.remove(category)
-            } else {
-                selectedCategories.insert(category)
-            }
-            if selectedCategories.isEmpty {
-                selectedCategories = [.all]
-            }
+            selectedCategories.insert(category)
+        }
+        if selectedCategories.isEmpty {
+            selectedCategories = [.all]
         }
     }
     
@@ -196,35 +225,10 @@ final class MapViewModel: ObservableObject {
     func openSavedRoute(_ route: SavedRoute) {
         mapsService?.openRouteInAppleMaps(from: route.from, to: route.to, mode: route.mode)
     }
-    
-    var activeCategories: Set<MapCategory> {
-        if selectedCategories.contains(.all) {
-            return []
-        }
-        return selectedCategories
-    }
-    
-    var displayedPlaces: [Place] {
-        if !searchResults.isEmpty {
-            return searchResults
-        }
-        return savedPlaces
-    }
-    
-    var hasOfflineData: Bool {
-        !savedPlaces.isEmpty || !savedRoutes.isEmpty
-    }
-    
-    private var currentLocationPlace: Place? {
-        guard let coordinate = currentLocation else { return nil }
-        return Place(
-            name: "Current Location",
-            subtitle: "",
-            coordinate: Coordinate(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        )
-    }
-    
-    private func bindService() {
+}
+
+private extension MapViewModel {
+    func bindService() {
         guard let mapsService else { return }
         cancellables.removeAll()
         
