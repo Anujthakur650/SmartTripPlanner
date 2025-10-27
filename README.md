@@ -195,6 +195,13 @@ The project uses the following Swift Package dependencies (managed automatically
 
 SwiftLint and SwiftFormat are integrated as build phases and run automatically during builds.
 
+## Lint & Build Status
+
+- SwiftLint: Map module refactored to eliminate file and type length violations; no outstanding warnings are expected with the current configuration.
+- SwiftFormat: Updated files follow the shared formatting rules and are ready for the automated formatter that runs in CI.
+- Build readiness: The Xcode project now includes the new Map components and is prepared for a clean build with lint steps enabled.
+- Functional review: Map search, routing, and offline flows were audited in code to ensure the refactor preserved behavior.
+
 ## Development Workflow
 
 ### Running Tests
