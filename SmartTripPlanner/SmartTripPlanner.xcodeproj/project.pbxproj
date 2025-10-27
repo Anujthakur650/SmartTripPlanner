@@ -33,6 +33,11 @@
         AA0000000000000000000088 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000087 /* AnalyticsService.swift */; };
         AA000000000000000000008A /* MapsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000089 /* MapsModels.swift */; };
         AA000000000000000000008C /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA000000000000000000008B /* MapViewModel.swift */; };
+        AA0000000000000000000101 /* RouteSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000100 /* RouteSummaryView.swift */; };
+        AA0000000000000000000103 /* SavedRouteRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000102 /* SavedRouteRow.swift */; };
+        AA0000000000000000000105 /* SavedRouteSummaryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000104 /* SavedRouteSummaryCard.swift */; };
+        AA0000000000000000000107 /* AssociationEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000106 /* AssociationEditorView.swift */; };
+        AA0000000000000000000110 /* PlaceDetailCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000109 /* PlaceDetailCardView.swift */; };
         AA0000000000000000000092 /* DocumentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000091 /* DocumentStore.swift */; };
         AA0000000000000000000094 /* TravelReservationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000000000000000000093 /* TravelReservationParser.swift */; };
         AA0000000000000000000043 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = AA0000000000000000000044 /* GoogleSignIn */; };
@@ -80,6 +85,11 @@
         AA0000000000000000000091 /* DocumentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentStore.swift; sourceTree = "<group>"; };
         AA0000000000000000000093 /* TravelReservationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelReservationParser.swift; sourceTree = "<group>"; };
         AA000000000000000000008B /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+        AA0000000000000000000100 /* RouteSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteSummaryView.swift; sourceTree = "<group>"; };
+        AA0000000000000000000102 /* SavedRouteRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRouteRow.swift; sourceTree = "<group>"; };
+        AA0000000000000000000104 /* SavedRouteSummaryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedRouteSummaryCard.swift; sourceTree = "<group>"; };
+        AA0000000000000000000106 /* AssociationEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociationEditorView.swift; sourceTree = "<group>"; };
+        AA0000000000000000000109 /* PlaceDetailCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailCardView.swift; sourceTree = "<group>"; };
         AA0000000000000000000052 /* SmartTripPlanner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartTripPlanner.entitlements; sourceTree = "<group>"; };
         AA0000000000000000000053 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -234,8 +244,21 @@
             children = (
                 AA0000000000000000000024 /* MapView.swift */,
                 AA000000000000000000008B /* MapViewModel.swift */,
+                AA0000000000000000000108 /* Views */,
             );
             path = Map;
+            sourceTree = "<group>";
+        };
+        AA0000000000000000000108 /* Views */ = {
+            isa = PBXGroup;
+            children = (
+                AA0000000000000000000100 /* RouteSummaryView.swift */,
+                AA0000000000000000000102 /* SavedRouteRow.swift */,
+                AA0000000000000000000104 /* SavedRouteSummaryCard.swift */,
+                AA0000000000000000000106 /* AssociationEditorView.swift */,
+                AA0000000000000000000109 /* PlaceDetailCardView.swift */,
+            );
+            path = Views;
             sourceTree = "<group>";
         };
         AA0000000000000000000069 /* Packing */ = {
@@ -422,6 +445,11 @@
                 AA0000000000000000000021 /* PlannerView.swift in Sources */,
                 AA0000000000000000000023 /* MapView.swift in Sources */,
                 AA000000000000000000008C /* MapViewModel.swift in Sources */,
+                AA0000000000000000000101 /* RouteSummaryView.swift in Sources */,
+                AA0000000000000000000103 /* SavedRouteRow.swift in Sources */,
+                AA0000000000000000000105 /* SavedRouteSummaryCard.swift in Sources */,
+                AA0000000000000000000107 /* AssociationEditorView.swift in Sources */,
+                AA0000000000000000000110 /* PlaceDetailCardView.swift in Sources */,
                 AA0000000000000000000025 /* PackingView.swift in Sources */,
                 AA0000000000000000000027 /* DocsView.swift in Sources */,
                 AA0000000000000000000029 /* SettingsView.swift in Sources */,

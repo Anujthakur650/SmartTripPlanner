@@ -2,6 +2,15 @@
 
 A comprehensive trip planning application built with SwiftUI for iOS 17+. SmartTripPlanner helps users organize trips, plan itineraries, manage packing lists, store travel documents, and integrate with calendar, weather, and location services.
 
+## Project Health
+
+- [![CI](https://github.com/SmartTripPlanner/SmartTripPlanner/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/SmartTripPlanner/SmartTripPlanner/actions/workflows/ci.yml)
+- [![CodeQL](https://github.com/SmartTripPlanner/SmartTripPlanner/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/SmartTripPlanner/SmartTripPlanner/actions/workflows/codeql.yml)
+- Dependabot checks GitHub Actions and Swift dependencies every week.
+- Branch protection for `main` must require green CI (SwiftLint, SwiftFormat, build, and tests) before merge.
+
+See [`SECURITY.md`](SECURITY.md) for vulnerability reporting, [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) for community guidelines, and `.github/ISSUE_TEMPLATE` for filing new issues.
+
 ## Features
 
 - **Trip Management**: Create, organize, and manage multiple trips

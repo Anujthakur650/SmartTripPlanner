@@ -1,0 +1,79 @@
+name: Bug report
+description: File a bug report to help us improve SmartTripPlanner
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping us improve SmartTripPlanner! Please fill out the sections below so we can
+        reproduce and fix the issue quickly.
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Provide a short, descriptive title for the bug.
+      placeholder: Crash when tapping Save Route in offline mode
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior and why it is problematic.
+      placeholder: |
+        When I tap the Save Route button after going offline the app crashes with...
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: List the steps required to reproduce the bug.
+      placeholder: |
+        1. Go offline
+        2. Open the map
+        3. Tap Save Route
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: Describe what you expected to happen instead.
+      render: markdown
+    validations:
+      required: true
+  - type: dropdown
+    id: platforms
+    attributes:
+      label: Affected platforms
+      description: Select all platforms where you observed the issue.
+      multiple: true
+      options:
+        - iOS 17 Simulator
+        - iOS 17 Physical Device
+        - Previous iOS version
+        - Other (describe below)
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: App version / commit hash
+      description: Include the app version or commit hash to help us identify the build.
+      placeholder: 1.2.0 (abcd123)
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / screenshots
+      description: Attach relevant logs, crash reports, or screenshots.
+      render: shell
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Anything else we should know?
+      render: markdown

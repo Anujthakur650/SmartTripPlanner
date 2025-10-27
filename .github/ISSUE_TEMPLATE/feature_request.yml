@@ -1,0 +1,46 @@
+name: Feature request
+description: Suggest an idea or enhancement for SmartTripPlanner
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Tell us about your idea! The more detail you provide, the easier it is for us to evaluate and
+        implement.
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Provide a concise title describing your idea.
+      placeholder: Offline turn-by-turn directions
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity
+      description: What user problem are you trying to solve, or what opportunity do you see?
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe your idea or feature request.
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: List any alternative solutions or workarounds you have considered.
+      render: markdown
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Include sketches, mockups, or references if available.
+      render: markdown
